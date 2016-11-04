@@ -37,7 +37,7 @@ This should be enough to get started.
 ## Usage
 
 
-```
+```python
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 class MyPage(Page):
