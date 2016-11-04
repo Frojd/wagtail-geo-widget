@@ -7,8 +7,8 @@ A Google Maps widget for the GeoDjango PointField field in Wagtail.
 
 ## Requirements
 
-- Python 2.7 / Python 3.4 / PyPy
-- Django 1.8+ and GeoDjango
+- Python 2.7 / Python 3.5
+- Wagtail 1.7+ and Django (with GeoDjango)
 
 
 ## Installation
@@ -56,11 +56,6 @@ class MyPage(Page):
 ## Settings
 
 - `GOOGLE_MAPS_V3_APIKEY`: Api key for google maps
-
-
-## Tests
-
-This library include tests, just run `python runtests.py`.
 
 
 ## Contributing
