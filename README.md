@@ -37,8 +37,17 @@ This should be enough to get started.
 ## Usage
 
 
-## Full example
+```
+from wagtailgeowidget.edit_handlers import GeoPanel
 
+class MyPage(Page):
+    address = models.CharField(max_length=250, blank=True, null=True)
+    location = models.PointField(srid=4326, null=True, blank=True)
+
+    content_panels = Page.content_panels + [
+        GeoPanel('location', address_field='address'),
+    ]
+```
 
 
 ## Settings
