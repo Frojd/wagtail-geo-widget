@@ -1,12 +1,14 @@
 # Wagtail-Geo-Widget
 
+![Screen1](https://raw.githubusercontent.com/frojd/wagtail-geo-widget/develop/img/screen1.png)
 
+A Google Maps widget for the location field in Wagtail and GeoDjango.
 
 
 ## Requirements
 
 - Python 2.7 / Python 3.4 / PyPy
-- Django 1.8+
+- Django 1.8+ and GeoDjango
 
 
 ## Installation
@@ -36,6 +38,7 @@ This should be enough to get started.
 
 ## Usage
 
+First make sure you have a location field defined in your model, then add a GeoPanel among your content_panels.
 
 ```python
 from wagtailgeowidget.edit_handlers import GeoPanel
