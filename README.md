@@ -1,8 +1,8 @@
 # Wagtail-Geo-Widget
 
-![Screen1](https://raw.githubusercontent.com/frojd/wagtail-geo-widget/develop/img/screen1.png)
+A Google Maps widget for the GeoDjango PointField field in Wagtail.
 
-A Google Maps widget for the location field in Wagtail and GeoDjango.
+![Screen1](https://raw.githubusercontent.com/frojd/wagtail-geo-widget/develop/img/screen1.png)
 
 
 ## Requirements
