@@ -1,1 +1,3 @@
-include README.md LICENSE requirements/install.txt requirements/tests.txt wagtailgrowidget/static/*
+include README.md LICENSE requirements/install.txt requirements/tests.txt
+include wagtailgeowidget/static/wagtailgeowidget/css/geo-field.css
+include wagtailgeowidget/static/wagtailgeowidget/js/geo-field.js
