@@ -16,7 +16,7 @@ A Google Maps widget for the GeoDjango PointField field in Wagtail.
 Install the library with pip:
 
 ```
-$ pip install wagtail-geo-widget
+$ pip install wagtailgeowidget
 ```
 
 
@@ -27,7 +27,7 @@ Make sure wagtail_geo_widget is added to your `INSTALLED_APPS`.
 ```python
 INSTALLED_APPS = (
     # ...
-    'wagtail_geo_widget',
+    'wagtailgeowidget',
 )
 
 ```
