@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
+
 # Wagtail-Geo-Widget
 
 A Google Maps widget for the GeoDjango PointField field in Wagtail.
