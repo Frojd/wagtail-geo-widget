@@ -44,8 +44,29 @@ First make sure you have a location field defined in your model, then add a GeoP
 
 ```python
 from wagtailgeowidget.edit_handlers import GeoPanel
+from django.contrib.gis.db import models
+
 
 class MyPage(Page):
+    location = models.PointField(srid=4326, null=True, blank=True)
+
+    content_panels = Page.content_panels + [
+        GeoPanel('location'),
+    ]
+```
+
+
+### With a address field
+
+The panel accepts a `address_field` if you want to the map in coordiation with a geo-lookup.
+
+
+```python
+from wagtailgeowidget.edit_handlers import GeoPanel
+from django.contrib.gis.db import models
+
+
+class MyPageWithAddressField(Page):
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.PointField(srid=4326, null=True, blank=True)
 
