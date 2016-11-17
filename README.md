@@ -40,6 +40,8 @@ This should be enough to get started.
 
 ## Usage
 
+### Without address field
+
 First make sure you have a location field defined in your model, then add a GeoPanel among your content_panels.
 
 ```python
@@ -58,7 +60,7 @@ class MyPage(Page):
 
 ### With a address field
 
-The panel accepts a `address_field` if you want to the map in coordiation with a geo-lookup.
+The panel accepts a `address_field` if you want to the map in coordiation with a geo-lookup (like the screenshot on top).
 
 
 ```python
