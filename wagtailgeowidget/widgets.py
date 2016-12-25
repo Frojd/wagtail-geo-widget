@@ -1,11 +1,16 @@
 import json
 
 import six
-from django.conf import settings
 from django.forms import HiddenInput
 from django.utils.html import format_html
 from django.contrib.gis.geos import GEOSGeometry
 from django.utils.safestring import mark_safe
+
+from wagtailgeowidget.app_settings import (
+    GEO_WIDGET_DEFAULT_LOCATION,
+    GEO_WIDGET_ZOOM,
+    GOOGLE_MAPS_V3_APIKEY,
+)
 
 
 class GeoField(HiddenInput):
@@ -20,7 +25,7 @@ class GeoField(HiddenInput):
         js = (
             'wagtailgeowidget/js/geo-field.js',
             'https://maps.google.com/maps/api/js?key={}'.format(
-                settings.GOOGLE_MAPS_V3_APIKEY
+                GOOGLE_MAPS_V3_APIKEY
             ),
         )
 
@@ -36,17 +41,15 @@ class GeoField(HiddenInput):
 
         data = {
             'sourceSelector': '#id_{}'.format(name),
-            'defaultLocation':  None,
+            'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
             'addressSelector': '#id_{}'.format(self.address_field),
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
-            'zoom': 7,
+            'zoom': GEO_WIDGET_ZOOM,
             'srid': self.srid,
         }
 
         if value and isinstance(value, six.string_types):
             value = GEOSGeometry(value)
-
-        if value:
             data['defaultLocation'] = {
                 'lat': value.y,
                 'lng': value.x,

@@ -80,7 +80,9 @@ class MyPageWithAddressField(Page):
 
 ## Settings
 
-- `GOOGLE_MAPS_V3_APIKEY`: Api key for google maps
+- `GOOGLE_MAPS_V3_APIKEY`: Api key for google maps (required).
+- `GEO_WIDGET_DEFAULT_LOCATION`: Default map location when no coordinates are set, accepts a dict with lat and lng keys (required, default is `{'lat': 59.3293, 'lng': 18.0686}` that is Stockholm/Sweden).
+- `GEO_WIDGET_ZOOM`: Default zoom level for map (required, 7 is default).
 
 
 ## Contributing

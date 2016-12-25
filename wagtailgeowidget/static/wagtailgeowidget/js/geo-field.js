@@ -1,12 +1,7 @@
 "use strict";
 
 function GeoField(options) {
-    var defaultLocation = {lat: 59.3293, lng: 18.0686};
-
-    if (options.defaultLocation) {
-        defaultLocation = options.defaultLocation;
-    }
-
+    defaultLocation = options.defaultLocation;
     defaultLocation = new google.maps.LatLng(
         parseFloat(defaultLocation.lat),
         parseFloat(defaultLocation.lng)
