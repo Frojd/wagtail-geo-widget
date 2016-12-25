@@ -85,6 +85,12 @@ class MyPageWithAddressField(Page):
 - `GEO_WIDGET_ZOOM`: Default zoom level for map (required, 7 is default).
 
 
+## Roadmap
+
+- [x] Global default map location
+- [ ] Streamfield map widget
+
+
 ## Contributing
 
 Want to contribute? Awesome. Just send a pull request.
