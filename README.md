@@ -34,6 +34,7 @@ INSTALLED_APPS = (
 
 ```
 
+Obtain a Google Maps API key and add it to your django settings `GOOGLE_MAPS_V3_APIKEY`
 
 This should be enough to get started.
 
@@ -45,8 +46,8 @@ This should be enough to get started.
 First make sure you have a location field defined in your model, then add a GeoPanel among your content_panels.
 
 ```python
-from wagtailgeowidget.edit_handlers import GeoPanel
 from django.contrib.gis.db import models
+from wagtailgeowidget.edit_handlers import GeoPanel
 
 
 class MyPage(Page):
@@ -64,8 +65,8 @@ The panel accepts a `address_field` if you want to the map in coordiation with a
 
 
 ```python
-from wagtailgeowidget.edit_handlers import GeoPanel
 from django.contrib.gis.db import models
+from wagtailgeowidget.edit_handlers import GeoPanel
 
 
 class MyPageWithAddressField(Page):
@@ -87,6 +88,7 @@ class MyPageWithAddressField(Page):
 
 ## Roadmap
 
+- [x] Editable map widget for GeoDjango PointerField
 - [x] Global default map location
 - [ ] Streamfield map widget
 
