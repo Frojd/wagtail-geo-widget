@@ -13,6 +13,7 @@ function GeoField(options) {
     this.addressField = $(options.addressSelector);
     this.latLngField = $(options.latLngDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
+    this.geoErrorClassName = 'wagtailgeowidget__geo-error';
 
     this.initMap(options.mapEl, defaultLocation);
     this.initEvents();
@@ -65,26 +66,52 @@ GeoField.prototype.initEvents = function() {
 
         var query = $(this).val();
 
+        if (query === "") {
+          self.clearError();
+          return;
+        }
+
         self._timeoutId = setTimeout(function() {
             self.geocodeSearch(query);
         }, 400);
     });
 }
 
+GeoField.prototype.displayError = function (msg) {
+    var self = this;
+
+    $('.' + self.geoErrorClassName).remove();
+    var errMessage = document.createElement('p');
+    var errSpan = document.createElement('span');
+
+    errMessage.className = 'error-message ' + self.geoErrorClassName;
+    errSpan.innerHTML = msg;
+    errMessage.appendChild(errSpan)
+
+    $(errMessage).insertAfter(self.addressField);
+    self.addressField.closest('.field').addClass('error');
+}
+
+GeoField.prototype.clearError = function () {
+    var self = this;
+
+    $('.' + self.geoErrorClassName).remove();
+    self.addressField.closest('.field').removeClass('error');
+}
+
 GeoField.prototype.geocodeSearch = function(query) {
     var self = this;
 
     this.geocoder.geocode({'address': query}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
+          self.displayError('No results found');
+        }
         if (status !== google.maps.GeocoderStatus.OK) {
-            alert('Google Maps Error: '+status);
+            self.displayError('Google Maps Error: '+status);
             return;
         }
 
-        if (! results.length) {
-            alert('No results found');
-            return;
-        }
-
+        self.clearError();
         var latLng = results[0].geometry.location;
 
         self.setMapPosition(latLng);
