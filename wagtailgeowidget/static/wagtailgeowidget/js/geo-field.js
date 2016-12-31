@@ -68,9 +68,9 @@ GeoField.prototype.initEvents = function() {
         var query = $(this).val();
 
         if (query === "") {
-          self.clearWarning();
-          self.clearSuccess();
-          return;
+            self.clearWarning();
+            self.clearSuccess();
+            return;
         }
 
         self._timeoutId = setTimeout(function() {
@@ -129,6 +129,7 @@ GeoField.prototype.geocodeSearch = function(query) {
             self.displayWarning('Could not geocode adddress. The map may not be in sync with the address entered.');
             return;
         }
+
         if (status !== google.maps.GeocoderStatus.OK) {
             self.displayWarning('Google Maps Error: '+status);
             return;
