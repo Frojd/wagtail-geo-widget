@@ -1,7 +1,7 @@
 "use strict";
 
 function GeoField(options) {
-    defaultLocation = options.defaultLocation;
+    var defaultLocation = options.defaultLocation;
     defaultLocation = new google.maps.LatLng(
         parseFloat(defaultLocation.lat),
         parseFloat(defaultLocation.lng)
@@ -13,6 +13,8 @@ function GeoField(options) {
     this.addressField = $(options.addressSelector);
     this.latLngField = $(options.latLngDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
+    this.geoWarningClassName = 'wagtailgeowidget__geo-warning';
+    this.geoSuccessClassName = 'wagtailgeowidget__geo-success';
 
     this.initMap(options.mapEl, defaultLocation);
     this.initEvents();
@@ -65,26 +67,74 @@ GeoField.prototype.initEvents = function() {
 
         var query = $(this).val();
 
+        if (query === "") {
+          self.clearWarning();
+          self.clearSuccess();
+          return;
+        }
+
         self._timeoutId = setTimeout(function() {
             self.geocodeSearch(query);
         }, 400);
     });
 }
 
+GeoField.prototype.displayWarning = function(msg) {
+    var self = this;
+
+    self.clearSuccess();
+    self.clearWarning();
+    var warningMsg = document.createElement('p');
+
+    warningMsg.className = 'help-block help-warning ' + self.geoWarningClassName;
+    warningMsg.innerHTML = msg;
+
+    $(warningMsg).insertAfter(self.addressField);
+}
+
+GeoField.prototype.displaySuccess = function(msg) {
+    var self = this;
+
+    clearTimeout(self._successTimeout);
+
+    self.clearSuccess();
+    self.clearWarning();
+    var successMessage = document.createElement('p');
+
+    successMessage.className = 'help-block help-info ' + self.geoSuccessClassName;
+    successMessage.innerHTML = 'Address has been successfully geo-coded';
+
+    $(successMessage).insertAfter(self.addressField);
+
+    self._successTimeout = setTimeout(function() {
+      self.clearSuccess();
+    }, 3000);
+}
+
+GeoField.prototype.clearWarning = function() {
+    var self = this;
+    $('.' + self.geoWarningClassName).remove();
+}
+
+GeoField.prototype.clearSuccess = function() {
+    var self = this;
+    $('.' + self.geoSuccessClassName).remove();
+}
+
 GeoField.prototype.geocodeSearch = function(query) {
     var self = this;
 
     this.geocoder.geocode({'address': query}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
+            self.displayWarning('Could not geocode adddress. The map may not be in sync with the address entered.');
+            return;
+        }
         if (status !== google.maps.GeocoderStatus.OK) {
-            alert('Google Maps Error: '+status);
+            self.displayWarning('Google Maps Error: '+status);
             return;
         }
 
-        if (! results.length) {
-            alert('No results found');
-            return;
-        }
-
+        self.displaySuccess();
         var latLng = results[0].geometry.location;
 
         self.setMapPosition(latLng);
