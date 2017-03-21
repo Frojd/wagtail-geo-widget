@@ -1,7 +1,9 @@
 "use strict";
 
 function GeoField(options) {
+    var self = this;
     var defaultLocation = options.defaultLocation;
+
     defaultLocation = new google.maps.LatLng(
         parseFloat(defaultLocation.lat),
         parseFloat(defaultLocation.lng)
@@ -13,6 +15,7 @@ function GeoField(options) {
     this.addressField = $(options.addressSelector);
     this.latLngField = $(options.latLngDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
+
     this.geoWarningClassName = 'wagtailgeowidget__geo-warning';
     this.geoSuccessClassName = 'wagtailgeowidget__geo-success';
 
@@ -21,6 +24,12 @@ function GeoField(options) {
 
     this.setMapPosition(defaultLocation);
     this.updateLatLng(defaultLocation);
+
+    this.checkVisibility(function() {
+        google.maps.event.trigger(self.map, 'resize');
+        var coords = $(self.latLngField).val();
+        self.updateMapFromCoords(coords)
+    });
 }
 
 GeoField.prototype.initMap = function(mapEl, defaultLocation) {
@@ -37,20 +46,11 @@ GeoField.prototype.initMap = function(mapEl, defaultLocation) {
 
     this.map = map;
     this.marker = marker;
-    this.checkVisibility();
 }
 
 GeoField.prototype.initEvents = function() {
     var self = this;
-
     var autocomplete = new google.maps.places.Autocomplete(this.addressField[0]);
-    this.addressField.on("keydown", function(e) {
-        if (e.keyCode === 13) {
-            e.preventDefault();
-            e.stopPropagation();
-            self.geocodeSearch($(this).val());
-        }
-    });
 
     google.maps.event.addListener(this.marker, "dragend", function(event) {
         self.setMapPosition(event.latLng);
@@ -63,6 +63,13 @@ GeoField.prototype.initEvents = function() {
         self.updateMapFromCoords(coords);
     });
 
+    this.addressField.on("keydown", function(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            e.stopPropagation();
+            self.geocodeSearch($(this).val());
+        }
+    });
 
     this.addressField.on("input", function(e) {
         clearTimeout(self._timeoutId);
@@ -82,13 +89,12 @@ GeoField.prototype.initEvents = function() {
 }
 
 GeoField.prototype.displayWarning = function(msg) {
-    var self = this;
-
-    self.clearSuccess();
-    self.clearWarning();
     var warningMsg = document.createElement('p');
 
-    warningMsg.className = 'help-block help-warning ' + self.geoWarningClassName;
+    this.clearSuccess();
+    this.clearWarning();
+
+    warningMsg.className = 'help-block help-warning ' + this.geoWarningClassName;
     warningMsg.innerHTML = msg;
 
     $(warningMsg).insertAfter(self.addressField);
@@ -96,13 +102,14 @@ GeoField.prototype.displayWarning = function(msg) {
 
 GeoField.prototype.displaySuccess = function(msg) {
     var self = this;
+    var successMessage;
 
     clearTimeout(self._successTimeout);
 
     self.clearSuccess();
     self.clearWarning();
-    var successMessage = document.createElement('p');
 
+    successMessage = document.createElement('p');
     successMessage.className = 'help-block help-info ' + self.geoSuccessClassName;
     successMessage.innerHTML = 'Address has been successfully geo-coded';
 
@@ -114,27 +121,23 @@ GeoField.prototype.displaySuccess = function(msg) {
 }
 
 GeoField.prototype.clearWarning = function() {
-    var self = this;
     $('.' + this.geoWarningClassName).remove();
 }
 
 GeoField.prototype.clearSuccess = function() {
-    var self = this;
     $('.' + this.geoSuccessClassName).remove();
 }
 
-GeoField.prototype.checkVisibility = function() {
+GeoField.prototype.checkVisibility = function(callback) {
     var self = this;
-    this.timeout = setTimeout(function (){
+    var intervalId = setInterval(function() {
         var visible = $(self.map.getDiv()).is(':visible')
-        if (visible) {
-            clearTimeout(self.timeout);
-            google.maps.event.trigger(self.map, 'resize');
-            var coords = $(self.latLngField).val();
-            self.updateMapFromCoords(coords)
-        } else {
-            self.checkVisibility();
+        if (!visible) {
+            return;
         }
+
+        clearInterval(intervalId);
+        callback();
     }, 1000);
 }
 
