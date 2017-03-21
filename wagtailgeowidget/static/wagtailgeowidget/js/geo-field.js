@@ -146,7 +146,10 @@ GeoField.prototype.geocodeSearch = function(query) {
 
     this.geocoder.geocode({'address': query}, function(results, status) {
         if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
-            self.displayWarning('Could not geocode adddress. The map may not be in sync with the address entered.');
+            self.displayWarning(
+                'Could not geocode adddress "' + query + '". '+
+                'The map may not be in sync with the address entered.'
+            );
             return;
         }
 
