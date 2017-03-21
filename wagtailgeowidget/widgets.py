@@ -25,7 +25,8 @@ class GeoField(HiddenInput):
 
         js = (
             'wagtailgeowidget/js/geo-field.js',
-            'https://maps.google.com/maps/api/js?key={}'.format(
+            'https://maps.google.com/maps/api/js?key={}&libraries=places'
+            .format(
                 GOOGLE_MAPS_V3_APIKEY
             ),
         )

@@ -37,10 +37,20 @@ GeoField.prototype.initMap = function(mapEl, defaultLocation) {
 
     this.map = map;
     this.marker = marker;
+    this.checkVisibility();
 }
 
 GeoField.prototype.initEvents = function() {
     var self = this;
+
+    var autocomplete = new google.maps.places.Autocomplete(this.addressField[0]);
+    this.addressField.on("keydown", function(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        e.stopPropagation();
+        self.geocodeSearch($(this).val());
+      }
+    });
 
     google.maps.event.addListener(this.marker, "dragend", function(event) {
         self.setMapPosition(event.latLng);
@@ -50,17 +60,9 @@ GeoField.prototype.initEvents = function() {
 
     this.latLngField.on("input", function(e) {
         var coords = $(this).val();
-        coords = coords.split(",").map(function(value) {
-            return parseFloat(value);
-        });
-
-        var latLng = new google.maps.LatLng(
-            coords[0],
-            coords[1]
-        );
-
-        self.setMapPosition(latLng);
+        self.updateMapFromCoords(coords);
     });
+
 
     this.addressField.on("input", function(e) {
         clearTimeout(self._timeoutId);
@@ -121,6 +123,21 @@ GeoField.prototype.clearSuccess = function() {
     $('.' + self.geoSuccessClassName).remove();
 }
 
+GeoField.prototype.checkVisibility = function() {
+  var self = this;
+  this.timeout = setTimeout(function (){
+    var visible = $(self.map.getDiv()).is(':visible')
+    if (visible) {
+      clearTimeout(self.timeout);
+      google.maps.event.trigger(self.map, 'resize');
+      var coords = $(self.latLngField).val();
+      self.updateMapFromCoords(coords)
+    } else {
+      self.checkVisibility();
+    }
+  }, 1000);
+}
+
 GeoField.prototype.geocodeSearch = function(query) {
     var self = this;
 
@@ -146,6 +163,18 @@ GeoField.prototype.geocodeSearch = function(query) {
 
 GeoField.prototype.updateLatLng = function(latLng) {
     this.latLngField.val(latLng.lat()+","+latLng.lng());
+}
+
+GeoField.prototype.updateMapFromCoords = function(coords) {
+  coords = coords.split(",").map(function(value) {
+      return parseFloat(value);
+  });
+
+  var latLng = new google.maps.LatLng(
+      coords[0],
+      coords[1]
+  );
+  this.setMapPosition(latLng);
 }
 
 GeoField.prototype.setMapPosition = function(latLng) {
