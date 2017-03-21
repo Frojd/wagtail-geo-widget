@@ -45,11 +45,11 @@ GeoField.prototype.initEvents = function() {
 
     var autocomplete = new google.maps.places.Autocomplete(this.addressField[0]);
     this.addressField.on("keydown", function(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        e.stopPropagation();
-        self.geocodeSearch($(this).val());
-      }
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            e.stopPropagation();
+            self.geocodeSearch($(this).val());
+        }
     });
 
     google.maps.event.addListener(this.marker, "dragend", function(event) {
@@ -109,33 +109,33 @@ GeoField.prototype.displaySuccess = function(msg) {
     $(successMessage).insertAfter(self.addressField);
 
     self._successTimeout = setTimeout(function() {
-      self.clearSuccess();
+        self.clearSuccess();
     }, 3000);
 }
 
 GeoField.prototype.clearWarning = function() {
     var self = this;
-    $('.' + self.geoWarningClassName).remove();
+    $('.' + this.geoWarningClassName).remove();
 }
 
 GeoField.prototype.clearSuccess = function() {
     var self = this;
-    $('.' + self.geoSuccessClassName).remove();
+    $('.' + this.geoSuccessClassName).remove();
 }
 
 GeoField.prototype.checkVisibility = function() {
-  var self = this;
-  this.timeout = setTimeout(function (){
-    var visible = $(self.map.getDiv()).is(':visible')
-    if (visible) {
-      clearTimeout(self.timeout);
-      google.maps.event.trigger(self.map, 'resize');
-      var coords = $(self.latLngField).val();
-      self.updateMapFromCoords(coords)
-    } else {
-      self.checkVisibility();
-    }
-  }, 1000);
+    var self = this;
+    this.timeout = setTimeout(function (){
+        var visible = $(self.map.getDiv()).is(':visible')
+        if (visible) {
+            clearTimeout(self.timeout);
+            google.maps.event.trigger(self.map, 'resize');
+            var coords = $(self.latLngField).val();
+            self.updateMapFromCoords(coords)
+        } else {
+            self.checkVisibility();
+        }
+    }, 1000);
 }
 
 GeoField.prototype.geocodeSearch = function(query) {
@@ -166,15 +166,15 @@ GeoField.prototype.updateLatLng = function(latLng) {
 }
 
 GeoField.prototype.updateMapFromCoords = function(coords) {
-  coords = coords.split(",").map(function(value) {
-      return parseFloat(value);
-  });
+    coords = coords.split(",").map(function(value) {
+        return parseFloat(value);
+    });
 
-  var latLng = new google.maps.LatLng(
-      coords[0],
-      coords[1]
-  );
-  this.setMapPosition(latLng);
+    var latLng = new google.maps.LatLng(
+        coords[0],
+        coords[1]
+    );
+    this.setMapPosition(latLng);
 }
 
 GeoField.prototype.setMapPosition = function(latLng) {
@@ -185,7 +185,7 @@ GeoField.prototype.setMapPosition = function(latLng) {
 GeoField.prototype.writeLocation = function(latLng) {
     var lat = latLng.lat();
     var lng = latLng.lng();
-    var value = 'SRID='+this.srid+';POINT('+lng+' '+lat+')';
+    var value = 'SRID=' + this.srid + ';POINT(' + lng + ' ' +lat+')';
 
     this.sourceField.val(value);
 }
