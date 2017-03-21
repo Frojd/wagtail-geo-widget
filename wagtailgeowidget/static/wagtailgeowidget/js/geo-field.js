@@ -25,23 +25,27 @@ function GeoField(options) {
     this.setMapPosition(defaultLocation);
     this.updateLatLng(defaultLocation);
 
+    if (this.addressField.length) {
+        this.initAutocomplete(this.addressField[0]);
+    }
+
     this.checkVisibility(function() {
-        google.maps.event.trigger(self.map, 'resize');
         var coords = $(self.latLngField).val();
-        self.updateMapFromCoords(coords)
+        google.maps.event.trigger(self.map, 'resize');
+        self.updateMapFromCoords(coords);
     });
 }
 
 GeoField.prototype.initMap = function(mapEl, defaultLocation) {
     var map = new google.maps.Map(mapEl, {
         zoom: this.zoom,
-        center: defaultLocation
+        center: defaultLocation,
     });
 
     var marker = new google.maps.Marker({
         position: defaultLocation,
         map: map,
-        draggable: true
+        draggable: true,
     });
 
     this.map = map;
@@ -50,7 +54,6 @@ GeoField.prototype.initMap = function(mapEl, defaultLocation) {
 
 GeoField.prototype.initEvents = function() {
     var self = this;
-    var autocomplete = new google.maps.places.Autocomplete(this.addressField[0]);
 
     google.maps.event.addListener(this.marker, "dragend", function(event) {
         self.setMapPosition(event.latLng);
@@ -67,7 +70,6 @@ GeoField.prototype.initEvents = function() {
         if (e.keyCode === 13) {
             e.preventDefault();
             e.stopPropagation();
-            self.geocodeSearch($(this).val());
         }
     });
 
@@ -88,16 +90,39 @@ GeoField.prototype.initEvents = function() {
     });
 }
 
+GeoField.prototype.initAutocomplete = function(field) {
+    var self = this;
+    var autocomplete = new google.maps.places.Autocomplete(field);
+
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+
+        if (!place.geometry) {
+            self.geocodeSearch(place.name);
+            return;
+        }
+
+        self.displaySuccess();
+
+        var latLng = place.geometry.location;
+
+        self.setMapPosition(latLng);
+        self.updateLatLng(latLng);
+        self.writeLocation(latLng);
+    });
+};
+
 GeoField.prototype.displayWarning = function(msg) {
-    var warningMsg = document.createElement('p');
+    var warningMsg;
 
     this.clearSuccess();
     this.clearWarning();
 
+    warningMsg = document.createElement('p');
     warningMsg.className = 'help-block help-warning ' + this.geoWarningClassName;
     warningMsg.innerHTML = msg;
 
-    $(warningMsg).insertAfter(self.addressField);
+    $(warningMsg).insertAfter(this.addressField);
 }
 
 GeoField.prototype.displaySuccess = function(msg) {
