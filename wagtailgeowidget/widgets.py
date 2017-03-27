@@ -25,7 +25,8 @@ class GeoField(HiddenInput):
 
         js = (
             'wagtailgeowidget/js/geo-field.js',
-            'https://maps.google.com/maps/api/js?key={}'.format(
+            'https://maps.google.com/maps/api/js?key={}&libraries=places'
+            .format(
                 GOOGLE_MAPS_V3_APIKEY
             ),
         )
@@ -66,8 +67,22 @@ class GeoField(HiddenInput):
         data_id = 'geo_field_{}_data'.format(name)
 
         return mark_safe(
-            '<script>window.{} = {};</script>'.format(data_id, json_data) +
+            '<script>window["{}"] = {};</script>'.format(data_id, json_data) +
             out +
             location +
-            '<div class="geo-field" data-data-id="{}"></div>'.format(data_id)
+            '<div class="geo-field" data-data-id="{}"></div>'.format(data_id) +
+            """
+            <script>
+            (function(){
+                if (window.geoLoaded) {
+                    return initializeGeoFields();
+                }
+
+                $(window).load(function() {
+                    initializeGeoFields();
+                    window.geoLoaded = true;
+                });
+            })();
+            </script>
+            """
         )
