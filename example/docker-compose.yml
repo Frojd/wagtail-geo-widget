@@ -1,0 +1,31 @@
+# Local/Dev
+version: '2'
+services:
+    db:
+        image: mdillon/postgis:9.5
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=postgres
+
+    web:
+        image: frojd/geo-widget-web
+        build: .
+        volumes:
+            - ./:/app
+        ports:
+            - "8085:8000"
+        depends_on:
+            - db
+        links:
+            - db
+        environment:
+            - DATABASE_NAME=postgres
+            - DATABASE_USER=postgres
+            - DATABASE_PASSWORD=postgres
+            - DATABASE_HOST=db
+            - DATABASE_PORT=5432
+        env_file: web.env
