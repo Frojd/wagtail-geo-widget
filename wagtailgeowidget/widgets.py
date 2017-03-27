@@ -67,7 +67,7 @@ class GeoField(HiddenInput):
         data_id = 'geo_field_{}_data'.format(name)
 
         return mark_safe(
-            '<script>window.{} = {};</script>'.format(data_id, json_data) +
+            '<script>window["{}"] = {};</script>'.format(data_id, json_data) +
             out +
             location +
             '<div class="geo-field" data-data-id="{}"></div>'.format(data_id)
