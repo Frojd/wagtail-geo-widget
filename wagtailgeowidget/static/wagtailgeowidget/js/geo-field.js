@@ -221,9 +221,13 @@ GeoField.prototype.writeLocation = function(latLng) {
     this.sourceField.val(value);
 }
 
-var initializeGeoFields = function() {
+function initializeGeoFields() {
     $(".geo-field").each(function(index, el) {
         var $el = $(el);
+
+        if ($el.data('geoInit')) {
+            return;
+        }
 
         var data = window[$el.data('data-id')];
         var options = {
@@ -234,13 +238,11 @@ var initializeGeoFields = function() {
             srid: data.srid,
         }
 
+        $el.data('geoInit', true);
+
         options.addressSelector = data.addressSelector;
         options.defaultLocation = data.defaultLocation;
 
         new GeoField(options);
     });
 }
-
-$(document).ready(function() {
-    google.maps.event.addDomListener(window, 'load', initializeGeoFields);
-});

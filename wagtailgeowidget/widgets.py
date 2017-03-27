@@ -70,5 +70,19 @@ class GeoField(HiddenInput):
             '<script>window["{}"] = {};</script>'.format(data_id, json_data) +
             out +
             location +
-            '<div class="geo-field" data-data-id="{}"></div>'.format(data_id)
+            '<div class="geo-field" data-data-id="{}"></div>'.format(data_id) +
+            """
+            <script>
+            (function(){
+                if (window.geoLoaded) {
+                    return initializeGeoFields();
+                }
+
+                $(window).load(function() {
+                    initializeGeoFields();
+                    window.geoLoaded = true;
+                });
+            })();
+            </script>
+            """
         )
