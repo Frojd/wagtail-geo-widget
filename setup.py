@@ -37,7 +37,7 @@ with open('wagtailgeowidget/__init__.py', 'r') as fd:
 setup(
     name="wagtailgeowidget",
     version=version,
-    description=("Google Maps widget for the GeoDjango PointField field in Wagtail"),  # NOQA
+    description=("A Google Maps widget for Wagtail that supports both GeoDjango PointField, StreamField and CharField."),  # NOQA
     long_description=long_description,
     author="Fröjd",
     author_email="martin@marteinn.se",
