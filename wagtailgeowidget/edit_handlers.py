@@ -13,10 +13,12 @@ class GeoPanel(BaseFieldPanel):
     def bind_to_model(self, model):
         field = model._meta.get_field(self.field_name)
 
+        srid = getattr(field, 'srid', 4326)
+
         widget = type(str('_GeoField'), (GeoField,), {
             'address_field': self.address_field,
             'zoom': self.zoom,
-            'srid': field.srid,
+            'srid': srid,
             'id_prefix': 'id_',
         })
 
