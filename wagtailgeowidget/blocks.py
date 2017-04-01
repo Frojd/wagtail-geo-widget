@@ -1,11 +1,12 @@
-import json
-import six
-
 from django import forms
 from django.utils.functional import cached_property
+from django.contrib.gis.geos import GEOSGeometry
 from wagtail.wagtailcore.blocks import FieldBlock
 
 from wagtailgeowidget.widgets import GeoField
+from wagtailgeowidget.app_settings import (
+    GEO_WIDGET_DEFAULT_LOCATION,
+)
 
 
 class GeoBlock(FieldBlock):
@@ -18,17 +19,34 @@ class GeoBlock(FieldBlock):
         field_kwargs = {'widget': GeoField(
             srid=4326,
             id_prefix='',
-            data_source='json',
         )}
         field_kwargs.update(self.field_options)
         return forms.CharField(**field_kwargs)
 
-    def to_python(self, value):
-        if isinstance(value, six.string_types):
-            value = json.loads(value)
-        return value
+    def clean(self, value):
+        if not value:
+            value = "srid={};point({} {})".format(
+                4326,
+                GEO_WIDGET_DEFAULT_LOCATION['lng'],
+                GEO_WIDGET_DEFAULT_LOCATION['lat']
+            )
+        return super(GeoBlock, self).clean(value)
 
-    def get_prep_value(self, value):
+    def render_form(self, value, prefix='', errors=None):
+        if value and isinstance(value, dict):
+            value = "srid={};point({} {})".format(value['srid'],
+                                                  value['lng'],
+                                                  value['lat'])
+        return super(GeoBlock, self).render_form(value, prefix, errors)
+
+    def to_python(self, value):
         if isinstance(value, dict):
-            value = json.dumps(value)
-        return value
+            return value
+
+        value = GEOSGeometry(value)
+        value = {
+            'lat': value.y,
+            'lng': value.x,
+            'srid': value.srid,
+        }
+        return super(GeoBlock, self).to_python(value)

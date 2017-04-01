@@ -18,12 +18,10 @@ class GeoField(HiddenInput):
     address_field = None
     id_prefix = 'id_'
     srid = None
-    data_source = 'point'
 
     def __init__(self, *args, **kwargs):
         self.srid = kwargs.pop('srid', self.srid)
         self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
-        self.data_source = kwargs.pop('data_source', self.data_source)
 
         super(GeoField, self).__init__(*args, **kwargs)
 
@@ -60,35 +58,18 @@ class GeoField(HiddenInput):
             'srid': self.srid,
         }
 
-        if self.data_source == 'json':
-            if value and isinstance(value, six.string_types):
-                value = json.loads(value)
-                data['defaultLocation'] = {
-                    'lat': value.get('lat', None),
-                    'lng': value.get('lng', None),
-                }
+        if value and isinstance(value, six.string_types):
+            value = GEOSGeometry(value)
+            data['defaultLocation'] = {
+                'lat': value.y,
+                'lng': value.x,
+            }
 
-            if value and isinstance(value, dict):
-                data['defaultLocation'] = {
-                    'lat': value.get('lat', None),
-                    'lng': value.get('lng', None),
-                }
-
-        if self.data_source == 'point':
-            if value and isinstance(value, six.string_types):
-                value = GEOSGeometry(value)
-                data['defaultLocation'] = {
-                    'lat': value.y,
-                    'lng': value.x,
-                }
-
-            if value and isinstance(value, Point):
-                data['defaultLocation'] = {
-                    'lat': value.y,
-                    'lng': value.x,
-                }
-
-        data['data_source'] = self.data_source
+        if value and isinstance(value, Point):
+            data['defaultLocation'] = {
+                'lat': value.y,
+                'lng': value.x,
+            }
 
         json_data = json.dumps(data)
         data_id = 'geo_field_{}_data'.format(name)
