@@ -2,7 +2,7 @@
 
 # Wagtail-Geo-Widget
 
-A Google Maps widget for Wagtail that supports both GeoDjango PointField, StreamField and the regular CharField.
+A Google Maps widget for Wagtail that supports both GeoDjango PointField, StreamField and the standard CharField.
 
 ![Screen1](https://raw.githubusercontent.com/frojd/wagtail-geo-widget/develop/img/screen1.png)
 
@@ -41,7 +41,7 @@ This should be enough to get started.
 
 ## Usage
 
-## Regular CharField
+## Standard CharField
 
 Define a CharField representing your location, then add a GeoPanel.
 
@@ -58,13 +58,13 @@ class MyPage(Page):
     ]
 ```
 
-The data is stored `GEOSGeometry` string (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`. To use the data, we recommend that you add helper methods to your model. 
+The data is stored as a `GEOSGeometry` string (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`. To use the data, we recommend that you add helper methods to your model.
 
 ```python
 from django.contrib.gis.geos import GEOSGeometry
 
 class MyPage(Page):
-    ...
+    # ...
     
     @property
     def point(self):
@@ -78,6 +78,9 @@ class MyPage(Page):
     def lng(self):
         return self.point.x
 ```
+
+NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the GeoDjango/Pointer field implementation instead.
+
 
 ### With address field
 
@@ -155,12 +158,12 @@ class GeoStreamPage(Page):
     ]
 ```
 
-For more examples, look at the examples [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L64).
+For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L64).
 
 
 ## GeoDjango (PointField)
 
-First make sure you have a models.PointField based field defined in your model, then add a GeoPanel among your content_panels.
+First make sure you have [GeoDjango](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/) correctly setup and a PointField field defined in your model, then add a GeoPanel among your content_panels.
 
 ```python
 from django.contrib.gis.db import models
@@ -195,7 +198,7 @@ class MyPageWithAddressField(Page):
     ]
 ```
 
-For more examples, look at the examples [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L35).
+For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L35).
 
 ## Settings
 
