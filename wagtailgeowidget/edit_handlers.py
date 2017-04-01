@@ -1,6 +1,5 @@
-import json
-
 from wagtail.wagtailadmin.edit_handlers import BaseFieldPanel
+
 from wagtailgeowidget.widgets import GeoField
 
 

@@ -20,6 +20,7 @@ class GeoField(HiddenInput):
     srid = None
 
     def __init__(self, *args, **kwargs):
+        self.address_field = kwargs.pop('address_field', self.address_field)
         self.srid = kwargs.pop('srid', self.srid)
         self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
 
@@ -48,11 +49,22 @@ class GeoField(HiddenInput):
             name
         )
 
+        if '-' in name:
+            namespace = name.split('-')[:-1]
+            namespace = '-'.join(namespace)
+            namespace = '{}-'.format(namespace)
+        else:
+            namespace = ''
+
+        source_selector = '#{}{}'.format(self.id_prefix, name)
+        address_selector = '#{}{}{}'.format(self.id_prefix,
+                                            namespace,
+                                            self.address_field)
+
         data = {
-            'sourceSelector': '#{}{}'.format(self.id_prefix, name),
+            'sourceSelector': source_selector,
             'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
-            'addressSelector': '#{}{}'.format(self.id_prefix,
-                                              self.address_field),
+            'addressSelector': address_selector,
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
             'zoom': GEO_WIDGET_ZOOM,
             'srid': self.srid,

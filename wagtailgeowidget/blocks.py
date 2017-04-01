@@ -10,8 +10,10 @@ from wagtailgeowidget.app_settings import (
 
 
 class GeoBlock(FieldBlock):
-    def __init__(self, required=True, help_text=None, **kwargs):
+    def __init__(self, address_field=None, required=True, help_text=None,
+                 **kwargs):
         self.field_options = {}
+        self.address_field = address_field
         super(GeoBlock, self).__init__(**kwargs)
 
     @cached_property
@@ -19,6 +21,7 @@ class GeoBlock(FieldBlock):
         field_kwargs = {'widget': GeoField(
             srid=4326,
             id_prefix='',
+            address_field=self.address_field,
         )}
         field_kwargs.update(self.field_options)
         return forms.CharField(**field_kwargs)
@@ -49,4 +52,5 @@ class GeoBlock(FieldBlock):
             'lng': value.x,
             'srid': value.srid,
         }
+
         return super(GeoBlock, self).to_python(value)
