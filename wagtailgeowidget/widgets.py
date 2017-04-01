@@ -74,13 +74,12 @@ class GeoField(HiddenInput):
             """
             <script>
             (function(){
-                if (window.geoLoaded) {
+                if (document.readyState === 'complete') {
                     return initializeGeoFields();
                 }
 
                 $(window).load(function() {
                     initializeGeoFields();
-                    window.geoLoaded = true;
                 });
             })();
             </script>
