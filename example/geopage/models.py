@@ -6,6 +6,8 @@ from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
+    ObjectList,
+    TabbedInterface,
 )
 from wagtail.wagtailcore import blocks
 from modelcluster.fields import ParentalKey
@@ -33,12 +35,22 @@ class GeoPage(Page):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
+        InlinePanel('related_locations', label="Related locations"),
+    ]
+
+    location_panels = [
         MultiFieldPanel([
             FieldPanel('address'),
             GeoPanel('location', address_field='address'),
-        ], heading='Location', classname="collapsible collapsed"),
-        InlinePanel('related_locations', label="Related locations"),
+        ], heading='Location')
     ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(content_panels, heading='Content'),
+        ObjectList(location_panels, heading='Location'),
+        ObjectList(Page.settings_panels, heading='Settings',
+                   classname="settings"),
+    ])
 
 
 from wagtail.wagtailcore.fields import StreamField
