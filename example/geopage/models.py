@@ -75,3 +75,12 @@ class GeoStreamPage(Page):
     def get_context(self, request):
         data = super(GeoStreamPage, self).get_context(request)
         return data
+
+
+class ClassicGeoPage(Page):
+    address = models.CharField(max_length=250, blank=True, null=True)
+    location = models.CharField(max_length=250, blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        GeoPanel('location', address_field='address'),
+    ]
