@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import GEOSGeometry
 from wagtail.wagtailcore.models import Orderable, Page
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel,
@@ -9,6 +10,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     ObjectList,
     TabbedInterface,
 )
+
 from wagtail.wagtailcore import blocks
 from modelcluster.fields import ParentalKey
 from wagtailgeowidget.edit_handlers import GeoPanel
@@ -84,3 +86,19 @@ class ClassicGeoPage(Page):
     content_panels = Page.content_panels + [
         GeoPanel('location', address_field='address'),
     ]
+
+    def get_context(self, request):
+        data = super(ClassicGeoPage, self).get_context(request)
+        return data
+
+    @property
+    def point(self):
+        return GEOSGeometry(self.location)
+
+    @property
+    def lat(self):
+        return self.point.y
+
+    @property
+    def lng(self):
+        return self.point.x
