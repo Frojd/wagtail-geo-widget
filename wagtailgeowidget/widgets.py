@@ -16,7 +16,16 @@ from wagtailgeowidget.app_settings import (
 
 class GeoField(HiddenInput):
     address_field = None
+    id_prefix = 'id_'
     srid = None
+    data_source = 'point'
+
+    def __init__(self, *args, **kwargs):
+        self.srid = kwargs.pop('srid', self.srid)
+        self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
+        self.data_source = kwargs.pop('data_source', self.data_source)
+
+        super(GeoField, self).__init__(*args, **kwargs)
 
     class Media:
         css = {
@@ -42,26 +51,44 @@ class GeoField(HiddenInput):
         )
 
         data = {
-            'sourceSelector': '#id_{}'.format(name),
+            'sourceSelector': '#{}{}'.format(self.id_prefix, name),
             'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
-            'addressSelector': '#id_{}'.format(self.address_field),
+            'addressSelector': '#{}{}'.format(self.id_prefix,
+                                              self.address_field),
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
             'zoom': GEO_WIDGET_ZOOM,
             'srid': self.srid,
         }
 
-        if value and isinstance(value, six.string_types):
-            value = GEOSGeometry(value)
-            data['defaultLocation'] = {
-                'lat': value.y,
-                'lng': value.x,
-            }
+        if self.data_source == 'json':
+            if value and isinstance(value, six.string_types):
+                value = json.loads(value)
+                data['defaultLocation'] = {
+                    'lat': value.get('lat', None),
+                    'lng': value.get('lng', None),
+                }
 
-        if value and isinstance(value, Point):
-            data['defaultLocation'] = {
-                'lat': value.y,
-                'lng': value.x,
-            }
+            if value and isinstance(value, dict):
+                data['defaultLocation'] = {
+                    'lat': value.get('lat', None),
+                    'lng': value.get('lng', None),
+                }
+
+        if self.data_source == 'point':
+            if value and isinstance(value, six.string_types):
+                value = GEOSGeometry(value)
+                data['defaultLocation'] = {
+                    'lat': value.y,
+                    'lng': value.x,
+                }
+
+            if value and isinstance(value, Point):
+                data['defaultLocation'] = {
+                    'lat': value.y,
+                    'lng': value.x,
+                }
+
+        data['data_source'] = self.data_source
 
         json_data = json.dumps(data)
         data_id = 'geo_field_{}_data'.format(name)

@@ -1,5 +1,6 @@
-from wagtail.wagtailadmin.edit_handlers import BaseFieldPanel
+import json
 
+from wagtail.wagtailadmin.edit_handlers import BaseFieldPanel
 from wagtailgeowidget.widgets import GeoField
 
 
@@ -15,8 +16,10 @@ class GeoPanel(BaseFieldPanel):
 
         widget = type(str('_GeoField'), (GeoField,), {
             'address_field': self.address_field,
+            'data_source': 'point',
             'zoom': self.zoom,
             'srid': field.srid,
+            'id_prefix': 'id_',
         })
 
         base = {
