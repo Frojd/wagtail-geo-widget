@@ -41,6 +41,11 @@ This should be enough to get started.
 
 ## Usage
 
+- [Standard CharField](https://github.com/Frojd/wagtail-geo-widget/blob/develop/README.md#standard-charfield)
+- [StreamField](https://github.com/Frojd/wagtail-geo-widget/blob/develop/README.md#streamfield)
+- [GeoDjango/PointField](https://github.com/Frojd/wagtail-geo-widget/blob/develop/README.md#geodjango-pointfield)
+
+
 ## Standard CharField
 
 Define a CharField representing your location, then add a GeoPanel.
