@@ -2,7 +2,7 @@
 
 # Wagtail-Geo-Widget
 
-A Google Maps widget for the GeoDjango PointField field in Wagtail.
+A Google Maps widget for Wagtail that supports both GeoDjango PointField, StreamField and CharField.
 
 ![Screen1](https://raw.githubusercontent.com/frojd/wagtail-geo-widget/develop/img/screen1.png)
 
@@ -10,7 +10,7 @@ A Google Maps widget for the GeoDjango PointField field in Wagtail.
 ## Requirements
 
 - Python 2.7 / Python 3.5
-- Wagtail 1.7+ and Django (with GeoDjango)
+- Wagtail 1.7+ and Django
 
 
 ## Installation
@@ -40,6 +40,16 @@ This should be enough to get started.
 
 
 ## Usage
+
+## Regular CharField
+
+TODO:
+
+## GeoDjango
+
+TODO:
+
+## GeoDjango (PointField)
 
 ### Without address field
 
