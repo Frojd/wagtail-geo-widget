@@ -64,6 +64,8 @@ The data is stored `GEOSGeometry` string (Example: `SRID=4326;POINT(17.354488671
 from django.contrib.gis.geos import GEOSGeometry
 
 class MyPage(Page):
+    ...
+    
     @property
     def point(self):
         return GEOSGeometry(self.location)
@@ -95,7 +97,7 @@ class MyPageWithAddressField(Page):
     ]
 ```
 
-For more examples, look at the examples (`ClassicGeoPage`).
+For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L82).
 
 
 ## StreamField
@@ -153,7 +155,7 @@ class GeoStreamPage(Page):
     ]
 ```
 
-For more examples, look at the examples (`GeoStreamPage`).
+For more examples, look at the examples [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L64).
 
 
 ## GeoDjango (PointField)
@@ -193,7 +195,7 @@ class MyPageWithAddressField(Page):
     ]
 ```
 
-For more examples, look at the examples (`GeoPage`).
+For more examples, look at the examples [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L35).
 
 ## Settings
 
