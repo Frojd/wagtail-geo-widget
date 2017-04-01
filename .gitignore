@@ -42,3 +42,5 @@ docs/_build
 venv*
 
 .idea
+
+example/wagtailgeowidget

@@ -16,7 +16,15 @@ from wagtailgeowidget.app_settings import (
 
 class GeoField(HiddenInput):
     address_field = None
+    id_prefix = 'id_'
     srid = None
+
+    def __init__(self, *args, **kwargs):
+        self.address_field = kwargs.pop('address_field', self.address_field)
+        self.srid = kwargs.pop('srid', self.srid)
+        self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
+
+        super(GeoField, self).__init__(*args, **kwargs)
 
     class Media:
         css = {
@@ -41,10 +49,22 @@ class GeoField(HiddenInput):
             name
         )
 
+        if '-' in name:
+            namespace = name.split('-')[:-1]
+            namespace = '-'.join(namespace)
+            namespace = '{}-'.format(namespace)
+        else:
+            namespace = ''
+
+        source_selector = '#{}{}'.format(self.id_prefix, name)
+        address_selector = '#{}{}{}'.format(self.id_prefix,
+                                            namespace,
+                                            self.address_field)
+
         data = {
-            'sourceSelector': '#id_{}'.format(name),
+            'sourceSelector': source_selector,
             'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
-            'addressSelector': '#id_{}'.format(self.address_field),
+            'addressSelector': address_selector,
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
             'zoom': GEO_WIDGET_ZOOM,
             'srid': self.srid,
@@ -74,13 +94,12 @@ class GeoField(HiddenInput):
             """
             <script>
             (function(){
-                if (window.geoLoaded) {
+                if (document.readyState === 'complete') {
                     return initializeGeoFields();
                 }
 
                 $(window).load(function() {
                     initializeGeoFields();
-                    window.geoLoaded = true;
                 });
             })();
             </script>
