@@ -1,0 +1,12 @@
+{% load wagtailcore_tags %}
+
+ ...
+
+<article>
+    {% for block in page.body %}
+        <hr />
+        {{ block.value }}
+        <p>Latitude: {{ block.value.lat}}</p>
+        <p>Longitude: {{ block.value.lng }}</p>
+    {% endfor %}
+</article>

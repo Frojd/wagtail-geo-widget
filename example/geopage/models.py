@@ -30,3 +30,23 @@ class GeoPage(Page):
         GeoPanel('location'),
         InlinePanel('related_locations', label="Related locations"),
     ]
+
+
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
+
+from wagtailgeowidget.blocks import GeoBlock
+
+
+class GeoStreamPage(Page):
+    body = StreamField([
+        ('map', GeoBlock()),
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+
+    def get_context(self, request):
+        data = super(GeoStreamPage, self).get_context(request)
+        return data
