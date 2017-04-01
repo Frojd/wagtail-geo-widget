@@ -17,6 +17,7 @@ class GeoPanel(BaseFieldPanel):
             'address_field': self.address_field,
             'zoom': self.zoom,
             'srid': field.srid,
+            'id_prefix': 'id_',
         })
 
         base = {
