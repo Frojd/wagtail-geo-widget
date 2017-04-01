@@ -9,7 +9,6 @@ function GeoField(options) {
         parseFloat(defaultLocation.lng)
     );
 
-    this.dataSource = options.dataSource;
     this.zoom = options.zoom;
     this.srid = options.srid;
     this.sourceField = $(options.sourceSelector);
@@ -215,33 +214,11 @@ GeoField.prototype.setMapPosition = function(latLng) {
 }
 
 GeoField.prototype.writeLocation = function(latLng) {
-    switch (this.dataSource) {
-        case 'point':
-            return this.writePointLocation(latLng);
-        case 'json':
-            return this.writeJSONLocation(latLng);
-    }
-}
-
-GeoField.prototype.writePointLocation = function(latLng) {
     var lat = latLng.lat();
     var lng = latLng.lng();
     var value = 'SRID=' + this.srid + ';POINT(' + lng + ' ' +lat+')';
 
     this.sourceField.val(value);
-}
-
-GeoField.prototype.writeJSONLocation= function(latLng) {
-    var lat = latLng.lat();
-    var lng = latLng.lng();
-
-    var value = {
-        'lat': lat,
-        'lng': lng,
-    }
-
-    value = JSON.stringify(value);
-    this.sourceField.val(JSON.stringify(value));
 }
 
 function initializeGeoFields() {
@@ -255,7 +232,6 @@ function initializeGeoFields() {
         var data = window[$el.data('data-id')];
         var options = {
             mapEl: el,
-            dataSource: data.data_source,
             sourceSelector: $(data.sourceSelector),
             latLngDisplaySelector: $(data.latLngDisplaySelector),
             zoom: data.zoom,
