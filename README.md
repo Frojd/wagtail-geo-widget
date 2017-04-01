@@ -144,7 +144,7 @@ The data is stored as a json struct and you can access it by using value.lat / v
 
 Make sure you define a field representing the address at the same level as your GeoBlock, either in the StreamField or in a StructBlock.
 
-```
+```python
 from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
 from wagtailgeowidget.blocks import GeoBlock
 
@@ -187,7 +187,6 @@ class MyPage(Page):
 ### With a address field
 
 The panel accepts a `address_field` if you want to the map in coordiation with a geo-lookup (like the screenshot on top).
-
 
 ```python
 from django.contrib.gis.db import models
