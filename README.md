@@ -24,7 +24,7 @@ $ pip install wagtailgeowidget
 
 ## Quick Setup
 
-Make sure wagtail_geo_widget is added to your `INSTALLED_APPS`.
+Make sure `wagtailgeowidget` is added to your `INSTALLED_APPS`.
 
 ```python
 INSTALLED_APPS = (
