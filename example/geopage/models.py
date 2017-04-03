@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.contrib.gis.db import models
+from django.utils.functional import cached_property
 from wagtail.wagtailcore.models import Orderable, Page
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel,
@@ -90,7 +91,7 @@ class ClassicGeoPage(Page):
         data = super(ClassicGeoPage, self).get_context(request)
         return data
 
-    @property
+    @cached_property
     def point(self):
         from wagtailgeowidget.helpers import parse_geosgeometry_string
         return parse_geosgeometry_string(self.location)
