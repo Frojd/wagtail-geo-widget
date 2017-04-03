@@ -24,7 +24,7 @@ $ pip install wagtailgeowidget
 
 ## Quick Setup
 
-Make sure wagtail_geo_widget is added to your `INSTALLED_APPS`.
+Make sure `wagtailgeowidget` is added to your `INSTALLED_APPS`.
 
 ```python
 INSTALLED_APPS = (
@@ -34,7 +34,7 @@ INSTALLED_APPS = (
 
 ```
 
-Obtain a Google Maps API key and add it to your django settings `GOOGLE_MAPS_V3_APIKEY`
+Obtain a Google Maps API key and add it to your Django settings `GOOGLE_MAPS_V3_APIKEY`
 
 This should be enough to get started.
 
@@ -66,30 +66,31 @@ class MyPage(Page):
 The data is stored as a `GEOSGeometry` string (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`. To use the data, we recommend that you add helper methods to your model.
 
 ```python
-from django.contrib.gis.geos import GEOSGeometry
+from django.utils.functional import cached_property
+from wagtailgeowidget.helpers import parse_geosgeometry_string
 
 class MyPage(Page):
     # ...
-    
-    @property
+
+    @cached_property
     def point(self):
-        return GEOSGeometry(self.location)
+        return parse_geosgeometry_string(self.location)
 
     @property
     def lat(self):
-        return self.point.y
+        return self.point['y']
 
     @property
     def lng(self):
-        return self.point.x
+        return self.point['x']
 ```
 
 NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the GeoDjango/Pointer field implementation instead.
 
 
-### With address field
+### With an address field
 
-The panel accepts a `address_field` if you want to the map in coordiation with a geo-lookup (like the screenshot on top).
+The panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
 
 ```python
 from django.db import models
@@ -140,7 +141,7 @@ The data is stored as a json struct and you can access it by using value.lat / v
 </article>
 ```
 
-### With a address field
+### With an address field
 
 Make sure you define a field representing the address at the same level as your GeoBlock, either in the StreamField or in a StructBlock.
 
@@ -184,9 +185,9 @@ class MyPage(Page):
 ```
 
 
-### With a address field
+### With an address field
 
-The panel accepts a `address_field` if you want to the map in coordiation with a geo-lookup (like the screenshot on top).
+The panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
 
 ```python
 from django.contrib.gis.db import models
@@ -206,7 +207,7 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 
 ## Settings
 
-- `GOOGLE_MAPS_V3_APIKEY`: Api key for google maps (required).
+- `GOOGLE_MAPS_V3_APIKEY`: API key for Google Maps (required).
 - `GEO_WIDGET_DEFAULT_LOCATION`: Default map location when no coordinates are set, accepts a dict with lat and lng keys (required, default is `{'lat': 59.3293, 'lng': 18.0686}` that is Stockholm/Sweden).
 - `GEO_WIDGET_ZOOM`: Default zoom level for map (required, 7 is default).
 
@@ -216,6 +217,7 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 - [x] Editable map widget for GeoDjango PointerField
 - [x] Global default map location
 - [x] Streamfield map widget
+- [ ] Templatetag for rendering basic maps
 
 
 ## Contributing

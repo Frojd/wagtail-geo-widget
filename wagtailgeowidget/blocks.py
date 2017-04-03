@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.functional import cached_property
-from django.contrib.gis.geos import GEOSGeometry
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtail.wagtailcore.blocks import FieldBlock
 
 from wagtailgeowidget.widgets import GeoField
@@ -28,7 +28,7 @@ class GeoBlock(FieldBlock):
 
     def clean(self, value):
         if not value:
-            value = "srid={};point({} {})".format(
+            value = "SRID={};POINT({} {})".format(
                 4326,
                 GEO_WIDGET_DEFAULT_LOCATION['lng'],
                 GEO_WIDGET_DEFAULT_LOCATION['lat']
@@ -37,7 +37,7 @@ class GeoBlock(FieldBlock):
 
     def render_form(self, value, prefix='', errors=None):
         if value and isinstance(value, dict):
-            value = "srid={};point({} {})".format(value['srid'],
+            value = "SRID={};POINT({} {})".format(value['srid'],
                                                   value['lng'],
                                                   value['lat'])
         return super(GeoBlock, self).render_form(value, prefix, errors)
@@ -46,11 +46,11 @@ class GeoBlock(FieldBlock):
         if isinstance(value, dict):
             return value
 
-        value = GEOSGeometry(value)
+        value = geosgeometry_str_to_struct(value)
         value = {
-            'lat': value.y,
-            'lng': value.x,
-            'srid': value.srid,
+            'lat': value['y'],
+            'lng': value['x'],
+            'srid': value['srid'],
         }
 
         return super(GeoBlock, self).to_python(value)
