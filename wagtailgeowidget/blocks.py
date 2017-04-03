@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.functional import cached_property
-from django.contrib.gis.geos import GEOSGeometry
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtail.wagtailcore.blocks import FieldBlock
 
 from wagtailgeowidget.widgets import GeoField
@@ -46,11 +46,11 @@ class GeoBlock(FieldBlock):
         if isinstance(value, dict):
             return value
 
-        value = GEOSGeometry(value)
+        value = geosgeometry_str_to_struct(value)
         value = {
-            'lat': value.y,
-            'lng': value.x,
-            'srid': value.srid,
+            'lat': value['y'],
+            'lng': value['x'],
+            'srid': value['srid'],
         }
 
         return super(GeoBlock, self).to_python(value)

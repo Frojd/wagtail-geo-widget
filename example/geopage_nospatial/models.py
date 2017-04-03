@@ -30,3 +30,24 @@ class StandardPage(Page):
     @property
     def lng(self):
         return self.point['x']
+
+
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
+from wagtail.wagtailcore import blocks
+
+from wagtailgeowidget.blocks import GeoBlock
+
+
+class StreamPage(Page):
+    body = StreamField([
+        ('map', GeoBlock()),
+        ('map_struct', blocks.StructBlock([
+            ('address', blocks.CharBlock(required=True)),
+            ('map', GeoBlock(address_field='address')),
+        ], icon='user'))
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]

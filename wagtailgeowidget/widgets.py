@@ -3,10 +3,10 @@ import json
 import six
 from django.forms import HiddenInput
 from django.utils.html import format_html
-from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.geos.point import Point
 from django.utils.safestring import mark_safe
 
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
     GEO_WIDGET_ZOOM,
@@ -71,11 +71,12 @@ class GeoField(HiddenInput):
         }
 
         if value and isinstance(value, six.string_types):
-            value = GEOSGeometry(value)
-            data['defaultLocation'] = {
-                'lat': value.y,
-                'lng': value.x,
-            }
+            result = geosgeometry_str_to_struct(value)
+            if result:
+                data['defaultLocation'] = {
+                    'lat': result['y'],
+                    'lng': result['x'],
+                }
 
         if value and isinstance(value, Point):
             data['defaultLocation'] = {
