@@ -28,7 +28,7 @@ class GeoBlock(FieldBlock):
 
     def clean(self, value):
         if not value:
-            value = "srid={};point({} {})".format(
+            value = "SRID={};POINT({} {})".format(
                 4326,
                 GEO_WIDGET_DEFAULT_LOCATION['lng'],
                 GEO_WIDGET_DEFAULT_LOCATION['lat']
@@ -37,7 +37,7 @@ class GeoBlock(FieldBlock):
 
     def render_form(self, value, prefix='', errors=None):
         if value and isinstance(value, dict):
-            value = "srid={};point({} {})".format(value['srid'],
+            value = "SRID={};POINT({} {})".format(value['srid'],
                                                   value['lng'],
                                                   value['lat'])
         return super(GeoBlock, self).render_form(value, prefix, errors)
