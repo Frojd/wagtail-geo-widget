@@ -216,6 +216,7 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 - [x] Editable map widget for GeoDjango PointerField
 - [x] Global default map location
 - [x] Streamfield map widget
+- [ ] Templatetag for rendering basic maps
 
 
 ## Contributing
