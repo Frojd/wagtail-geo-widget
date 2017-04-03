@@ -28,7 +28,6 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
     'wagtail.wagtailembeds',
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
     'home',
     'search',
     'geopage',
+    'geopage_nospatial',
 ]
 
 MIDDLEWARE = [
@@ -99,6 +99,7 @@ WSGI_APPLICATION = 'examplesite.wsgi.application'
 # Using PostgreSQL
 DATABASES = {
     'default': {
+        # 'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': get_env('DATABASE_NAME'),
         'USER': get_env('DATABASE_USER'),
