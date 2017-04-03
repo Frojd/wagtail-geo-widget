@@ -66,22 +66,22 @@ class MyPage(Page):
 The data is stored as a `GEOSGeometry` string (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`. To use the data, we recommend that you add helper methods to your model.
 
 ```python
-from django.contrib.gis.geos import GEOSGeometry
+from wagtailgeowidget.helpers import parse_geosgeometry_string
 
 class MyPage(Page):
     # ...
     
-    @property
+    @cached_property
     def point(self):
-        return GEOSGeometry(self.location)
+        return parse_geosgeometry_string(self.location)
 
     @property
     def lat(self):
-        return self.point.y
+        return self.point['y']
 
     @property
     def lng(self):
-        return self.point.x
+        return self.point['x']
 ```
 
 NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the GeoDjango/Pointer field implementation instead.
