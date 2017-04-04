@@ -67,14 +67,14 @@ The data is stored as a `GEOSGeometry` string (Example: `SRID=4326;POINT(17.3544
 
 ```python
 from django.utils.functional import cached_property
-from wagtailgeowidget.helpers import parse_geosgeometry_string
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 class MyPage(Page):
     # ...
 
     @cached_property
     def point(self):
-        return parse_geosgeometry_string(self.location)
+        return geosgeometry_str_to_struct(self.location)
 
     @property
     def lat(self):

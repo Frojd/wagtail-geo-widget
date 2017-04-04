@@ -20,8 +20,8 @@ class StandardPage(Page):
 
     @cached_property
     def point(self):
-        from wagtailgeowidget.helpers import parse_geosgeometry_string
-        return parse_geosgeometry_string(self.location)
+        from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+        return geosgeometry_str_to_struct(self.location)
 
     @property
     def lat(self):
