@@ -94,6 +94,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.db import models
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -102,6 +103,7 @@ class MyPageWithAddressField(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel('address'),
         GeoPanel('location', address_field='address'),
     ]
 ```
@@ -191,6 +193,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.contrib.gis.db import models
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -199,6 +202,7 @@ class MyPageWithAddressField(Page):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel('address'),
         GeoPanel('location', address_field='address'),
     ]
 ```
