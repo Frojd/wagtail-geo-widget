@@ -9,8 +9,8 @@ A Google Maps widget for Wagtail that supports both GeoDjango PointField, Stream
 
 ## Requirements
 
-- Python 2.7 / Python 3.5
-- Wagtail 1.7+ and Django
+- Python 2.7 / Python 3.5+
+- Wagtail 1.8+ and Django
 
 
 ## Installation
@@ -94,7 +94,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.db import models
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -103,8 +103,10 @@ class MyPageWithAddressField(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('address'),
-        GeoPanel('location', address_field='address'),
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address'),
+        ], _('Geo details')),
     ]
 ```
 
@@ -193,7 +195,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.contrib.gis.db import models
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -202,8 +204,10 @@ class MyPageWithAddressField(Page):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('address'),
-        GeoPanel('location', address_field='address'),
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address'),
+        ], _('Geo details')),
     ]
 ```
 

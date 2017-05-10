@@ -23,8 +23,10 @@ class GeoLocation(models.Model):
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('address'),
-        GeoPanel('location', address_field='address')
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address')
+        ], _('Geo details')),
     ]
 
 
@@ -84,8 +86,10 @@ class ClassicGeoPage(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('address'),
-        GeoPanel('location', address_field='address'),
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address'),
+        ], _('Geo details')),
     ]
 
     def get_context(self, request):
