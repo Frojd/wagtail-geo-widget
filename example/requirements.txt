@@ -1,4 +1,4 @@
-Django>=1.10,<1.11
-wagtail>=1.9,<1.10
+Django==1.11.1
+wagtail==1.10
 psycopg2==2.6.2
 wagtailgeowidget

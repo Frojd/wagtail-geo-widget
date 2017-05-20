@@ -3,8 +3,12 @@ import json
 import six
 from django.forms import HiddenInput
 from django.utils.html import format_html
-from django.contrib.gis.geos.point import Point
 from django.utils.safestring import mark_safe
+
+try:
+    from django.contrib.gis.geos.point import Point
+except:
+    pass
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.app_settings import (

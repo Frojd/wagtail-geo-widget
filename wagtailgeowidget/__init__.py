@@ -7,8 +7,8 @@ wagtailgeowidget
 A Google Maps widget for Wagtail that supports both GeoDjango PointField, StreamField and the standard CharField.
 """
 __title__ = "wagtailgeowidget"
-__version__ = "3.1.1"
-__build__ = 311
+__version__ = "3.1.2"
+__build__ = 312
 __author__ = "Martin Sandström"
 __license__ = "MIT"
 __copyright__ = "Copyright 2015-2017 Fröjd Interactive"

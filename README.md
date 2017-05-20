@@ -9,8 +9,9 @@ A Google Maps widget for Wagtail that supports both GeoDjango PointField, Stream
 
 ## Requirements
 
-- Python 2.7 / Python 3.5
-- Wagtail 1.7+ and Django
+- Python 2.7 / Python 3.5+
+- Wagtail 1.8+ and Django
+- A API key for Google Maps
 
 
 ## Installation
@@ -85,7 +86,7 @@ class MyPage(Page):
         return self.point['x']
 ```
 
-NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the GeoDjango/Pointer field implementation instead.
+NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the [GeoDjango/Pointer field](#geodjango-pointfield) implementation instead.
 
 
 ### With an address field
@@ -94,6 +95,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.db import models
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -102,7 +104,10 @@ class MyPageWithAddressField(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        GeoPanel('location', address_field='address'),
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address'),
+        ], _('Geo details')),
     ]
 ```
 
@@ -191,6 +196,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.contrib.gis.db import models
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -199,7 +205,10 @@ class MyPageWithAddressField(Page):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
-        GeoPanel('location', address_field='address'),
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address'),
+        ], _('Geo details')),
     ]
 ```
 
