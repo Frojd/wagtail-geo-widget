@@ -11,6 +11,7 @@ A Google Maps widget for Wagtail that supports both GeoDjango PointField, Stream
 
 - Python 2.7 / Python 3.5+
 - Wagtail 1.8+ and Django
+- A API key for Google Maps
 
 
 ## Installation
@@ -85,7 +86,7 @@ class MyPage(Page):
         return self.point['x']
 ```
 
-NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the GeoDjango/Pointer field implementation instead.
+NOTE: While this implementation is quick and easy to setup, the drawback is that it will prevent you from making spatial queries, if that is what you need, use the [GeoDjango/Pointer field](#geodjango-pointfield) implementation instead.
 
 
 ### With an address field
