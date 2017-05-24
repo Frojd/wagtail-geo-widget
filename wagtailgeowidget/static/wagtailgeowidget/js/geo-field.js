@@ -172,7 +172,7 @@ GeoField.prototype.geocodeSearch = function(query) {
     this.geocoder.geocode({'address': query}, function(results, status) {
         if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
             self.displayWarning(
-                'Could not geocode adddress "' + query + '". '+
+                'Could not geocode address "' + query + '". '+
                 'The map may not be in sync with the address entered.'
             );
             return;
