@@ -209,6 +209,14 @@ GeoField.prototype.updateMapFromCoords = function(coords) {
 }
 
 GeoField.prototype.setMapPosition = function(latLng) {
+    // If lat or lng is not a number (this can happen when the coordinates input is being modified), the Maps
+    // API enters in a recursion cycle crashing the browser
+    if (isNaN(latLng.lat()) || isNaN(latLng.lng())) {
+        this.sourceField.val("");
+
+        return;
+    }
+
     this.marker.setPosition(latLng);
     this.map.setCenter(latLng);
 }
