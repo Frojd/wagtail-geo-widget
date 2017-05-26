@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Frojd/wagtailgeowidget.svg?branch=master)](https://travis-ci.org/Frojd/wagtailgeowidget) [![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
+[![Build Status](https://travis-ci.org/Frojd/wagtail-geo-widget.svg?branch=master)](https://travis-ci.org/Frojd/wagtail-geo-widget) [![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
 
 # Wagtail-Geo-Widget
 
