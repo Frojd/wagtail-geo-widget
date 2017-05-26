@@ -16,9 +16,6 @@ function GeoField(options) {
     this.latLngField = $(options.latLngDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
 
-    this.geoWarningClassName = 'wagtailgeowidget__geo-warning';
-    this.geoSuccessClassName = 'wagtailgeowidget__geo-success';
-
     this.initMap(options.mapEl, defaultLocation);
     this.initEvents();
 
@@ -32,7 +29,8 @@ function GeoField(options) {
     this.checkVisibility(function() {
         var coords = $(self.latLngField).val();
         google.maps.event.trigger(self.map, 'resize');
-        self.updateMapFromCoords(coords);
+        var latLng = self.parseStrToLatLng(coords);
+        self.updateMapFromCoords(latLng);
     });
 }
 
@@ -63,7 +61,18 @@ GeoField.prototype.initEvents = function() {
 
     this.latLngField.on("input", function(e) {
         var coords = $(this).val();
-        self.updateMapFromCoords(coords);
+        var latLng = self.parseStrToLatLng(coords);
+        if (latLng === null) {
+            self.displayWarning(
+                'Invalid location coordinate, use Latitude and Longitude '+
+                '(example: 59.3293234999,18.06858080003)', {
+                field: self.latLngField,
+            });
+            return;
+        }
+
+        self.clearFieldMessage({field: self.latLngField});
+        self.updateMapFromCoords(latLng);
     });
 
     this.addressField.on("keydown", function(e) {
@@ -79,8 +88,7 @@ GeoField.prototype.initEvents = function() {
         var query = $(this).val();
 
         if (query === "") {
-            self.clearWarning();
-            self.clearSuccess();
+            self.clearFieldMessage({field: self.addressField});
             return;
         }
 
@@ -102,7 +110,10 @@ GeoField.prototype.initAutocomplete = function(field) {
             return;
         }
 
-        self.displaySuccess();
+        self.clearAllFieldMessages();
+        self.displaySuccess('Address has been successfully geo-coded', {
+            field: self.addressField,
+        });
 
         var latLng = place.geometry.location;
 
@@ -112,45 +123,62 @@ GeoField.prototype.initAutocomplete = function(field) {
     });
 };
 
-GeoField.prototype.displayWarning = function(msg) {
-    var warningMsg;
-
-    this.clearSuccess();
-    this.clearWarning();
-
-    warningMsg = document.createElement('p');
-    warningMsg.className = 'help-block help-warning ' + this.geoWarningClassName;
-    warningMsg.innerHTML = msg;
-
-    $(warningMsg).insertAfter(this.addressField);
+GeoField.prototype.genMessageId = function(field) {
+    return 'wagtailgeowdidget__'+field.attr('id')+'--warning';
 }
 
-GeoField.prototype.displaySuccess = function(msg) {
+GeoField.prototype.displayWarning = function(msg, options) {
+    var warningMsg;
+    var field = options.field;
+    var className = this.genMessageId(field);
+
+    this.clearFieldMessage({field: field});
+
+    warningMsg = document.createElement('p');
+    warningMsg.className = 'help-block help-warning ' + className;
+    warningMsg.innerHTML = msg;
+
+    $(warningMsg).insertAfter(field);
+}
+
+GeoField.prototype.displaySuccess = function(msg, options) {
     var self = this;
     var successMessage;
+    var field = options.field;
+    var className = this.genMessageId(field);
 
-    clearTimeout(self._successTimeout);
+    clearTimeout(this._successTimeout);
 
-    self.clearSuccess();
-    self.clearWarning();
+    this.clearFieldMessage({field: field});
 
     successMessage = document.createElement('p');
-    successMessage.className = 'help-block help-info ' + self.geoSuccessClassName;
-    successMessage.innerHTML = 'Address has been successfully geo-coded';
+    successMessage.className = 'help-block help-info ' + className;
+    successMessage.innerHTML = msg;
 
-    $(successMessage).insertAfter(self.addressField);
+    $(successMessage).insertAfter(field);
 
-    self._successTimeout = setTimeout(function() {
-        self.clearSuccess();
+    this._successTimeout = setTimeout(function() {
+        self.clearFieldMessage({field: field});
     }, 3000);
 }
 
-GeoField.prototype.clearWarning = function() {
-    $('.' + this.geoWarningClassName).remove();
+GeoField.prototype.clearFieldMessage = function(options) {
+    var field = options.field;
+
+    if (!field) {
+        return;
+    }
+
+    var className = this.genMessageId(field);
+    $('.' + className).remove();
 }
 
-GeoField.prototype.clearSuccess = function() {
-    $('.' + this.geoSuccessClassName).remove();
+GeoField.prototype.clearAllFieldMessages = function() {
+    var self = this;
+    var fields = [this.addressField, this.latLngField];
+    fields.map(function(field) {
+        self.clearFieldMessage({field: field});
+    });
 }
 
 GeoField.prototype.checkVisibility = function(callback) {
@@ -173,17 +201,24 @@ GeoField.prototype.geocodeSearch = function(query) {
         if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
             self.displayWarning(
                 'Could not geocode address "' + query + '". '+
-                'The map may not be in sync with the address entered.'
+                'The map may not be in sync with the address entered.', {
+                    field: self.addressField
+                }
             );
             return;
         }
 
         if (status !== google.maps.GeocoderStatus.OK) {
-            self.displayWarning('Google Maps Error: '+status);
+            self.displayWarning('Google Maps Error: '+status, {
+                field: self.addressField,
+            });
             return;
         }
 
-        self.displaySuccess();
+        self.clearAllFieldMessages();
+        self.displaySuccess('Address has been successfully geo-coded', {
+            field: self.addressField,
+        });
         var latLng = results[0].geometry.location;
 
         self.setMapPosition(latLng);
@@ -196,27 +231,23 @@ GeoField.prototype.updateLatLng = function(latLng) {
     this.latLngField.val(latLng.lat()+","+latLng.lng());
 }
 
-GeoField.prototype.updateMapFromCoords = function(coords) {
-    coords = coords.split(",").map(function(value) {
+GeoField.prototype.parseStrToLatLng = function(value) {
+    value = value.split(",").map(function(value) {
         return parseFloat(value);
     });
 
-    var latLng = new google.maps.LatLng(
-        coords[0],
-        coords[1]
-    );
+    var latLng = new google.maps.LatLng(value[0], value[1]);
+    if (isNaN(latLng.lat()) || isNaN(latLng.lng())) {
+        return null;
+    }
+    return latLng
+}
+
+GeoField.prototype.updateMapFromCoords = function(latLng) {
     this.setMapPosition(latLng);
 }
 
 GeoField.prototype.setMapPosition = function(latLng) {
-    // If lat or lng is not a number (this can happen when the coordinates input is being modified), the Maps
-    // API enters in a recursion cycle crashing the browser
-    if (isNaN(latLng.lat()) || isNaN(latLng.lng())) {
-        this.sourceField.val("");
-
-        return;
-    }
-
     this.marker.setPosition(latLng);
     this.map.setCenter(latLng);
 }
