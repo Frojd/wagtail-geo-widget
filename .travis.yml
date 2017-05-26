@@ -1,0 +1,18 @@
+language: python
+
+#env:
+ #- WAGTAIL_VERSION=1.8.15
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6-dev"
+  - "pypy"
+
+install:
+ - pip install -r requirements/tests.txt
+ - pip install wagtail
+
+script:
+ - python runtests.py
