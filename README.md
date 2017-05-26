@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
+[![Build Status](https://travis-ci.org/Frojd/wagtail-geo-widget.svg?branch=master)](https://travis-ci.org/Frojd/wagtail-geo-widget) [![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
 
 # Wagtail-Geo-Widget
 
@@ -95,6 +95,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.db import models
+from django.utils.translation import ugettext as _
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
@@ -196,6 +197,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.contrib.gis.db import models
+from django.utils.translation import ugettext as _
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 

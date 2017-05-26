@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 try:
     from django.contrib.gis.geos.point import Point
 except:
-    pass
+    Point = None
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.app_settings import (
@@ -82,7 +82,7 @@ class GeoField(HiddenInput):
                     'lng': result['x'],
                 }
 
-        if value and isinstance(value, Point):
+        if value and Point and isinstance(value, Point):
             data['defaultLocation'] = {
                 'lat': value.y,
                 'lng': value.x,
