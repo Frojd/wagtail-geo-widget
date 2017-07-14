@@ -73,6 +73,7 @@ GeoField.prototype.initEvents = function() {
 
         self.clearFieldMessage({field: self.latLngField});
         self.updateMapFromCoords(latLng);
+        self.writeLocation(latLng);
     });
 
     this.addressField.on("keydown", function(e) {
