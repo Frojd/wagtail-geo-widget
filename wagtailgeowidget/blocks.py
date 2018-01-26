@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.functional import cached_property
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from wagtail.wagtailcore.blocks import FieldBlock
+from wagtail.core.blocks import FieldBlock
 
 from wagtailgeowidget.widgets import GeoField
 from wagtailgeowidget.app_settings import (
