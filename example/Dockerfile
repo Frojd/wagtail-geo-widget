@@ -1,4 +1,5 @@
-FROM python:2.7
+FROM python:3.6
+MAINTAINER Frojd
 
 RUN apt-get update && apt-get install -y \
     netcat \
