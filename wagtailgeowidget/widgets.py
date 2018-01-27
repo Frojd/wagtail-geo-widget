@@ -15,6 +15,7 @@ from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
     GEO_WIDGET_ZOOM,
     GOOGLE_MAPS_V3_APIKEY,
+    GOOGLE_MAPS_V3_LANGUAGE,
 )
 
 
@@ -37,9 +38,10 @@ class GeoField(HiddenInput):
 
         js = (
             'wagtailgeowidget/js/geo-field.js',
-            'https://maps.google.com/maps/api/js?key={}&libraries=places'
+            'https://maps.google.com/maps/api/js?key={}&libraries=places&language={}'
             .format(
-                GOOGLE_MAPS_V3_APIKEY
+                GOOGLE_MAPS_V3_APIKEY,
+                GOOGLE_MAPS_V3_LANGUAGE,
             ),
         )
 
