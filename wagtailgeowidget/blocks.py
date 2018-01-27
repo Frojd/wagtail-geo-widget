@@ -1,8 +1,12 @@
 from django import forms
 from django.utils.functional import cached_property
-from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from wagtail.wagtailcore.blocks import FieldBlock
+from wagtail import VERSION as WAGTAIL_VERSION
+if WAGTAIL_VERSION >= (2, 0):
+    from wagtail.core.blocks import FieldBlock
+else:
+    from wagtail.wagtailcore.blocks import FieldBlock
 
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeoField
 from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,

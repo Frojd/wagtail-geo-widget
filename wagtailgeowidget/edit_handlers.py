@@ -1,4 +1,9 @@
-from wagtail.wagtailadmin.edit_handlers import BaseFieldPanel
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (2, 0):
+    from wagtail.admin.edit_handlers import FieldPanel as BaseFieldPanel
+else:
+    from wagtail.wagtailadmin.edit_handlers import BaseFieldPanel
 
 from wagtailgeowidget.widgets import GeoField
 
