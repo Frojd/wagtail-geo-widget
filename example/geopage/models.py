@@ -3,17 +3,22 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
-from wagtail.wagtailcore.models import Orderable, Page
-from wagtail.wagtailadmin.edit_handlers import (
+
+from wagtail.core import blocks
+from wagtail.core.models import Orderable, Page
+from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     TabbedInterface,
 )
+from wagtail.core.fields import StreamField
+from wagtail.admin.edit_handlers import StreamFieldPanel
 
-from wagtail.wagtailcore import blocks
 from modelcluster.fields import ParentalKey
+
+from wagtailgeowidget.blocks import GeoBlock
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -32,7 +37,11 @@ class GeoLocation(models.Model):
 
 
 class GeoPageRelatedLocations(Orderable, GeoLocation):
-    page = ParentalKey('geopage.GeoPage', related_name='related_locations')
+    page = ParentalKey(
+        'geopage.GeoPage',
+        related_name='related_locations',
+        on_delete=models.CASCADE
+    )
 
 
 class GeoPage(Page):
@@ -58,10 +67,6 @@ class GeoPage(Page):
     ])
 
 
-from wagtail.wagtailcore.fields import StreamField
-from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
-
-from wagtailgeowidget.blocks import GeoBlock
 
 
 class GeoStreamPage(Page):
