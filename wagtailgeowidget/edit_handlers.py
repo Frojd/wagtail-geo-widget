@@ -1,38 +1,35 @@
-from wagtail import VERSION as WAGTAIL_VERSION
+from wagtail.admin.edit_handlers import FieldPanel
 
-if WAGTAIL_VERSION >= (2, 0):
-    from wagtail.admin.edit_handlers import FieldPanel as BaseFieldPanel
-else:
-    from wagtail.wagtailadmin.edit_handlers import BaseFieldPanel
-
-from wagtailgeowidget.widgets import GeoField
+from wagtailgeowidget.widgets import (
+    GeoField,
+)
 
 
-class GeoPanel(BaseFieldPanel):
-    def __init__(self, field_name, classname="", address_field="", zoom=7):
-        self.field_name = field_name
-        self.classname = classname
-        self.address_field = address_field
-        self.zoom = zoom
+class GeoPanel(FieldPanel):
+    def __init__(self, *args, **kwargs):
+        self.classname = kwargs.pop('classname', "")
+        self.address_field = widget = kwargs.pop('address_field', "")
+        self.zoom = kwargs.pop('zoom', 7)
 
-    def bind_to_model(self, model):
-        field = model._meta.get_field(self.field_name)
+        super().__init__(*args, **kwargs)
 
+    def widget_overrides(self):
+        field = self.model._meta.get_field(self.field_name)
         srid = getattr(field, 'srid', 4326)
 
-        widget = type(str('_GeoField'), (GeoField,), {
-            'address_field': self.address_field,
-            'zoom': self.zoom,
-            'srid': srid,
-            'id_prefix': 'id_',
-        })
-
-        base = {
-            'model': model,
-            'field_name': self.field_name,
-            'classname': self.classname,
-            'widget': widget,
+        return {
+            self.field_name: GeoField(
+                address_field=self.address_field,
+                zoom=self.zoom,
+                srid=srid,
+                id_prefix='id_',
+            )
         }
 
-        out = type(str('_GeoPanel'), (BaseFieldPanel,), base)
-        return out
+    def clone(self):
+        return self.__class__(
+            field_name=self.field_name,
+            classname=self.classname,
+            address_field=self.address_field,
+            zoom=self.zoom,
+        )
