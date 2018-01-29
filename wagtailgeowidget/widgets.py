@@ -105,7 +105,7 @@ class GeoField(HiddenInput):
                     return initializeGeoFields();
                 }
 
-                $(window).load(function() {
+                $(window).on('load', function() {
                     initializeGeoFields();
                 });
             })();
