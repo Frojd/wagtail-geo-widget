@@ -2,8 +2,15 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.utils.functional import cached_property
-from wagtail.wagtailcore.models import Page
+from django.utils.translation import ugettext as _
+from wagtail.core.models import Page
+from wagtail.core.fields import StreamField
+from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.core import blocks
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+
 from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget.blocks import GeoBlock
 
 
 class StandardPage(Page):
@@ -11,7 +18,10 @@ class StandardPage(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        GeoPanel('location', address_field='address'),
+        MultiFieldPanel([
+            FieldPanel('address'),
+            GeoPanel('location', address_field='address'),
+        ], _('Geo details')),
     ]
 
     def get_context(self, request):
@@ -32,11 +42,7 @@ class StandardPage(Page):
         return self.point['x']
 
 
-from wagtail.wagtailcore.fields import StreamField
-from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
-from wagtail.wagtailcore import blocks
 
-from wagtailgeowidget.blocks import GeoBlock
 
 
 class StreamPage(Page):
@@ -44,7 +50,7 @@ class StreamPage(Page):
         ('map', GeoBlock()),
         ('map_struct', blocks.StructBlock([
             ('address', blocks.CharBlock(required=True)),
-            ('map', GeoBlock(address_field='address')),
+            # ('map', GeoBlock(address_field='address')),
         ], icon='user'))
     ])
 
