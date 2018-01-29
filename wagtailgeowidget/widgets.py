@@ -28,6 +28,7 @@ class GeoField(HiddenInput):
         self.address_field = kwargs.pop('address_field', self.address_field)
         self.srid = kwargs.pop('srid', self.srid)
         self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
+        self.zoom = kwargs.pop('zoom', GEO_WIDGET_ZOOM)
 
         super(GeoField, self).__init__(*args, **kwargs)
 
@@ -72,7 +73,7 @@ class GeoField(HiddenInput):
             'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
             'addressSelector': address_selector,
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
-            'zoom': GEO_WIDGET_ZOOM,
+            'zoom': self.zoom,
             'srid': self.srid,
         }
 
