@@ -10,7 +10,7 @@ A Google Maps widget for Wagtail that supports both GeoDjango PointField, Stream
 ## Requirements
 
 - Python 2.7 / Python 3.5+
-- Wagtail 1.8+ and Django
+- Wagtail 1.13+ and Django
 - A API key for Google Maps
 
 
@@ -222,6 +222,28 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 - `GOOGLE_MAPS_V3_LANGUAGE`: The language you want to set for the map interface (default is `en`)
 - `GEO_WIDGET_DEFAULT_LOCATION`: Default map location when no coordinates are set, accepts a dict with lat and lng keys (required, default is `{'lat': 59.3293, 'lng': 18.0686}` that is Stockholm/Sweden).
 - `GEO_WIDGET_ZOOM`: Default zoom level for map (required, 7 is default).
+
+
+## FAQ
+
+### This library no longer works on Wagtail 1.13 LTS!
+
+Wagtail 2.0 introduced a couple of breaking changes regarding the field api that required us to rewrite the `GeoPanel` component. To keep compability with Wagtail 1.13 we have moved the original `GeoPanel` to the package `wagtailgeowidget.legacy_edit_handlers`.
+
+    ```python
+    from wagtail.wagtailcore.models import Page
+    from wagtailgeowidget.legacy_edit_handlers import GeoPanel
+
+    class StandardPage(Page):
+        location = models.CharField(max_length=250, blank=True, null=True)
+
+        content_panels = Page.content_panels + [
+            GeoPanel('location')
+        ]
+
+    ```
+
+Please note that this edit handler will be removed as soon as the Wagtail 1.13 expires (which is April 2018).
 
 
 ## Roadmap
