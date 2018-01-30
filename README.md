@@ -96,7 +96,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 ```python
 from django.db import models
 from django.utils.translation import ugettext as _
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -120,8 +120,8 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 To add a map in a StreamField, import and use the GeoBlock.
 
 ```python
-from wagtail.wagtailcore.models import Page
-from wagtail.wagtailcore.fields import StreamField
+from wagtail.core.models import Page
+from wagtail.core.fields import StreamField
 from wagtailgeowidget.blocks import GeoBlock
 
 class GeoStreamPage(Page):
@@ -152,7 +152,7 @@ The data is stored as a json struct and you can access it by using value.lat / v
 Make sure you define a field representing the address at the same level as your GeoBlock, either in the StreamField or in a StructBlock.
 
 ```python
-from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
+from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtailgeowidget.blocks import GeoBlock
 
 
@@ -198,7 +198,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 ```python
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext as _
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
