@@ -15,6 +15,7 @@ from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
     GEO_WIDGET_ZOOM,
     GOOGLE_MAPS_V3_APIKEY,
+    GOOGLE_MAPS_V3_LANGUAGE,
 )
 
 
@@ -27,6 +28,7 @@ class GeoField(HiddenInput):
         self.address_field = kwargs.pop('address_field', self.address_field)
         self.srid = kwargs.pop('srid', self.srid)
         self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
+        self.zoom = kwargs.pop('zoom', GEO_WIDGET_ZOOM)
 
         super(GeoField, self).__init__(*args, **kwargs)
 
@@ -37,9 +39,10 @@ class GeoField(HiddenInput):
 
         js = (
             'wagtailgeowidget/js/geo-field.js',
-            'https://maps.google.com/maps/api/js?key={}&libraries=places'
+            'https://maps.google.com/maps/api/js?key={}&libraries=places&language={}'
             .format(
-                GOOGLE_MAPS_V3_APIKEY
+                GOOGLE_MAPS_V3_APIKEY,
+                GOOGLE_MAPS_V3_LANGUAGE,
             ),
         )
 
@@ -70,7 +73,7 @@ class GeoField(HiddenInput):
             'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
             'addressSelector': address_selector,
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
-            'zoom': GEO_WIDGET_ZOOM,
+            'zoom': self.zoom,
             'srid': self.srid,
         }
 
@@ -103,7 +106,7 @@ class GeoField(HiddenInput):
                     return initializeGeoFields();
                 }
 
-                $(window).load(function() {
+                $(window).on('load', function() {
                     initializeGeoFields();
                 });
             })();
