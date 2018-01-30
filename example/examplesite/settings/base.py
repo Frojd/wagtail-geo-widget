@@ -58,8 +58,8 @@ INSTALLED_APPS = WAGTAIL_APPS + [
     'wagtailgeowidget',
 
     'home',
-    # 'search',
-    # 'geopage',
+    'search',
+    'geopage',
     'geopage_nospatial',
 ]
 
