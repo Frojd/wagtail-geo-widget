@@ -44,3 +44,5 @@ venv*
 .idea
 
 example/wagtailgeowidget
+example/wagtail
+example/wagtail-2.0b1
