@@ -230,18 +230,18 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 
 Wagtail 2.0 introduced a couple of breaking changes regarding the field api that required us to rewrite the `GeoPanel` component. To keep compability with Wagtail 1.13 we have moved the original `GeoPanel` to the package `wagtailgeowidget.legacy_edit_handlers`.
 
-    ```python
-    from wagtail.wagtailcore.models import Page
-    from wagtailgeowidget.legacy_edit_handlers import GeoPanel
+```python
+from wagtail.wagtailcore.models import Page
+from wagtailgeowidget.legacy_edit_handlers import GeoPanel
 
-    class StandardPage(Page):
-        location = models.CharField(max_length=250, blank=True, null=True)
+class StandardPage(Page):
+    location = models.CharField(max_length=250, blank=True, null=True)
 
-        content_panels = Page.content_panels + [
-            GeoPanel('location')
-        ]
+    content_panels = Page.content_panels + [
+        GeoPanel('location')
+    ]
 
-    ```
+```
 
 Please note that this edit handler will be removed as soon as the Wagtail 1.13 expires (which is April 2018).
 
