@@ -1,3 +1,12 @@
+import warnings
+
+import wagtail
+
+if wagtail.VERSION < (2, 0):
+    warnings.warn("GeoPanel only works in Wagtail 2+", Warning)  # NOQA
+    warnings.warn("Please import GeoPanel from wagtailgeowidget.legacy_edit_handlers instead", Warning)  # NOQA
+    warnings.warn("All support for Wagtail 1.13 and below will be droppen in April 2018", Warning)  # NOQA
+
 from wagtail.admin.edit_handlers import FieldPanel
 
 from wagtailgeowidget.widgets import (
