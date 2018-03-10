@@ -158,3 +158,4 @@ WAGTAIL_SITE_NAME = "examplesite"
 BASE_URL = 'http://example.com'
 
 GOOGLE_MAPS_V3_APIKEY = get_env('GOOGLE_MAPS_V3_APIKEY')
+GEO_WIDGET_ZOOM = 15

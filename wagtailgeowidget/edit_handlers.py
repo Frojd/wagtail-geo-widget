@@ -13,12 +13,15 @@ from wagtailgeowidget.widgets import (
     GeoField,
 )
 
+from wagtailgeowidget.app_settings import (
+    GEO_WIDGET_ZOOM
+)
 
 class GeoPanel(FieldPanel):
     def __init__(self, *args, **kwargs):
         self.classname = kwargs.pop('classname', "")
         self.address_field = widget = kwargs.pop('address_field', "")
-        self.zoom = kwargs.pop('zoom', 7)
+        self.zoom = kwargs.pop('zoom', GEO_WIDGET_ZOOM)
 
         super().__init__(*args, **kwargs)
 

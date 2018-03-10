@@ -4,9 +4,14 @@ from wagtailgeowidget.widgets import (
     GeoField,
 )
 
+from wagtailgeowidget.app_settings import (
+    GEO_WIDGET_ZOOM
+)
+
 
 class GeoPanel(BaseFieldPanel):
-    def __init__(self, field_name, classname="", address_field="", zoom=7):
+    def __init__(self, field_name, classname="", address_field="",
+            zoom=GEO_WIDGET_ZOOM):
         self.field_name = field_name
         self.classname = classname
         self.address_field = address_field
