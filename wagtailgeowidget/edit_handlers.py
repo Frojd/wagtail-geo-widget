@@ -20,7 +20,8 @@ from wagtailgeowidget.app_settings import (
 class GeoPanel(FieldPanel):
     def __init__(self, *args, **kwargs):
         self.classname = kwargs.pop('classname', "")
-        self.address_field = widget = kwargs.pop('address_field', "")
+        self.address_field = kwargs.pop('address_field', "")
+        self.hide_latlng = kwargs.pop('hide_latlng', False)
         self.zoom = kwargs.pop('zoom', GEO_WIDGET_ZOOM)
 
         super().__init__(*args, **kwargs)
@@ -32,6 +33,7 @@ class GeoPanel(FieldPanel):
         return {
             self.field_name: GeoField(
                 address_field=self.address_field,
+                hide_latlng=self.hide_latlng,
                 zoom=self.zoom,
                 srid=srid,
                 id_prefix='id_',
@@ -43,5 +45,6 @@ class GeoPanel(FieldPanel):
             field_name=self.field_name,
             classname=self.classname,
             address_field=self.address_field,
+            hide_latlng=self.hide_latlng,
             zoom=self.zoom,
         )
