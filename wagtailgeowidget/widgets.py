@@ -46,8 +46,11 @@ class GeoField(HiddenInput):
             ),
         )
 
-    def render(self, name, value, attrs=None):
-        out = super(GeoField, self).render(name, value, attrs)
+    def render(self, name, value, attrs=None, renderer=None):
+        out = super(GeoField, self).render(name,
+                                           value,
+                                           attrs=attrs,
+                                           renderer=renderer)
 
         location = format_html(
             '<div class="input">'
