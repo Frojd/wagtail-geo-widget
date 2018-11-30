@@ -226,8 +226,6 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 
 ## FAQ
 
-<details>
-
 ### This library no longer works on Wagtail 1.13 LTS!
 
 Wagtail 2.0 introduced a couple of breaking changes regarding the field api that required us to rewrite the `GeoPanel` component. To keep compability with Wagtail 1.13 we have moved the original `GeoPanel` to the package `wagtailgeowidget.legacy_edit_handlers`.
@@ -257,8 +255,6 @@ GeoPanel('location', address_field='address', hide_latlng=True)
 ```
 
 It is currently not supported in streamfields.
-
-</details>
 
 
 ## Roadmap
