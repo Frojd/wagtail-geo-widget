@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 
 try:
     from django.contrib.gis.geos.point import Point
-except:
+except:  # NOQA
     Point = None
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
@@ -46,8 +46,10 @@ class GeoField(HiddenInput):
             ),
         )
 
-    def render(self, name, value, attrs=None):
-        out = super(GeoField, self).render(name, value, attrs)
+    def render(self, name, value, attrs=None, renderer=None):
+        out = super(GeoField, self).render(
+            name, value, attrs=attrs, renderer=renderer
+        )
 
         location = format_html(
             '<div class="input">'
