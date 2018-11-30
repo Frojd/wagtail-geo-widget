@@ -23,10 +23,12 @@ class GeoField(HiddenInput):
     address_field = None
     id_prefix = 'id_'
     srid = None
+    hide_latlng = False
 
     def __init__(self, *args, **kwargs):
         self.address_field = kwargs.pop('address_field', self.address_field)
         self.srid = kwargs.pop('srid', self.srid)
+        self.hide_latlng = kwargs.pop('hide_latlng', self.hide_latlng)
         self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
         self.zoom = kwargs.pop('zoom', GEO_WIDGET_ZOOM)
 
@@ -48,14 +50,22 @@ class GeoField(HiddenInput):
 
     def render(self, name, value, attrs=None, renderer=None):
         out = super(GeoField, self).render(
-            name, value, attrs=attrs, renderer=renderer
+            name, value, attrs, renderer=renderer
         )
+
+        input_classes = "geo-field-location"
+        if self.hide_latlng:
+            input_classes = "{} {}".format(
+                input_classes,
+                "geo-field-location--hide",
+            )
 
         location = format_html(
             '<div class="input">'
-            '<input id="_id_{}_latlng" class="geo-field-location" maxlength="250" type="text">'  # NOQA
+            '<input id="_id_{}_latlng" class="{}" maxlength="250" type="text">'
             '</div>',
-            name
+            name,
+            input_classes,
         )
 
         if '-' in name:

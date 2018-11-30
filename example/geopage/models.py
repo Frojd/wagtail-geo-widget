@@ -94,7 +94,7 @@ class ClassicGeoPage(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('address'),
-            GeoPanel('location', address_field='address'),
+            GeoPanel('location', address_field='address', hide_latlng=True),
         ], _('Geo details')),
     ]
 
