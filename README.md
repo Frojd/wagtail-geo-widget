@@ -242,7 +242,6 @@ It is currently not supported in streamfields.
 - [x] Editable map widget for GeoDjango PointerField
 - [x] Global default map location
 - [x] Streamfield map widget
-- [ ] Templatetag for rendering basic maps
 
 
 ## Contributing
