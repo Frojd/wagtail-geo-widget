@@ -20,4 +20,5 @@ RUN curl -L https://raw.githubusercontent.com/marteinn/Notebook/master/vim/vim-s
 
 EXPOSE 8080
 
-CMD ["/app/docker-entrypoint.sh"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["runserver"]

@@ -15,8 +15,6 @@ from __future__ import absolute_import, unicode_literals
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-import wagtail
-
 from . import get_env
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,8 +25,10 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 WAGTAIL_APPS = [
+    'wagtail_react_streamfield',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    'wagtail.contrib.styleguide',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -57,6 +57,7 @@ INSTALLED_APPS = WAGTAIL_APPS + [
     'django.contrib.gis',
     'wagtailgeowidget',
 
+    'examplesite',
     'home',
     'search',
     'geopage',
@@ -157,5 +158,7 @@ WAGTAIL_SITE_NAME = "examplesite"
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
 
+
+# Wagtail-geo-widget
 GOOGLE_MAPS_V3_APIKEY = get_env('GOOGLE_MAPS_V3_APIKEY')
 GEO_WIDGET_ZOOM = 15

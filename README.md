@@ -10,7 +10,7 @@ A Google Maps widget for Wagtail that supports both GeoDjango PointField, Stream
 ## Requirements
 
 - Python 2.7 / Python 3.5+
-- Wagtail 1.13+ and Django
+- Wagtail 2.3+ and Django
 - A API key for Google Maps
 
 
@@ -153,13 +153,13 @@ Make sure you define a field representing the address at the same level as your 
 
 ```python
 from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtailgeowidget.blocks import GeoBlock
+from wagtailgeowidget.blocks import GeoBlock, GeoAddressBlock
 
 
 class GeoStreamPage(Page):
     body = StreamField([
         ('map_struct', blocks.StructBlock([
-            ('address', blocks.CharBlock(required=True)),
+            ('address', GeoAddressBlock(required=True)),
             ('map', GeoBlock(address_field='address')),
         ]))
 
@@ -226,28 +226,6 @@ For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-wi
 
 ## FAQ
 
-<details>
-
-### This library no longer works on Wagtail 1.13 LTS!
-
-Wagtail 2.0 introduced a couple of breaking changes regarding the field api that required us to rewrite the `GeoPanel` component. To keep compability with Wagtail 1.13 we have moved the original `GeoPanel` to the package `wagtailgeowidget.legacy_edit_handlers`.
-
-```python
-from wagtail.wagtailcore.models import Page
-from wagtailgeowidget.legacy_edit_handlers import GeoPanel
-
-class StandardPage(Page):
-    location = models.CharField(max_length=250, blank=True, null=True)
-
-    content_panels = Page.content_panels + [
-        GeoPanel('location')
-    ]
-
-```
-
-Please note that this edit handler will be removed as soon as the Wagtail 1.13 expires (which is April 2018).
-
-
 ### Is it possible to hide the lat/lng field?
 
 Yes, by passing `hide_latlng=True` to the GeoPanel.
@@ -258,15 +236,12 @@ GeoPanel('location', address_field='address', hide_latlng=True)
 
 It is currently not supported in streamfields.
 
-</details>
-
 
 ## Roadmap
 
 - [x] Editable map widget for GeoDjango PointerField
 - [x] Global default map location
 - [x] Streamfield map widget
-- [ ] Templatetag for rendering basic maps
 
 
 ## Contributing

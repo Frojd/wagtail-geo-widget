@@ -1,21 +1,24 @@
+import six
 from django import forms
 from django.utils.functional import cached_property
-import wagtail
-if wagtail.VERSION >= (2, 0):
-    from wagtail.core.blocks import FieldBlock
-else:
-    from wagtail.wagtailcore.blocks import FieldBlock
+from wagtail.core.blocks import CharBlock, FieldBlock
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeoField
-from wagtailgeowidget.app_settings import (
-    GEO_WIDGET_DEFAULT_LOCATION,
-)
+
+
+class GeoAddressBlock(CharBlock):
+    class Meta:
+        classname = "geo-address-block"
 
 
 class GeoBlock(FieldBlock):
-    def __init__(self, address_field=None, required=True, help_text=None,
-                 **kwargs):
+    class Meta:
+        icon = "site"
+
+    def __init__(
+        self, address_field=None, required=True, help_text=None, **kwargs
+    ):
         self.field_options = {}
         self.address_field = address_field
         super(GeoBlock, self).__init__(**kwargs)
@@ -26,25 +29,37 @@ class GeoBlock(FieldBlock):
             srid=4326,
             id_prefix='',
             address_field=self.address_field,
+            used_in="GeoBlock",
         )}
         field_kwargs.update(self.field_options)
         return forms.CharField(**field_kwargs)
 
-    def clean(self, value):
-        if not value:
-            value = "SRID={};POINT({} {})".format(
-                4326,
-                GEO_WIDGET_DEFAULT_LOCATION['lng'],
-                GEO_WIDGET_DEFAULT_LOCATION['lat']
-            )
-        return super(GeoBlock, self).clean(value)
-
     def render_form(self, value, prefix='', errors=None):
         if value and isinstance(value, dict):
-            value = "SRID={};POINT({} {})".format(value['srid'],
-                                                  value['lng'],
-                                                  value['lat'])
+            value = "SRID={};POINT({} {})".format(
+                value['srid'],
+                value['lng'],
+                value['lat'],
+            )
+
         return super(GeoBlock, self).render_form(value, prefix, errors)
+
+    def value_from_form(self, value):
+        return value
+
+    def value_for_form(self, value):
+        if not value:
+            return None
+
+        if value and isinstance(value, six.string_types):
+            return value
+
+        val = "SRID={};POINT({} {})".format(
+            4326,
+            value['lng'],
+            value['lat'],
+        )
+        return val
 
     def to_python(self, value):
         if isinstance(value, dict):

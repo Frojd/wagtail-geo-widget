@@ -1,3 +1,4 @@
+// This file must follow ES5
 "use strict";
 
 function GeoField(options) {
@@ -136,7 +137,7 @@ GeoField.prototype.displayWarning = function(msg, options) {
     this.clearFieldMessage({field: field});
 
     warningMsg = document.createElement('p');
-    warningMsg.className = 'help-block help-warning ' + className;
+    warningMsg.className = 'help-block help-warning '+className;
     warningMsg.innerHTML = msg;
 
     $(warningMsg).insertAfter(field);
@@ -153,7 +154,7 @@ GeoField.prototype.displaySuccess = function(msg, options) {
     this.clearFieldMessage({field: field});
 
     successMessage = document.createElement('p');
-    successMessage.className = 'help-block help-info ' + className;
+    successMessage.className = 'help-block help-info '+className;
     successMessage.innerHTML = msg;
 
     $(successMessage).insertAfter(field);
@@ -201,7 +202,7 @@ GeoField.prototype.geocodeSearch = function(query) {
     this.geocoder.geocode({'address': query}, function(results, status) {
         if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
             self.displayWarning(
-                'Could not geocode address "' + query + '". '+
+                'Could not geocode address "'+query+'". '+
                 'The map may not be in sync with the address entered.', {
                     field: self.addressField
                 }
@@ -220,8 +221,8 @@ GeoField.prototype.geocodeSearch = function(query) {
         self.displaySuccess('Address has been successfully geo-coded', {
             field: self.addressField,
         });
-        var latLng = results[0].geometry.location;
 
+        var latLng = results[0].geometry.location;
         self.setMapPosition(latLng);
         self.updateLatLng(latLng);
         self.writeLocation(latLng);
@@ -256,33 +257,75 @@ GeoField.prototype.setMapPosition = function(latLng) {
 GeoField.prototype.writeLocation = function(latLng) {
     var lat = latLng.lat();
     var lng = latLng.lng();
-    var value = 'SRID=' + this.srid + ';POINT(' + lng + ' ' +lat+')';
+    var value = 'SRID='+this.srid+';POINT('+lng +' '+lat+')';
 
     this.sourceField.val(value);
+}
+
+GeoField.locationStringToStruct = function(locationString) {
+    if (!locationString) {
+        return {};
+    }
+
+    var matches = locationString.match(
+        /^SRID=([0-9]{1,});POINT\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
+    )
+
+    return {
+        srid: matches[1],
+        defaultLocation: {
+            lng: matches[2],
+            lat: matches[3],
+        }
+    }
 }
 
 function initializeGeoFields() {
     $(".geo-field").each(function(index, el) {
         var $el = $(el);
 
-        if ($el.data('geoInit')) {
-            return;
-        }
+        // Exit if component has already been initialized
+        if ($el.data('geoInit')) return;
 
         var data = window[$el.data('data-id')];
-        var options = {
-            mapEl: el,
-            sourceSelector: $(data.sourceSelector),
-            latLngDisplaySelector: $(data.latLngDisplaySelector),
-            zoom: data.zoom,
-            srid: data.srid,
+        var sourceField = $(data.sourceSelector);
+
+        // If sourceField contains value, parse and apply it over data
+        var sourceFieldData = GeoField.locationStringToStruct(
+            sourceField.val()
+        );
+        data = Object.assign({}, data, sourceFieldData)
+
+        // Fix for wagtail-react-streamfield
+        // Resolve address by finding closest struct block, then address field
+        if (
+            inStreamField(data)
+            && inReactStreamField(data)
+            && data.addressSelector
+        ) {
+            data.addressSelector = $el
+                .parents(".c-sf-container__block-container")
+                .find(".geo-address-block input");
         }
 
+        new GeoField({
+            mapEl: el,
+            sourceSelector: sourceField,
+            addressSelector: data.addressSelector,
+            latLngDisplaySelector: data.latLngDisplaySelector,
+            zoom: data.zoom,
+            srid: data.srid,
+            defaultLocation: data.defaultLocation,
+        });
+
         $el.data('geoInit', true);
-
-        options.addressSelector = data.addressSelector;
-        options.defaultLocation = data.defaultLocation;
-
-        new GeoField(options);
     });
+
+    function inStreamField(data) {
+        return data.usedIn === "GeoBlock";
+    }
+
+    function inReactStreamField(data) {
+        return data.inReactStreamfield;
+    }
 }
