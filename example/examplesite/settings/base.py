@@ -57,6 +57,7 @@ INSTALLED_APPS = WAGTAIL_APPS + [
     'django.contrib.gis',
     'wagtailgeowidget',
 
+    'examplesite',
     'home',
     'search',
     'geopage',
@@ -157,5 +158,7 @@ WAGTAIL_SITE_NAME = "examplesite"
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
 
+
+# Wagtail-geo-widget
 GOOGLE_MAPS_V3_APIKEY = get_env('GOOGLE_MAPS_V3_APIKEY')
 GEO_WIDGET_ZOOM = 15
