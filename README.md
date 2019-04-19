@@ -149,7 +149,7 @@ The data is stored as a json struct and you can access it by using value.lat / v
 
 ### With an address field
 
-Make sure you define a field representing the address at the same level as your GeoBlock, either in the StreamField or in a StructBlock.
+(Please note that this currently does not work in [wagtail-react-streamfield](https://github.com/wagtail/wagtail-react-streamfield)). Make sure you define a field representing the address at the same level as your GeoBlock, either in the StreamField or in a StructBlock.
 
 ```python
 from wagtail.admin.edit_handlers import StreamFieldPanel
