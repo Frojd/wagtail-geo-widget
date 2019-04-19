@@ -68,17 +68,18 @@ class GeoField(HiddenInput):
             input_classes,
         )
 
+        namespace = ''
         if '-' in name:
             namespace = name.split('-')[:-1]
             namespace = '-'.join(namespace)
             namespace = '{}-'.format(namespace)
-        else:
-            namespace = ''
 
         source_selector = '#{}{}'.format(self.id_prefix, name)
-        address_selector = '#{}{}{}'.format(self.id_prefix,
-                                            namespace,
-                                            self.address_field)
+        address_selector = '#{}{}{}'.format(
+            self.id_prefix,
+            namespace,
+            self.address_field,
+        )
 
         data = {
             'sourceSelector': source_selector,
