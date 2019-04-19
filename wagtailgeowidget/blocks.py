@@ -2,10 +2,7 @@ import six
 from django import forms
 from django.utils.functional import cached_property
 import wagtail
-if wagtail.VERSION >= (2, 0):
-    from wagtail.core.blocks import FieldBlock
-else:
-    from wagtail.wagtailcore.blocks import FieldBlock
+from wagtail.core.blocks import FieldBlock
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeoField
