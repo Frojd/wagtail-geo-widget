@@ -1,3 +1,4 @@
+import six
 from django import forms
 from django.utils.functional import cached_property
 import wagtail
@@ -30,21 +31,32 @@ class GeoBlock(FieldBlock):
         field_kwargs.update(self.field_options)
         return forms.CharField(**field_kwargs)
 
-    def clean(self, value):
-        if not value:
-            value = "SRID={};POINT({} {})".format(
-                4326,
-                GEO_WIDGET_DEFAULT_LOCATION['lng'],
-                GEO_WIDGET_DEFAULT_LOCATION['lat']
-            )
-        return super(GeoBlock, self).clean(value)
-
     def render_form(self, value, prefix='', errors=None):
         if value and isinstance(value, dict):
-            value = "SRID={};POINT({} {})".format(value['srid'],
-                                                  value['lng'],
-                                                  value['lat'])
+            value = "SRID={};POINT({} {})".format(
+                value['srid'],
+                value['lng'],
+                value['lat'],
+            )
+
         return super(GeoBlock, self).render_form(value, prefix, errors)
+
+    def value_from_form(self, value):
+        return value
+
+    def value_for_form(self, value):
+        if not value:
+            return None
+
+        if value and isinstance(value, six.string_types):
+            return value
+
+        val = "SRID={};POINT({} {})".format(
+            4326,
+            value['lng'],
+            value['lat'],
+        )
+        return val
 
     def to_python(self, value):
         if isinstance(value, dict):

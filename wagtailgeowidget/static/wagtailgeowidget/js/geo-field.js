@@ -261,6 +261,22 @@ GeoField.prototype.writeLocation = function(latLng) {
     this.sourceField.val(value);
 }
 
+GeoField.locationStringToStruct = function(locationString) {
+    if (!locationString) {
+        return null;
+    }
+
+    var matches = locationString.match(
+        /^SRID=([0-9]{1,});POINT\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
+    )
+
+    return {
+        srid: matches[1],
+        lng: matches[2],
+        lat: matches[3],
+    }
+}
+
 function initializeGeoFields() {
     $(".geo-field").each(function(index, el) {
         var $el = $(el);
@@ -270,6 +286,21 @@ function initializeGeoFields() {
         }
 
         var data = window[$el.data('data-id')];
+        var sourceSelector = $(data.sourceSelector);
+
+        var fieldDataFromSource = GeoField.locationStringToStruct(
+            sourceSelector.val()
+        );
+
+        // Override data with data from source
+        if (fieldDataFromSource) {
+            data.srid = fieldDataFromSource.srid;
+            data.defaultLocation = {
+                lat: fieldDataFromSource.lat,
+                lng: fieldDataFromSource.lng,
+            }
+        }
+
         var options = {
             mapEl: el,
             sourceSelector: $(data.sourceSelector),
