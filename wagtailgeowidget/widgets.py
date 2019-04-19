@@ -24,6 +24,7 @@ class GeoField(HiddenInput):
     id_prefix = 'id_'
     srid = None
     hide_latlng = False
+    used_in = "GeoField"
 
     def __init__(self, *args, **kwargs):
         self.address_field = kwargs.pop('address_field', self.address_field)
@@ -31,6 +32,7 @@ class GeoField(HiddenInput):
         self.hide_latlng = kwargs.pop('hide_latlng', self.hide_latlng)
         self.id_prefix = kwargs.pop('id_prefix', self.id_prefix)
         self.zoom = kwargs.pop('zoom', GEO_WIDGET_ZOOM)
+        self.used_in = kwargs.pop('used_in', "GeoField")
 
         super(GeoField, self).__init__(*args, **kwargs)
 
@@ -68,6 +70,9 @@ class GeoField(HiddenInput):
             input_classes,
         )
 
+        # A hack to determine if field is inside the new react streamfield
+        in_react_streamfield = name.endswith("__ID__")
+
         namespace = ''
         if '-' in name:
             namespace = name.split('-')[:-1]
@@ -88,6 +93,8 @@ class GeoField(HiddenInput):
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
             'zoom': self.zoom,
             'srid': self.srid,
+            'usedIn': self.used_in,
+            'inReactStreamfield': in_react_streamfield,
         }
 
         if value and isinstance(value, six.string_types):

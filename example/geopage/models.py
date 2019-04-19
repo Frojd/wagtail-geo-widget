@@ -18,7 +18,7 @@ from wagtail.admin.edit_handlers import StreamFieldPanel
 
 from modelcluster.fields import ParentalKey
 
-from wagtailgeowidget.blocks import GeoBlock
+from wagtailgeowidget.blocks import GeoBlock, GeoAddressBlock
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -73,7 +73,7 @@ class GeoStreamPage(Page):
     body = StreamField([
         ('map', GeoBlock()),
         ('map_struct', blocks.StructBlock([
-            ('address', blocks.CharBlock(required=True)),
+            ('address', GeoAddressBlock(required=True)),
             ('map', GeoBlock(address_field='address')),
         ], icon='user'))
     ])

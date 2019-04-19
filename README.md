@@ -153,13 +153,13 @@ The data is stored as a json struct and you can access it by using value.lat / v
 
 ```python
 from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtailgeowidget.blocks import GeoBlock
+from wagtailgeowidget.blocks import GeoBlock, GeoAddressBlock
 
 
 class GeoStreamPage(Page):
     body = StreamField([
         ('map_struct', blocks.StructBlock([
-            ('address', blocks.CharBlock(required=True)),
+            ('address', GeoAddressBlock(required=True)),
             ('map', GeoBlock(address_field='address')),
         ]))
 

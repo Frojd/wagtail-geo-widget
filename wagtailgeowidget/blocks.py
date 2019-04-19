@@ -1,19 +1,24 @@
 import six
 from django import forms
 from django.utils.functional import cached_property
-import wagtail
-from wagtail.core.blocks import FieldBlock
+from wagtail.core.blocks import CharBlock, FieldBlock
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeoField
-from wagtailgeowidget.app_settings import (
-    GEO_WIDGET_DEFAULT_LOCATION,
-)
+
+
+class GeoAddressBlock(CharBlock):
+    class Meta:
+        classname = "geo-address-block"
 
 
 class GeoBlock(FieldBlock):
-    def __init__(self, address_field=None, required=True, help_text=None,
-                 **kwargs):
+    class Meta:
+        icon = "site"
+
+    def __init__(
+        self, address_field=None, required=True, help_text=None, **kwargs
+    ):
         self.field_options = {}
         self.address_field = address_field
         super(GeoBlock, self).__init__(**kwargs)
@@ -24,6 +29,7 @@ class GeoBlock(FieldBlock):
             srid=4326,
             id_prefix='',
             address_field=self.address_field,
+            used_in="GeoBlock",
         )}
         field_kwargs.update(self.field_options)
         return forms.CharField(**field_kwargs)
