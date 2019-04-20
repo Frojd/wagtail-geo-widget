@@ -2,7 +2,7 @@
 
 # Wagtail-Geo-Widget
 
-Wagtail-Geo-Widget is a complete map solution for your Wagtail site, driven by Google Maps.
+Wagtail-Geo-Widget is the perfect map solution for your Wagtail site.
 
 ![Screen1](https://raw.githubusercontent.com/frojd/wagtail-geo-widget/develop/img/screen1.png)
 

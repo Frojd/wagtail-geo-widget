@@ -1,7 +1,7 @@
 # Adding Wagtail-Geo-Widget to a Page
 
 
-## First create a page
+### First create a page
 
 ```python
 from wagtail.core.models import Page
@@ -11,7 +11,7 @@ class MyPage(Page):
 ```
 
 
-## Create a CharField that represents your data
+### Create a CharField that represents your data
 
 Define a CharField representing your location, in this example we call it `location`.
 
@@ -24,7 +24,7 @@ class MyPage(Page):
 ```
 
 
-## Add a content panel to represent the field in the admin
+### Add a content panel to represent the field in the admin
 
 ```python
 from django.db import models
@@ -41,7 +41,7 @@ class MyPage(Page):
 ```
 
 
-## The format of your location
+### The format of your location
 
 When you update your page in the admin add a location you will notice that the address will be stored as a `GEOSGeometry` string in the database (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`.
 
@@ -73,7 +73,7 @@ With the helpers if place, you call `lat` or `lng` to access the coordinates.
 
 
 
-## Adding a address field
+### Adding a address field
 
 The address field are optional and needs to be added separately, the panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
 
@@ -97,4 +97,4 @@ class MyPageWithAddressField(Page):
     ]
 ```
 
-For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L82).
+For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py).

@@ -1,16 +1,13 @@
 # Getting started
 
-Wagtail-Geo-Widget is built in Python as a library to Wagtail, so make sure you Wagtail based website up and running.
-
-
-## Requirements
+### Requirements
 
 - Python 2.7 / Python 3.5+
 - Wagtail 2.3+ and Django
 - A Google account
 
 
-## Installation
+### Installation
 
 Install the library with pip:
 
@@ -19,9 +16,9 @@ $ pip install wagtailgeowidget
 ```
 
 
-## Quick Setup
+### Quick Setup
 
-Make sure `wagtailgeowidget` is added to your `INSTALLED_APPS`.
+Add `wagtailgeowidget` to your `INSTALLED_APPS` in Django settings.
 
 ```python
 INSTALLED_APPS = (
@@ -31,7 +28,7 @@ INSTALLED_APPS = (
 ```
 
 
-## Retriving a Google Maps Api key
+### Retriving a Google Maps Api key
 
 - Follow [Googles guide](https://developers.google.com/maps/documentation/javascript/get-api-key) on how to retrive a api key
     - Open the link then click the "Get Started"
@@ -44,3 +41,12 @@ INSTALLED_APPS = (
     ```
     GOOGLE_MAPS_V3_APIKEY = "yourapikey"
     ```
+
+
+### Whats next?
+
+Depending on your use case you can read either of these guides:
+
+- [Adding the widget to a Page](./adding-to-a-page.md)
+- [Integrating with GeoDjango](./integrating-with-geodjango.md)
+- [Adding to a StreamField](./adding-to-a-streamfield.md)

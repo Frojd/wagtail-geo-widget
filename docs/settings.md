@@ -1,4 +1,4 @@
-## Settings
+# Settings
 
 - `GOOGLE_MAPS_V3_APIKEY`: API key for Google Maps (required).
 - `GOOGLE_MAPS_V3_LANGUAGE`: The language you want to set for the map interface (default is `en`)

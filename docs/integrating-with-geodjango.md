@@ -39,4 +39,4 @@ class MyPageWithAddressField(Page):
     ]
 ```
 
-For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L35).
+For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py).
