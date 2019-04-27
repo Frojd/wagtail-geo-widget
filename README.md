@@ -24,7 +24,7 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 - [Settings](./docs/settings.md)
 - [Adding the widget to a Page](./docs/adding-to-a-page.md)
 - [Integrating with GeoDjango](./docs/integrating-with-geodjango.md)
-- [Adding to a StreamField](./adding-to-a-streamfield.md)
+- [Adding to a StreamField](./docs/adding-to-a-streamfield.md)
 - [FAQ](./docs/faq.md)
 
 
