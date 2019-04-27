@@ -268,7 +268,7 @@ GeoField.locationStringToStruct = function(locationString) {
     }
 
     var matches = locationString.match(
-        /^SRID=([0-9]{1,});POINT\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
+        /^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
     )
 
     return {
