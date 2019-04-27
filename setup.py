@@ -20,7 +20,7 @@ with open('README.md') as f:
 try:
     from pypandoc import convert
     long_description = convert("README.md", "rst")
-except:
+except:  # NOQA
     long_description = ""
 
 version = ''
@@ -31,12 +31,12 @@ with io.open('wagtailgeowidget/__init__.py', 'r', encoding='utf8') as fd:
 setup(
     name="wagtailgeowidget",
     version=version,
-    description=("A Google Maps widget for Wagtail that supports both GeoDjango PointField, StreamField and CharField."),  # NOQA
+    description=("Wagtail-Geo-Widget is the complete map solution for your Wagtail site."),  # NOQA
     long_description=long_description,
     author="Fröjd",
     author_email="martin@marteinn.se",
     url="https://github.com/frojd/wagtail-geo-widget",
-    packages=find_packages(exclude=('tests*',)),
+    packages=find_packages(exclude=('tests*', 'tests', 'example')),
     include_package_data=True,
     install_requires=[
         'Django>=1.11',
