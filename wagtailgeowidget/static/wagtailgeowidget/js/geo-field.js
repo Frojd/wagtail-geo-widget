@@ -5,27 +5,49 @@ function GeoField(options) {
     var self = this;
     var defaultLocation = options.defaultLocation;
 
-    defaultLocation = new google.maps.LatLng(
+    this.defaultLocation = new google.maps.LatLng(
         parseFloat(defaultLocation.lat),
         parseFloat(defaultLocation.lng)
     );
 
+    this.mapEl = options.mapEl;
     this.zoom = options.zoom;
     this.srid = options.srid;
     this.sourceField = $(options.sourceSelector);
     this.addressField = $(options.addressSelector);
     this.latLngField = $(options.latLngDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
+    this.showEmptyLocation = options.showEmptyLocation;
 
-    this.initMap(options.mapEl, defaultLocation);
-    this.initEvents();
-
-    this.setMapPosition(defaultLocation);
-    this.updateLatLng(defaultLocation);
-
-    if (this.addressField.length) {
-        this.initAutocomplete(this.addressField[0]);
+    if (options.showEmptyLocation) {
+        this.addressField.attr('placeholder', 'Enter a location');
+        this.latLngField.attr('placeholder', 'Click here to initialize map');
+        $(this.mapEl).css('display', 'none');
     }
+
+    this.setup();
+}
+
+
+GeoField.prototype.setup = function() {
+    if(this.hasSetup) {
+        return;
+    }
+    var self = this;
+
+    if (this.showEmptyLocation) {
+        $(this.latLngDisplaySelector).on('focus', function() {
+            $(this.mapEl).css('display', 'block');
+        });
+        this.addressField.on('focus', function() {
+            $(this.mapEl).css('display', 'block');
+        });
+    }
+
+    this.initMap(this.mapEl, this.defaultLocation);
+    this.initEvents();
+    this.setMapPosition(this.defaultLocation);
+    this.updateLatLng(this.defaultLocation);
 
     this.checkVisibility(function() {
         var coords = $(self.latLngField).val();
@@ -33,7 +55,13 @@ function GeoField(options) {
         var latLng = self.parseStrToLatLng(coords);
         self.updateMapFromCoords(latLng);
     });
-}
+
+    if (this.addressField.length) {
+        this.initAutocomplete(this.addressField[0]);
+    }
+
+    this.hasSetup = true;
+};
 
 GeoField.prototype.initMap = function(mapEl, defaultLocation) {
     var map = new google.maps.Map(mapEl, {
@@ -316,6 +344,7 @@ function initializeGeoFields() {
             zoom: data.zoom,
             srid: data.srid,
             defaultLocation: data.defaultLocation,
+            showEmptyLocation: data.showEmptyLocation && !sourceField.val()
         });
 
         $el.data('geoInit', true);
