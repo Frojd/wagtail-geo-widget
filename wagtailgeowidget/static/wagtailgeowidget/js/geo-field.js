@@ -22,10 +22,21 @@ function GeoField(options) {
     if (options.showEmptyLocation) {
         this.addressField.attr('placeholder', 'Enter a location');
         this.latLngField.attr('placeholder', 'Click here to initialize map');
+
         $(this.mapEl).css('display', 'none');
+
+        this.latLngField.on('focus', function() {
+            $(self.mapEl).css('display', 'block');
+            self.setup();
+        });
+        this.addressField.on('focus', function() {
+            $(self.mapEl).css('display', 'block');
+            self.setup();
+        });
+    } else {
+        this.setup()
     }
 
-    this.setup();
 }
 
 
@@ -34,15 +45,6 @@ GeoField.prototype.setup = function() {
         return;
     }
     var self = this;
-
-    if (this.showEmptyLocation) {
-        $(this.latLngDisplaySelector).on('focus', function() {
-            $(this.mapEl).css('display', 'block');
-        });
-        this.addressField.on('focus', function() {
-            $(this.mapEl).css('display', 'block');
-        });
-    }
 
     this.initMap(this.mapEl, this.defaultLocation);
     this.initEvents();
