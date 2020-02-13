@@ -13,6 +13,7 @@ except:  # NOQA
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
+    GEO_WIDGET_EMPTY_LOCATION,
     GEO_WIDGET_ZOOM,
     GOOGLE_MAPS_V3_APIKEY,
     GOOGLE_MAPS_V3_LANGUAGE,
@@ -110,6 +111,11 @@ class GeoField(HiddenInput):
                 'lat': value.y,
                 'lng': value.x,
             }
+
+        # If a value is set we should show the map independent
+        # of what GEO_WIDGET_EMPTY_LOCATION is set to.
+        if not value and GEO_WIDGET_EMPTY_LOCATION:
+            data['showEmptyLocation'] = True
 
         json_data = json.dumps(data)
         data_id = 'geo_field_{}_data'.format(name)
