@@ -1,2 +1,2 @@
 -r tests.txt
-pypandoc==1.4
+pypandoc==1.5
