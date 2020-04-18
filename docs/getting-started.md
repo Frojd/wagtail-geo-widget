@@ -28,13 +28,15 @@ INSTALLED_APPS = (
 ```
 
 
-### Retriving a Google Maps Api key
+### Retriving a Google Maps API key
 
-- Follow [Googles guide](https://developers.google.com/maps/documentation/javascript/get-api-key) on how to retrive a api key
-    - Open the link then click the "Get Started"
+- Follow [Google's guide](https://developers.google.com/maps/documentation/javascript/get-api-key) on how to retrive an API key
+    - Open the link then click the `Get Started`
 - Enable the following services:
-    - [Geocoding API](https://developers.google.com/maps/documentation/javascript/geocoding)
-	- [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial)
+    - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/)
+    - [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/)
+    - [Places API](https://developers.google.com/places/web-service/)
+    - [Maps Static API](https://developers.google.com/maps/documentation/maps-static/)
 
 - When you have the key, add it to your Django settings as `GOOGLE_MAPS_V3_APIKEY`
 
