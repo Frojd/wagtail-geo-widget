@@ -1,9 +1,9 @@
-from django.test import TestCase
+from django.test import SimpleTestCase
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 
-class GeosGeometryPrserHelperTestCase(TestCase):
+class GeosGeometryPrserHelperTestCase(SimpleTestCase):
     def test_that_basic_parsing_works(self):
         struct = geosgeometry_str_to_struct("SRID=5432;POINT(12.0 13.0)")
 
