@@ -2,8 +2,8 @@
 
 ### Requirements
 
-- Python 2.7 / Python 3.5+
-- Wagtail 2.3+ and Django
+- Python 3.5+
+- Wagtail 2.7+ and Django
 - A Google account
 
 
