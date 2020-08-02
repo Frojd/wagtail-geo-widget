@@ -1,11 +1,13 @@
 #!/bin/bash
 CMD=$1
 
-# Wait until postgres is ready
-until nc -z $DATABASE_HOST 5432; do
-    echo "$(date) - waiting for postgres..."
-    sleep 3
-done
+wait_for_db () {
+    # Wait until postgres is ready
+    until nc -z $DATABASE_HOST 5432; do
+        echo "$(date) - waiting for postgres... ($DATABASE_HOST:5432)"
+        sleep 3
+    done
+}
 
 setup_django () {
     echo Running migrations
@@ -21,6 +23,7 @@ setup_django () {
 
 case "$CMD" in
     "runserver" )
+        wait_for_db
         setup_django
 
         echo Starting using manage.py runserver
