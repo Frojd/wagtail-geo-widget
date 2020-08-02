@@ -1,36 +1,35 @@
 # Local/Dev
 version: '2'
 services:
-    db:
-        image: postgres
-        container_name: db_nonspatial
-        restart: always
-        ports:
-            - "5450:5432"
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=postgres
+  web:
+    image: frojd/geo-widget-web-nospatial
+    container_name: web_nonspatial
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "8086:8000"
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DJANGO_SETTINGS_MODULE=examplesite.settings.base_nospatial
+    env_file: web.env
 
-    web:
-        image: frojd/geo-widget-web-nospatial
-        container_name: web_nonspatial
-        build:
-            context: .
-            dockerfile: ./Dockerfile-nospatial
-        volumes:
-            - ./:/app
-        ports:
-            - "8086:8000"
-        depends_on:
-            - db
-        links:
-            - db
-        environment:
-            - DATABASE_NAME=postgres
-            - DATABASE_USER=postgres
-            - DATABASE_PASSWORD=postgres
-            - DATABASE_HOST=db
-            - DATABASE_PORT=5432
-            - DJANGO_SETTINGS_MODULE=examplesite.settings.base_nospatial
-        env_file: web.env
+  db:
+    image: postgres
+    container_name: db_nonspatial
+    restart: always
+    ports:
+      - "5450:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+
