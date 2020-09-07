@@ -1,5 +1,5 @@
 Django>=2.1.6
 wagtail==2.10
-psycopg2-binary==2.8.5
+psycopg2-binary==2.8.6
 #wagtailgeowidget
 wagtail_react_streamfield
