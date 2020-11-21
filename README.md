@@ -28,9 +28,17 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 - [FAQ](./docs/faq.md)
 
 
-## Contributing
+## Contribute
 
-Want to contribute? Awesome. Just send a pull request.
+If you have ideas for improvement, please share your thoughts through an issue. We also welcome PR's
+
+- Issue Tracker: [https://github.com/Frojd/wagtail-geo-widget/issues](https://github.com/Frojd/wagtail-geo-widget/issues)
+- Source Code: [https://github.com/Frojd/wagtail-geo-widget](https://github.com/Frojd/wagtail-geo-widget)
+
+
+## Security
+
+If you believe you have found a security issue with any of our projects please email us at [security@frojd.se](security@frojd.se).
 
 
 ## License
