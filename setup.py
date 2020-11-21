@@ -18,8 +18,8 @@ with open('README.md') as f:
 
 # Convert markdown to rst
 try:
-    from pypandoc import convert
-    long_description = convert("README.md", "rst")
+    from pypandoc import convert_file
+    long_description = convert_file("README.md", "rst")
 except:  # NOQA
     long_description = ""
 
@@ -55,6 +55,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         'Framework :: Django',
         'Topic :: Utilities',
         'Framework :: Wagtail',
