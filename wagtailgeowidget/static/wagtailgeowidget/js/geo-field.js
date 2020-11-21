@@ -36,9 +36,7 @@ function GeoField(options) {
     } else {
         this.setup()
     }
-
 }
-
 
 GeoField.prototype.setup = function() {
     if(this.hasSetup) {
@@ -90,7 +88,7 @@ GeoField.prototype.initEvents = function() {
         self.writeLocation(event.latLng);
     });
 
-    this.latLngField.on("input", function(e) {
+    this.latLngField.on("input", function(_e) {
         var coords = $(this).val();
         var latLng = self.parseStrToLatLng(coords);
         if (latLng === null) {
@@ -114,7 +112,7 @@ GeoField.prototype.initEvents = function() {
         }
     });
 
-    this.addressField.on("input", function(e) {
+    this.addressField.on("input", function(_e) {
         clearTimeout(self._timeoutId);
 
         var query = $(this).val();
@@ -311,7 +309,7 @@ GeoField.locationStringToStruct = function(locationString) {
 }
 
 function initializeGeoFields() {
-    $(".geo-field").each(function(index, el) {
+    $(".geo-field").each(function(_index, el) {
         var $el = $(el);
 
         // Exit if component has already been initialized
