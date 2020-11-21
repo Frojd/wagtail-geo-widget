@@ -73,7 +73,7 @@ With the helpers if place, you call `lat` or `lng` to access the coordinates.
 
 
 
-### Adding a address field
+### Adding an address field
 
 The address field are optional and needs to be added separately, the panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
 
