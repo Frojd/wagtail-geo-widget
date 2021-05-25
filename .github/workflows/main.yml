@@ -9,11 +9,8 @@ jobs:
       matrix:
         python-version: [3.6, 3.7, 3.8, 3.9]
         wagtail-version:
-        - 2.7.4
-        - 2.8.2
-        - 2.9.3
-        - 2.10.2
-        - 2.11.2
+        - 2.11.7
+        - 2.13
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
