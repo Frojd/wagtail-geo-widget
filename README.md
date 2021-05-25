@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/Frojd/wagtail-geo-widget/workflows/Main/badge.svg?branch=master)](https://github.com/Frojd/wagtail-geo-widget/actions) [![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
+[![Build Status](https://github.com/Frojd/wagtail-geo-widget/workflows/Main/badge.svg?branch=main)](https://github.com/Frojd/wagtail-geo-widget/actions) [![PyPI version](https://badge.fury.io/py/wagtailgeowidget.svg)](https://badge.fury.io/py/wagtailgeowidget)
 
 # Wagtail-Geo-Widget
 
