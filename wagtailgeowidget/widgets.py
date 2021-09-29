@@ -80,7 +80,9 @@ class GeoField(HiddenInput):
         )
 
         # A hack to determine if field is inside the new react streamfield
-        in_react_streamfield = name.endswith("__ID__")
+        # name.endswith("__ID__") works with wagtail_react_streamfield left here for backwards compatibility
+        # attrs['id'].endswith("__ID__") present in newer versions of Wagtail
+        in_react_streamfield = name.endswith("__ID__") or attrs['id'].endswith("__ID__")
 
         namespace = ''
         if '-' in name:
