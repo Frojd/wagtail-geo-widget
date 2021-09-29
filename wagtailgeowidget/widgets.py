@@ -71,6 +71,14 @@ class GeoField(HiddenInput):
             input_classes,
         )
 
+        zoom_level = format_html(
+            '<div class="input">'
+            '<input id="_id_{}_zoom_level" class="{}" maxlength="250" type="text">'
+            '</div>',
+            name,
+            input_classes,
+        )
+
         # A hack to determine if field is inside the new react streamfield
         in_react_streamfield = name.endswith("__ID__")
 
@@ -92,6 +100,7 @@ class GeoField(HiddenInput):
             'defaultLocation': GEO_WIDGET_DEFAULT_LOCATION,
             'addressSelector': address_selector,
             'latLngDisplaySelector': '#_id_{}_latlng'.format(name),
+            'zoomDisplaySelector': '#_id_{}_zoom_level'.format(name),
             'zoom': self.zoom,
             'srid': self.srid,
             'usedIn': self.used_in,
@@ -124,6 +133,7 @@ class GeoField(HiddenInput):
             '<script>window["{}"] = {};</script>'.format(data_id, json_data) +
             out +
             location +
+            zoom_level +
             '<div class="geo-field" data-data-id="{}"></div>'.format(data_id) +
             """
             <script>

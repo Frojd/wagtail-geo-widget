@@ -10,7 +10,7 @@ from wagtail.core import blocks
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 
 from wagtailgeowidget.edit_handlers import GeoPanel
-from wagtailgeowidget.blocks import GeoBlock
+from wagtailgeowidget.blocks import GeoBlock, GeoAddressBlock
 
 
 class StandardPage(Page):
@@ -42,15 +42,13 @@ class StandardPage(Page):
         return self.point['x']
 
 
-
-
-
 class StreamPage(Page):
     body = StreamField([
-        ('map', GeoBlock()),
+        # ('map', GeoBlock()),
         ('map_struct', blocks.StructBlock([
-            ('address', blocks.CharBlock(required=True)),
-            # ('map', GeoBlock(address_field='address')),
+            ('address', GeoAddressBlock()),
+            ('map', GeoBlock(address_field='address')),
+            # ('map', GeoBlock(address_field='address', hide_latlng=True)),
         ], icon='user'))
     ])
 

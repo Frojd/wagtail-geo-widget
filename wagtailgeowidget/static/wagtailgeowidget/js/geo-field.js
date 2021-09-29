@@ -16,6 +16,7 @@ function GeoField(options) {
     this.sourceField = $(options.sourceSelector);
     this.addressField = $(options.addressSelector);
     this.latLngField = $(options.latLngDisplaySelector);
+    this.zoomField = $(options.zoomDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
     this.showEmptyLocation = options.showEmptyLocation;
 
@@ -48,6 +49,7 @@ GeoField.prototype.setup = function() {
     this.initEvents();
     this.setMapPosition(this.defaultLocation);
     this.updateLatLng(this.defaultLocation);
+    this.updateZoomLevel(this.zoom);
 
     this.checkVisibility(function() {
         var coords = $(self.latLngField).val();
@@ -85,7 +87,14 @@ GeoField.prototype.initEvents = function() {
     google.maps.event.addListener(this.marker, "dragend", function(event) {
         self.setMapPosition(event.latLng);
         self.updateLatLng(event.latLng);
-        self.writeLocation(event.latLng);
+        self.writeLocation(event.latLng, null);
+    });
+
+    google.maps.event.addListener(this.map, 'zoom_changed', function() {
+        var zoomLevel = this.getZoom();
+        console.log(zoomLevel);
+        self.updateZoomLevel(zoomLevel)
+        self.writeLocation(self.marker.getPosition(), zoomLevel);
     });
 
     this.latLngField.on("input", function(_e) {
@@ -102,7 +111,7 @@ GeoField.prototype.initEvents = function() {
 
         self.clearFieldMessage({field: self.latLngField});
         self.updateMapFromCoords(latLng);
-        self.writeLocation(latLng);
+        self.writeLocation(latLng, null);
     });
 
     this.addressField.on("keydown", function(e) {
@@ -149,7 +158,7 @@ GeoField.prototype.initAutocomplete = function(field) {
 
         self.setMapPosition(latLng);
         self.updateLatLng(latLng);
-        self.writeLocation(latLng);
+        self.writeLocation(latLng, null);
     });
 };
 
@@ -253,12 +262,16 @@ GeoField.prototype.geocodeSearch = function(query) {
         var latLng = results[0].geometry.location;
         self.setMapPosition(latLng);
         self.updateLatLng(latLng);
-        self.writeLocation(latLng);
+        self.writeLocation(latLng, null);
     });
 }
 
 GeoField.prototype.updateLatLng = function(latLng) {
     this.latLngField.val(latLng.lat()+","+latLng.lng());
+}
+
+GeoField.prototype.updateZoomLevel = function(zoomLevel) {
+    this.zoomField.val(zoomLevel);
 }
 
 GeoField.prototype.parseStrToLatLng = function(value) {
@@ -282,10 +295,12 @@ GeoField.prototype.setMapPosition = function(latLng) {
     this.map.setCenter(latLng);
 }
 
-GeoField.prototype.writeLocation = function(latLng) {
+GeoField.prototype.writeLocation = function(latLng, zoomLvl) {
     var lat = latLng.lat();
     var lng = latLng.lng();
-    var value = 'SRID='+this.srid+';POINT('+lng +' '+lat+')';
+    var zoomLevel = this.zoomField.val()
+    if (zoomLvl != null) zoomLevel = zoomLvl;
+    var value = 'SRID=' + this.srid + ';POINT(' + lng + ' ' + lat + ');ZOOMLEVEL=' + zoomLevel;
 
     this.sourceField.val(value);
 }
@@ -296,7 +311,7 @@ GeoField.locationStringToStruct = function(locationString) {
     }
 
     var matches = locationString.match(
-        /^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
+        /^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\);ZOOMLEVEL=([0-9]{1,})$/
     )
 
     return {
@@ -304,7 +319,8 @@ GeoField.locationStringToStruct = function(locationString) {
         defaultLocation: {
             lng: matches[2],
             lat: matches[3],
-        }
+        },
+        zoom: parseInt(matches[4])
     }
 }
 
@@ -341,6 +357,7 @@ function initializeGeoFields() {
             sourceSelector: sourceField,
             addressSelector: data.addressSelector,
             latLngDisplaySelector: data.latLngDisplaySelector,
+            zoomDisplaySelector: data.zoomDisplaySelector,
             zoom: data.zoom,
             srid: data.srid,
             defaultLocation: data.defaultLocation,

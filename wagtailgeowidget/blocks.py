@@ -17,10 +17,11 @@ class GeoBlock(FieldBlock):
         icon = "site"
 
     def __init__(
-        self, address_field=None, required=True, help_text=None, **kwargs
+        self, address_field=None, hide_latlng=False, required=True, help_text=None, **kwargs
     ):
         self.field_options = {}
         self.address_field = address_field
+        self.hide_latlng = hide_latlng
         super(GeoBlock, self).__init__(**kwargs)
 
     @cached_property
@@ -29,17 +30,20 @@ class GeoBlock(FieldBlock):
             srid=4326,
             id_prefix='',
             address_field=self.address_field,
+            hide_latlng=self.hide_latlng,
             used_in="GeoBlock",
         )}
         field_kwargs.update(self.field_options)
         return forms.CharField(**field_kwargs)
 
     def render_form(self, value, prefix='', errors=None):
+        print(value)
         if value and isinstance(value, dict):
-            value = "SRID={};POINT({} {})".format(
+            value = "SRID={};POINT({} {});ZOOMLEVEL={}".format(
                 value['srid'],
                 value['lng'],
                 value['lat'],
+                value['zoom'],
             )
 
         return super(GeoBlock, self).render_form(value, prefix, errors)
@@ -54,22 +58,28 @@ class GeoBlock(FieldBlock):
         if value and isinstance(value, six.string_types):
             return value
 
-        val = "SRID={};POINT({} {})".format(
+        val = "SRID={};POINT({} {});ZOOMLEVEL={}".format(
             4326,
             value['lng'],
             value['lat'],
+            value['zoom'],
         )
         return val
 
     def to_python(self, value):
         if isinstance(value, dict):
             return value
-
-        value = geosgeometry_str_to_struct(value)
+        # get rid of zoom level
+        geo_value = geosgeometry_str_to_struct(value[:value.find(';ZOOM')])
+        zoom_splitted = value.split(';ZOOMLEVEL=')
+        zoom_level = 7
+        if zoom_splitted is not None:
+            zoom_level = int(value.split(';ZOOMLEVEL=')[1])
         value = {
-            'lat': value['y'],
-            'lng': value['x'],
-            'srid': value['srid'],
+            'lat': geo_value['y'],
+            'lng': geo_value['x'],
+            'srid': geo_value['srid'],
+            'zoom': zoom_level,
         }
 
         return super(GeoBlock, self).to_python(value)

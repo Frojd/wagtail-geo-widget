@@ -40,7 +40,7 @@ WAGTAIL_APPS = [
     'wagtail.core',
 ]
 
-
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 # Application definition
 
 

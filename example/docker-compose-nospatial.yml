@@ -7,6 +7,7 @@ services:
     build: .
     volumes:
       - ./:/app
+      - ../wagtailgeowidget:/app/wagtailgeowidget
     ports:
       - "8086:8000"
     depends_on:
@@ -20,7 +21,7 @@ services:
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
       - DJANGO_SETTINGS_MODULE=examplesite.settings.base_nospatial
-    env_file: web.env
+    env_file: ./web.env
 
   db:
     image: postgres
