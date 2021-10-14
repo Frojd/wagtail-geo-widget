@@ -3,6 +3,7 @@ from django import forms
 from django.utils.functional import cached_property
 from wagtail.core.blocks import CharBlock, FieldBlock
 
+from wagtailgeowidget.app_settings import GEO_WIDGET_ZOOM
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeoField
 
@@ -70,11 +71,17 @@ class GeoBlock(FieldBlock):
         if isinstance(value, dict):
             return value
         # get rid of zoom level
-        geo_value = geosgeometry_str_to_struct(value[:value.find(';ZOOM')])
-        zoom_splitted = value.split(';ZOOMLEVEL=')
-        zoom_level = 7
-        if zoom_splitted is not None:
-            zoom_level = int(value.split(';ZOOMLEVEL=')[1])
+        # check if zoom level has been saved to the DB
+        if value.find(';ZOOM') != -1:
+            geo_value = geosgeometry_str_to_struct(value[:value.find(';ZOOM')])
+            zoom_splitted = value.split(';ZOOMLEVEL=')
+
+            if zoom_splitted is not None:
+                zoom_level = int(value.split(';ZOOMLEVEL=')[1])
+        else:
+            geo_value = geosgeometry_str_to_struct(value)
+            zoom_level = GEO_WIDGET_ZOOM
+
         value = {
             'lat': geo_value['y'],
             'lng': geo_value['x'],
