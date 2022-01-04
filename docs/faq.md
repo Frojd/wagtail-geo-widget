@@ -17,7 +17,7 @@ GeoBlock(address_field='address', hide_latlng=True)
 
 ### How can I make the Google Maps API key editable in the admin?
 
-By using `GOOGLE_MAPS_V3_APIKEY_CALLBACK` you can implement a custom behaviour for retriving api key, this will ignore `GOOGLE_MAPS_V3_APIKEY`.
+By using `GOOGLE_MAPS_V3_APIKEY_CALLBACK` you can implement a custom behaviour for retriving api key, this will ignore `GOOGLE_MAPS_V3_APIKEY`. Implementation example:
 
 
 ```python
