@@ -34,6 +34,7 @@ if not settings.configured:
             'django.contrib.auth',
             'django.contrib.sites',
             'wagtail.core',
+            "wagtail.admin",
             'wagtail.sites',
             'wagtail.users',
             'wagtail.images',
@@ -43,6 +44,7 @@ if not settings.configured:
         ],
         MIDDLEWARE_CLASSES=[],
         ROOT_URLCONF='tests.urls',
+        SECRET_KEY="secret key",
     )
 
     settings.configure(**params)
