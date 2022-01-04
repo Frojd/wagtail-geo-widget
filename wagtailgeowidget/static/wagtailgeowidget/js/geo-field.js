@@ -324,7 +324,7 @@ function initializeGeoFields() {
         );
         data = Object.assign({}, data, sourceFieldData)
 
-        // Fix for wagtail-react-streamfield
+        // Fix for wagtail 2.13+ streamfield / wagtail-react-streamfield
         // Resolve address by finding closest struct block, then address field
         if (
             inStreamField(data)

@@ -66,8 +66,13 @@ class GeoField(HiddenInput):
             input_classes,
         )
 
-        # A hack to determine if field is inside the new react streamfield
-        in_react_streamfield = name.endswith("__ID__")
+        in_react_streamfield = (
+            # if wagtail 2.13+ streamfield
+            attrs.get("id", "").endswith("__ID__")
+            or
+            # if wagtail-react-streamfield
+            name.endswith("__ID__")
+        )
 
         namespace = ""
         if "-" in name:
