@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
@@ -54,7 +52,7 @@ class StreamPage(Page):
                 blocks.StructBlock(
                     [
                         ("address", blocks.CharBlock(required=True)),
-                        # ('map', GeoBlock(address_field='address')),
+                        ("map", GeoBlock(address_field="address")),
                     ],
                     icon="user",
                 ),

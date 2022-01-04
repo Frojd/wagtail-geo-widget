@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _

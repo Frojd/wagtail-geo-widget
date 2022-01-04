@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from .base import *
 
 INSTALLED_APPS.remove("django.contrib.gis")
