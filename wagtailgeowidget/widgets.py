@@ -35,14 +35,34 @@ class GeoField(forms.HiddenInput):
 
         super(GeoField, self).__init__(*args, **kwargs)
 
-    class Media:
-        css = {"all": ("wagtailgeowidget/css/geo-field.css",)}
+    @cached_property
+    def media(self):
+        from django.utils.module_loading import import_string
 
-        js = (
-            "wagtailgeowidget/js/geo-field.js",
-            "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
-                GOOGLE_MAPS_V3_APIKEY,
-                GOOGLE_MAPS_V3_LANGUAGE,
+        from wagtailgeowidget.app_settings import (
+            GOOGLE_MAPS_V3_APIKEY,
+            GOOGLE_MAPS_V3_APIKEY_CALLBACK,
+            GOOGLE_MAPS_V3_LANGUAGE,
+        )
+
+        google_maps_apikey = GOOGLE_MAPS_V3_APIKEY
+
+        if GOOGLE_MAPS_V3_APIKEY_CALLBACK:
+            if isinstance(GOOGLE_MAPS_V3_APIKEY_CALLBACK, str):
+                callback = import_string(GOOGLE_MAPS_V3_APIKEY_CALLBACK)
+            else:
+                callback = GOOGLE_MAPS_V3_APIKEY_CALLBACK
+
+            google_maps_apikey = callback()
+
+        return forms.Media(
+            css={"all": ("wagtailgeowidget/css/geo-field.css",)},
+            js=(
+                "wagtailgeowidget/js/geo-field.js",
+                "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
+                    google_maps_apikey,
+                    GOOGLE_MAPS_V3_LANGUAGE,
+                ),
             ),
         )
 
