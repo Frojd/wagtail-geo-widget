@@ -18,10 +18,13 @@ class StandardPage(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel([
-            FieldPanel('address'),
-            GeoPanel('location', address_field='address'),
-        ], _('Geo details')),
+        MultiFieldPanel(
+            [
+                FieldPanel("address"),
+                GeoPanel("location", address_field="address"),
+            ],
+            _("Geo details"),
+        ),
     ]
 
     def get_context(self, request):
@@ -31,29 +34,35 @@ class StandardPage(Page):
     @cached_property
     def point(self):
         from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+
         return geosgeometry_str_to_struct(self.location)
 
     @property
     def lat(self):
-        return self.point['y']
+        return self.point["y"]
 
     @property
     def lng(self):
-        return self.point['x']
-
-
-
+        return self.point["x"]
 
 
 class StreamPage(Page):
-    body = StreamField([
-        ('map', GeoBlock()),
-        ('map_struct', blocks.StructBlock([
-            ('address', blocks.CharBlock(required=True)),
-            # ('map', GeoBlock(address_field='address')),
-        ], icon='user'))
-    ])
+    body = StreamField(
+        [
+            ("map", GeoBlock()),
+            (
+                "map_struct",
+                blocks.StructBlock(
+                    [
+                        ("address", blocks.CharBlock(required=True)),
+                        # ('map', GeoBlock(address_field='address')),
+                    ],
+                    icon="user",
+                ),
+            ),
+        ]
+    )
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        StreamFieldPanel("body"),
     ]

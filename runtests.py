@@ -8,19 +8,19 @@ from django.core.management import execute_from_command_line
 
 if not settings.configured:
     params = dict(
-        LOGGING = {
-            'version': 1,
-            'disable_existing_loggers': False,
-            'handlers': {
-                'console': {
-                    'class': 'logging.StreamHandler',
+        LOGGING={
+            "version": 1,
+            "disable_existing_loggers": False,
+            "handlers": {
+                "console": {
+                    "class": "logging.StreamHandler",
                 },
             },
-            'loggers': {
-                'wagtailgeowidget': {
-                    'handlers': ['console'],
-                    'level': 'ERROR',
-                    'propagate': True,
+            "loggers": {
+                "wagtailgeowidget": {
+                    "handlers": ["console"],
+                    "level": "ERROR",
+                    "propagate": True,
                 },
             },
         },
@@ -30,20 +30,20 @@ if not settings.configured:
             }
         },
         INSTALLED_APPS=[
-            'django.contrib.contenttypes',
-            'django.contrib.auth',
-            'django.contrib.sites',
-            'wagtail.core',
+            "django.contrib.contenttypes",
+            "django.contrib.auth",
+            "django.contrib.sites",
+            "wagtail.core",
             "wagtail.admin",
-            'wagtail.sites',
-            'wagtail.users',
-            'wagtail.images',
-            'taggit',
-            'wagtailgeowidget',
+            "wagtail.sites",
+            "wagtail.users",
+            "wagtail.images",
+            "taggit",
+            "wagtailgeowidget",
             "tests",
         ],
         MIDDLEWARE_CLASSES=[],
-        ROOT_URLCONF='tests.urls',
+        ROOT_URLCONF="tests.urls",
         SECRET_KEY="secret key",
     )
 

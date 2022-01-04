@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class GeopageConfig(AppConfig):
-    name = 'geopage'
+    name = "geopage"
