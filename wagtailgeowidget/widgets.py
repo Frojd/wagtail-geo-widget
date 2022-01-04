@@ -1,7 +1,7 @@
 import json
 
-import six
-from django.forms import HiddenInput
+from django import forms
+from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
@@ -14,13 +14,11 @@ from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
     GEO_WIDGET_EMPTY_LOCATION,
     GEO_WIDGET_ZOOM,
-    GOOGLE_MAPS_V3_APIKEY,
-    GOOGLE_MAPS_V3_LANGUAGE,
 )
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 
-class GeoField(HiddenInput):
+class GeoField(forms.HiddenInput):
     address_field = None
     id_prefix = "id_"
     srid = None
@@ -98,7 +96,7 @@ class GeoField(HiddenInput):
             "inReactStreamfield": in_react_streamfield,
         }
 
-        if value and isinstance(value, six.string_types):
+        if value and isinstance(value, str):
             result = geosgeometry_str_to_struct(value)
             if result:
                 data["defaultLocation"] = {

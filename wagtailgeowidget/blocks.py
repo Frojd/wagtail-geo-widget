@@ -1,4 +1,3 @@
-import six
 from django import forms
 from django.utils.functional import cached_property
 from wagtail.core.blocks import CharBlock, FieldBlock
@@ -60,7 +59,7 @@ class GeoBlock(FieldBlock):
         if not value:
             return None
 
-        if value and isinstance(value, six.string_types):
+        if value and isinstance(value, str):
             return value
 
         val = "SRID={};POINT({} {})".format(
