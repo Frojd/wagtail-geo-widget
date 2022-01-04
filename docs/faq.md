@@ -8,5 +8,9 @@ Yes, by passing `hide_latlng=True` to the GeoPanel.
 GeoPanel('location', address_field='address', hide_latlng=True)
 ```
 
-It is currently not supported in streamfields.
+For streamfields use the following:
+
+```python
+GeoBlock(address_field='address', hide_latlng=True)
+```
 

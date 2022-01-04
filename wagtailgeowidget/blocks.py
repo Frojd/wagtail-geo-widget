@@ -16,9 +16,17 @@ class GeoBlock(FieldBlock):
     class Meta:
         icon = "site"
 
-    def __init__(self, address_field=None, required=True, help_text=None, **kwargs):
+    def __init__(
+        self,
+        address_field=None,
+        required=True,
+        help_text=None,
+        hide_latlng=False,
+        **kwargs
+    ):
         self.field_options = {}
         self.address_field = address_field
+        self.hide_latlng = hide_latlng
         super(GeoBlock, self).__init__(**kwargs)
 
     @cached_property
@@ -28,6 +36,7 @@ class GeoBlock(FieldBlock):
                 srid=4326,
                 id_prefix="",
                 address_field=self.address_field,
+                hide_latlng=self.hide_latlng,
                 used_in="GeoBlock",
             )
         }

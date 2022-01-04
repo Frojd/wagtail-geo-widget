@@ -1,6 +1,11 @@
 # Changelog
 
 
+## (In development) 5.3.0 (XXXX.XX.XX)
+
+- New: Make it possible to hide latlng field for GeoBlock (@vladox)
+
+
 ## 5.2.0 (2022.01.04)
 
 - Drop support for Python 3.6
