@@ -1,24 +1,20 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
-
-from wagtail.core import blocks
-from wagtail.core.models import Orderable, Page
+from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
+    StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.core import blocks
 from wagtail.core.fields import StreamField
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.core.models import Orderable, Page
 
-from modelcluster.fields import ParentalKey
-
-from wagtailgeowidget.blocks import GeoBlock, GeoAddressBlock
+from wagtailgeowidget.blocks import GeoAddressBlock, GeoBlock
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
@@ -28,19 +24,17 @@ class GeoLocation(models.Model):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     panels = [
-        FieldPanel('title'),
-        MultiFieldPanel([
-            FieldPanel('address'),
-            GeoPanel('location', address_field='address')
-        ], _('Geo details')),
+        FieldPanel("title"),
+        MultiFieldPanel(
+            [FieldPanel("address"), GeoPanel("location", address_field="address")],
+            _("Geo details"),
+        ),
     ]
 
 
 class GeoPageRelatedLocations(Orderable, GeoLocation):
     page = ParentalKey(
-        'geopage.GeoPage',
-        related_name='related_locations',
-        on_delete=models.CASCADE
+        "geopage.GeoPage", related_name="related_locations", on_delete=models.CASCADE
     )
 
 
@@ -49,37 +43,47 @@ class GeoPage(Page):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
-        InlinePanel('related_locations', label="Related locations"),
+        InlinePanel("related_locations", label="Related locations"),
     ]
 
     location_panels = [
-        MultiFieldPanel([
-            FieldPanel('address'),
-            GeoPanel('location', address_field='address'),
-        ], heading='Location')
+        MultiFieldPanel(
+            [
+                FieldPanel("address"),
+                GeoPanel("location", address_field="address"),
+            ],
+            heading="Location",
+        )
     ]
 
-    edit_handler = TabbedInterface([
-        ObjectList(content_panels, heading='Content'),
-        ObjectList(location_panels, heading='Location'),
-        ObjectList(Page.settings_panels, heading='Settings',
-                   classname="settings"),
-    ])
-
-
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(location_panels, heading="Location"),
+            ObjectList(Page.settings_panels, heading="Settings", classname="settings"),
+        ]
+    )
 
 
 class GeoStreamPage(Page):
-    body = StreamField([
-        ('map', GeoBlock()),
-        ('map_struct', blocks.StructBlock([
-            ('address', GeoAddressBlock(required=True)),
-            ('map', GeoBlock(address_field='address')),
-        ], icon='user'))
-    ])
+    body = StreamField(
+        [
+            ("map", GeoBlock()),
+            (
+                "map_struct",
+                blocks.StructBlock(
+                    [
+                        ("address", GeoAddressBlock(required=True)),
+                        ("map", GeoBlock(address_field="address")),
+                    ],
+                    icon="user",
+                ),
+            ),
+        ]
+    )
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        StreamFieldPanel("body"),
     ]
 
     def get_context(self, request):
@@ -92,10 +96,13 @@ class ClassicGeoPage(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel([
-            FieldPanel('address'),
-            GeoPanel('location', address_field='address', hide_latlng=True),
-        ], _('Geo details')),
+        MultiFieldPanel(
+            [
+                FieldPanel("address"),
+                GeoPanel("location", address_field="address", hide_latlng=True),
+            ],
+            _("Geo details"),
+        ),
     ]
 
     def get_context(self, request):
@@ -105,12 +112,13 @@ class ClassicGeoPage(Page):
     @cached_property
     def point(self):
         from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+
         return geosgeometry_str_to_struct(self.location)
 
     @property
     def lat(self):
-        return self.point['y']
+        return self.point["y"]
 
     @property
     def lng(self):
-        return self.point['x']
+        return self.point["x"]
