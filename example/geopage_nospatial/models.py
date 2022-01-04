@@ -3,14 +3,13 @@ from __future__ import absolute_import, unicode_literals
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
-from wagtail.core.models import Page
-from wagtail.core.fields import StreamField
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.core import blocks
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.core.fields import StreamField
+from wagtail.core.models import Page
 
-from wagtailgeowidget.edit_handlers import GeoPanel
 from wagtailgeowidget.blocks import GeoBlock
+from wagtailgeowidget.edit_handlers import GeoPanel
 
 
 class StandardPage(Page):

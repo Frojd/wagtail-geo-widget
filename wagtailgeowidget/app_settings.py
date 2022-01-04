@@ -1,6 +1,5 @@
 from django.conf import settings
 
-
 GEO_WIDGET_DEFAULT_LOCATION = getattr(
     settings, "GEO_WIDGET_DEFAULT_LOCATION", {"lat": 59.3293, "lng": 18.0686}
 )

@@ -3,22 +3,20 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
-
-from wagtail.core import blocks
-from wagtail.core.models import Orderable, Page
+from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
+    StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.core import blocks
 from wagtail.core.fields import StreamField
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.core.models import Orderable, Page
 
-from modelcluster.fields import ParentalKey
-
-from wagtailgeowidget.blocks import GeoBlock, GeoAddressBlock
+from wagtailgeowidget.blocks import GeoAddressBlock, GeoBlock
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 

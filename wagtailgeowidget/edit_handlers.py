@@ -1,10 +1,7 @@
 from wagtail.admin.edit_handlers import FieldPanel
 
-from wagtailgeowidget.widgets import (
-    GeoField,
-)
-
 from wagtailgeowidget.app_settings import GEO_WIDGET_ZOOM
+from wagtailgeowidget.widgets import GeoField
 
 
 class GeoPanel(FieldPanel):

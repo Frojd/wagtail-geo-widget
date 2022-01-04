@@ -10,7 +10,6 @@ try:
 except:  # NOQA
     Point = None
 
-from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
     GEO_WIDGET_EMPTY_LOCATION,
@@ -18,6 +17,7 @@ from wagtailgeowidget.app_settings import (
     GOOGLE_MAPS_V3_APIKEY,
     GOOGLE_MAPS_V3_LANGUAGE,
 )
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 
 class GeoField(HiddenInput):
