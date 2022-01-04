@@ -20,12 +20,13 @@ from . import get_env
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 WAGTAIL_APPS = [
-    "wagtail_react_streamfield",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.styleguide",
