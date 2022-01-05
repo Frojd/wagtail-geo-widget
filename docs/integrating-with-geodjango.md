@@ -39,4 +39,31 @@ class MyPageWithAddressField(Page):
     ]
 ```
 
+
+### With an zoom field
+
+The panel accepts an `zoom_field` if you want to persist the zoom state.
+
+```python
+from django.contrib.gis.db import models
+from django.utils.translation import ugettext as _
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtailgeowidget.edit_handlers import GeoPanel
+
+
+class MyPageWithAddressField(Page):
+    zoom = models.SmallIntegerField(blank=True, null=True)
+    location = models.PointField(srid=4326, null=True, blank=True)
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            FieldPanel('zoom'),
+            GeoPanel('location', zoom_field='zoom'),
+        ], _('Geo details')),
+    ]
+```
+
+
+### More examples
+
 For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py).

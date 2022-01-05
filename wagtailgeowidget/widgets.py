@@ -1,7 +1,7 @@
 import json
 
-import six
-from django.forms import HiddenInput
+from django import forms
+from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
@@ -14,14 +14,13 @@ from wagtailgeowidget.app_settings import (
     GEO_WIDGET_DEFAULT_LOCATION,
     GEO_WIDGET_EMPTY_LOCATION,
     GEO_WIDGET_ZOOM,
-    GOOGLE_MAPS_V3_APIKEY,
-    GOOGLE_MAPS_V3_LANGUAGE,
 )
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 
-class GeoField(HiddenInput):
+class GeoField(forms.HiddenInput):
     address_field = None
+    zoom_field = None
     id_prefix = "id_"
     srid = None
     hide_latlng = False
@@ -29,6 +28,7 @@ class GeoField(HiddenInput):
 
     def __init__(self, *args, **kwargs):
         self.address_field = kwargs.pop("address_field", self.address_field)
+        self.zoom_field = kwargs.pop("zoom_field", self.zoom_field)
         self.srid = kwargs.pop("srid", self.srid)
         self.hide_latlng = kwargs.pop("hide_latlng", self.hide_latlng)
         self.id_prefix = kwargs.pop("id_prefix", self.id_prefix)
@@ -37,14 +37,34 @@ class GeoField(HiddenInput):
 
         super(GeoField, self).__init__(*args, **kwargs)
 
-    class Media:
-        css = {"all": ("wagtailgeowidget/css/geo-field.css",)}
+    @cached_property
+    def media(self):
+        from django.utils.module_loading import import_string
 
-        js = (
-            "wagtailgeowidget/js/geo-field.js",
-            "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
-                GOOGLE_MAPS_V3_APIKEY,
-                GOOGLE_MAPS_V3_LANGUAGE,
+        from wagtailgeowidget.app_settings import (
+            GOOGLE_MAPS_V3_APIKEY,
+            GOOGLE_MAPS_V3_APIKEY_CALLBACK,
+            GOOGLE_MAPS_V3_LANGUAGE,
+        )
+
+        google_maps_apikey = GOOGLE_MAPS_V3_APIKEY
+
+        if GOOGLE_MAPS_V3_APIKEY_CALLBACK:
+            if isinstance(GOOGLE_MAPS_V3_APIKEY_CALLBACK, str):
+                callback = import_string(GOOGLE_MAPS_V3_APIKEY_CALLBACK)
+            else:
+                callback = GOOGLE_MAPS_V3_APIKEY_CALLBACK
+
+            google_maps_apikey = callback()
+
+        return forms.Media(
+            css={"all": ("wagtailgeowidget/css/geo-field.css",)},
+            js=(
+                "wagtailgeowidget/js/geo-field.js",
+                "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
+                    google_maps_apikey,
+                    GOOGLE_MAPS_V3_LANGUAGE,
+                ),
             ),
         )
 
@@ -66,8 +86,13 @@ class GeoField(HiddenInput):
             input_classes,
         )
 
-        # A hack to determine if field is inside the new react streamfield
-        in_react_streamfield = name.endswith("__ID__")
+        in_react_streamfield = (
+            # if wagtail 2.13+ streamfield
+            attrs.get("id", "").endswith("__ID__")
+            or
+            # if wagtail-react-streamfield
+            name.endswith("__ID__")
+        )
 
         namespace = ""
         if "-" in name:
@@ -81,11 +106,17 @@ class GeoField(HiddenInput):
             namespace,
             self.address_field,
         )
+        zoom_selector = "#{}{}{}".format(
+            self.id_prefix,
+            namespace,
+            self.zoom_field,
+        )
 
         data = {
             "sourceSelector": source_selector,
             "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
             "addressSelector": address_selector,
+            "zoomSelector": zoom_selector,
             "latLngDisplaySelector": "#_id_{}_latlng".format(name),
             "zoom": self.zoom,
             "srid": self.srid,
@@ -93,7 +124,7 @@ class GeoField(HiddenInput):
             "inReactStreamfield": in_react_streamfield,
         }
 
-        if value and isinstance(value, six.string_types):
+        if value and isinstance(value, str):
             result = geosgeometry_str_to_struct(value)
             if result:
                 data["defaultLocation"] = {
