@@ -1,7 +1,10 @@
 # Changelog
 
 
-## (In development) 5.3.0 (2020.01.05)
+## X.X.X (XXXX.XX.XX)
+
+
+## 5.3.0 (2020.01.05)
 
 - Add persistant and user editable zoom for map widget (Martin Sandström)
 - Enable loading Google Maps API key dynamically (Martin Sandström)
