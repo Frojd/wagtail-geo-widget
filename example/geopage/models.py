@@ -31,7 +31,7 @@ class GeoLocation(models.Model):
             [
                 FieldPanel("address"),
                 FieldPanel("zoom"),
-                GeoPanel("location", address_field="address", zoom_field="zoom")
+                GeoPanel("location", address_field="address", zoom_field="zoom"),
             ],
             _("Geo details"),
         ),
@@ -151,7 +151,12 @@ class ClassicGeoPageWithZoom(Page):
             [
                 FieldPanel("address"),
                 FieldPanel("zoom"),
-                GeoPanel("location", address_field="address", zoom_field="zoom", hide_latlng=True),
+                GeoPanel(
+                    "location",
+                    address_field="address",
+                    zoom_field="zoom",
+                    hide_latlng=True,
+                ),
             ],
             _("Geo details"),
         ),

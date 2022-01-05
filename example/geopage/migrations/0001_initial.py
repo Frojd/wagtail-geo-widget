@@ -14,79 +14,211 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailcore', '0062_comment_models_and_pagesubscription'),
+        ("wagtailcore", "0062_comment_models_and_pagesubscription"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ClassicGeoPage',
+            name="ClassicGeoPage",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('address', models.CharField(blank=True, max_length=250, null=True)),
-                ('location', models.CharField(blank=True, max_length=250, null=True)),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
+                ("address", models.CharField(blank=True, max_length=250, null=True)),
+                ("location", models.CharField(blank=True, max_length=250, null=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('wagtailcore.page',),
+            bases=("wagtailcore.page",),
         ),
         migrations.CreateModel(
-            name='ClassicGeoPageWithZoom',
+            name="ClassicGeoPageWithZoom",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('address', models.CharField(blank=True, max_length=250, null=True)),
-                ('location', models.CharField(blank=True, max_length=250, null=True)),
-                ('zoom', models.SmallIntegerField(blank=True, null=True)),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
+                ("address", models.CharField(blank=True, max_length=250, null=True)),
+                ("location", models.CharField(blank=True, max_length=250, null=True)),
+                ("zoom", models.SmallIntegerField(blank=True, null=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('wagtailcore.page',),
+            bases=("wagtailcore.page",),
         ),
         migrations.CreateModel(
-            name='GeoLocation',
+            name="GeoLocation",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('address', models.CharField(blank=True, max_length=250, null=True)),
-                ('zoom', models.SmallIntegerField(blank=True, null=True)),
-                ('location', django.contrib.gis.db.models.fields.PointField(blank=True, null=True, srid=4326)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("address", models.CharField(blank=True, max_length=250, null=True)),
+                ("zoom", models.SmallIntegerField(blank=True, null=True)),
+                (
+                    "location",
+                    django.contrib.gis.db.models.fields.PointField(
+                        blank=True, null=True, srid=4326
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='GeoPage',
+            name="GeoPage",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('address', models.CharField(blank=True, max_length=250, null=True)),
-                ('location', django.contrib.gis.db.models.fields.PointField(blank=True, null=True, srid=4326)),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
+                ("address", models.CharField(blank=True, max_length=250, null=True)),
+                (
+                    "location",
+                    django.contrib.gis.db.models.fields.PointField(
+                        blank=True, null=True, srid=4326
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('wagtailcore.page',),
+            bases=("wagtailcore.page",),
         ),
         migrations.CreateModel(
-            name='GeoStreamPage',
+            name="GeoStreamPage",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('body', wagtail.core.fields.StreamField([('map', wagtailgeowidget.blocks.GeoBlock()), ('map_struct', wagtail.core.blocks.StructBlock([('address', wagtailgeowidget.blocks.GeoAddressBlock(required=True)), ('map', wagtailgeowidget.blocks.GeoBlock(address_field='address'))], icon='user')), ('map_struct_with_zoom', wagtail.core.blocks.StructBlock([('address', wagtailgeowidget.blocks.GeoAddressBlock(required=True)), ('zoom', wagtailgeowidget.blocks.GeoZoomBlock(required=False)), ('map', wagtailgeowidget.blocks.GeoBlock(address_field='address', zoom_field='zoom'))], icon='user'))])),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
+                (
+                    "body",
+                    wagtail.core.fields.StreamField(
+                        [
+                            ("map", wagtailgeowidget.blocks.GeoBlock()),
+                            (
+                                "map_struct",
+                                wagtail.core.blocks.StructBlock(
+                                    [
+                                        (
+                                            "address",
+                                            wagtailgeowidget.blocks.GeoAddressBlock(
+                                                required=True
+                                            ),
+                                        ),
+                                        (
+                                            "map",
+                                            wagtailgeowidget.blocks.GeoBlock(
+                                                address_field="address"
+                                            ),
+                                        ),
+                                    ],
+                                    icon="user",
+                                ),
+                            ),
+                            (
+                                "map_struct_with_zoom",
+                                wagtail.core.blocks.StructBlock(
+                                    [
+                                        (
+                                            "address",
+                                            wagtailgeowidget.blocks.GeoAddressBlock(
+                                                required=True
+                                            ),
+                                        ),
+                                        (
+                                            "zoom",
+                                            wagtailgeowidget.blocks.GeoZoomBlock(
+                                                required=False
+                                            ),
+                                        ),
+                                        (
+                                            "map",
+                                            wagtailgeowidget.blocks.GeoBlock(
+                                                address_field="address",
+                                                zoom_field="zoom",
+                                            ),
+                                        ),
+                                    ],
+                                    icon="user",
+                                ),
+                            ),
+                        ]
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('wagtailcore.page',),
+            bases=("wagtailcore.page",),
         ),
         migrations.CreateModel(
-            name='GeoPageRelatedLocations',
+            name="GeoPageRelatedLocations",
             fields=[
-                ('geolocation_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='geopage.geolocation')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='related_locations', to='geopage.geopage')),
+                (
+                    "geolocation_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="geopage.geolocation",
+                    ),
+                ),
+                (
+                    "sort_order",
+                    models.IntegerField(blank=True, editable=False, null=True),
+                ),
+                (
+                    "page",
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="related_locations",
+                        to="geopage.geopage",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['sort_order'],
-                'abstract': False,
+                "ordering": ["sort_order"],
+                "abstract": False,
             },
-            bases=('geopage.geolocation', models.Model),
+            bases=("geopage.geolocation", models.Model),
         ),
     ]
