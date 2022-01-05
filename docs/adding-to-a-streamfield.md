@@ -53,4 +53,31 @@ class GeoStreamPage(Page):
     ]
 ```
 
+
+### With an zoom field
+
+Define a field representing the zoom at the same level as your GeoBlock, either in the StreamField or in a StructBlock.
+
+```python
+from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtailgeowidget.blocks import GeoBlock, GeoZoomBlock
+
+
+class GeoStreamPage(Page):
+    body = StreamField([
+        ('map_struct', blocks.StructBlock([
+            ('zoom', GeoZoomBlock(required=False)),
+            ('map', GeoBlock(zoom_field='zoom')),
+        ]))
+
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+```
+
+
+### More examples
+
 For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py#L64).

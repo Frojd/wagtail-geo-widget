@@ -20,6 +20,7 @@ from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 class GeoField(forms.HiddenInput):
     address_field = None
+    zoom_field = None
     id_prefix = "id_"
     srid = None
     hide_latlng = False
@@ -27,6 +28,7 @@ class GeoField(forms.HiddenInput):
 
     def __init__(self, *args, **kwargs):
         self.address_field = kwargs.pop("address_field", self.address_field)
+        self.zoom_field = kwargs.pop("zoom_field", self.zoom_field)
         self.srid = kwargs.pop("srid", self.srid)
         self.hide_latlng = kwargs.pop("hide_latlng", self.hide_latlng)
         self.id_prefix = kwargs.pop("id_prefix", self.id_prefix)
@@ -104,11 +106,17 @@ class GeoField(forms.HiddenInput):
             namespace,
             self.address_field,
         )
+        zoom_selector = "#{}{}{}".format(
+            self.id_prefix,
+            namespace,
+            self.zoom_field,
+        )
 
         data = {
             "sourceSelector": source_selector,
             "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
             "addressSelector": address_selector,
+            "zoomSelector": zoom_selector,
             "latLngDisplaySelector": "#_id_{}_latlng".format(name),
             "zoom": self.zoom,
             "srid": self.srid,

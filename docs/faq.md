@@ -50,3 +50,18 @@ class GeoWidgetSettings(BaseSetting):
         FieldPanel("google_maps_apikey"),
     ]
 ```
+
+
+### Is it possible to hide the zoom field?
+
+Yes, by adding the css class `geo-field-zoom--hide` you can hide the field in the admin.
+
+- Field panel:
+    ```python
+    FieldPanel("zoom", classname="geo-field-zoom--hide")
+    ```
+
+- In streamfield:
+    ```python
+    ('zoom', GeoZoomBlock(required=False, form_classname="geo-field-zoom--hide")),
+    ```

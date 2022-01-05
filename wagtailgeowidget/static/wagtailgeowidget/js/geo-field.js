@@ -15,9 +15,18 @@ function GeoField(options) {
     this.srid = options.srid;
     this.sourceField = $(options.sourceSelector);
     this.addressField = $(options.addressSelector);
+    this.zoomField = $(options.zoomSelector);
     this.latLngField = $(options.latLngDisplaySelector);
     this.geocoder = new google.maps.Geocoder();
     this.showEmptyLocation = options.showEmptyLocation;
+
+    if (this.zoomField && this.zoomField.val()) {
+        this.zoom = parseInt(this.zoomField.val());
+    }
+
+    if (this.zoomField && !this.zoomField.val()) {
+        this.updateZoomLevel(this.zoom);
+    }
 
     if (options.showEmptyLocation) {
         this.addressField.attr('placeholder', 'Enter a location');
@@ -88,6 +97,11 @@ GeoField.prototype.initEvents = function() {
         self.writeLocation(event.latLng);
     });
 
+    google.maps.event.addListener(this.map, 'zoom_changed', function() {
+        var zoomLevel = this.getZoom();
+        self.updateZoomLevel(zoomLevel)
+    });
+
     this.latLngField.on("input", function(_e) {
         var coords = $(this).val();
         var latLng = self.parseStrToLatLng(coords);
@@ -110,6 +124,24 @@ GeoField.prototype.initEvents = function() {
             e.preventDefault();
             e.stopPropagation();
         }
+    });
+
+    this.zoomField.on("keydown", function(e) {
+        if (e.keyCode !== 13) {  // enter (13)
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        var zoom = $(this).val();
+        zoom = parseInt(zoom);
+        if (isNaN(zoom)) {
+            zoom = self.defaultZoom;
+        }
+
+        self.map.setZoom(zoom);
+        self.updateZoomLevel(zoom);
     });
 
     this.addressField.on("input", function(_e) {
@@ -261,6 +293,10 @@ GeoField.prototype.updateLatLng = function(latLng) {
     this.latLngField.val(latLng.lat()+","+latLng.lng());
 }
 
+GeoField.prototype.updateZoomLevel = function(zoomLevel) {
+    this.zoomField.val(zoomLevel);
+}
+
 GeoField.prototype.parseStrToLatLng = function(value) {
     value = value.split(",").map(function(value) {
         return parseFloat(value);
@@ -325,7 +361,7 @@ function initializeGeoFields() {
         data = Object.assign({}, data, sourceFieldData)
 
         // Fix for wagtail 2.13+ streamfield / wagtail-react-streamfield
-        // Resolve address by finding closest struct block, then address field
+        // Resolve field by finding closest struct block, then field
         if (
             inStreamField(data)
             && inReactStreamField(data)
@@ -336,10 +372,21 @@ function initializeGeoFields() {
                 .find(".geo-address-block input");
         }
 
+        if (
+            inStreamField(data)
+            && inReactStreamField(data)
+            && data.zoomSelector
+        ) {
+            data.zoomSelector = $el
+                .parents(".c-sf-container__block-container")
+                .find(".geo-zoom-block input");
+        }
+
         new GeoField({
             mapEl: el,
             sourceSelector: sourceField,
             addressSelector: data.addressSelector,
+            zoomSelector: data.zoomSelector,
             latLngDisplaySelector: data.latLngDisplaySelector,
             zoom: data.zoom,
             srid: data.srid,
@@ -354,6 +401,7 @@ function initializeGeoFields() {
         return data.usedIn === "GeoBlock";
     }
 
+    // Deprecated, remove when Wagtail 2.11 reaches EOL
     function inReactStreamField(data) {
         return data.inReactStreamfield;
     }

@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
@@ -14,19 +15,24 @@ from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Orderable, Page
 
-from wagtailgeowidget.blocks import GeoAddressBlock, GeoBlock
+from wagtailgeowidget.blocks import GeoAddressBlock, GeoBlock, GeoZoomBlock
 from wagtailgeowidget.edit_handlers import GeoPanel
 
 
 class GeoLocation(models.Model):
     title = models.CharField(max_length=255)
     address = models.CharField(max_length=250, blank=True, null=True)
+    zoom = models.SmallIntegerField(blank=True, null=True)
     location = models.PointField(srid=4326, null=True, blank=True)
 
     panels = [
         FieldPanel("title"),
         MultiFieldPanel(
-            [FieldPanel("address"), GeoPanel("location", address_field="address")],
+            [
+                FieldPanel("address"),
+                FieldPanel("zoom"),
+                GeoPanel("location", address_field="address", zoom_field="zoom")
+            ],
             _("Geo details"),
         ),
     ]
@@ -79,6 +85,17 @@ class GeoStreamPage(Page):
                     icon="user",
                 ),
             ),
+            (
+                "map_struct_with_zoom",
+                blocks.StructBlock(
+                    [
+                        ("address", GeoAddressBlock(required=True)),
+                        ("zoom", GeoZoomBlock(required=False)),
+                        ("map", GeoBlock(address_field="address", zoom_field="zoom")),
+                    ],
+                    icon="user",
+                ),
+            ),
         ]
     )
 
@@ -107,6 +124,41 @@ class ClassicGeoPage(Page):
 
     def get_context(self, request):
         data = super(ClassicGeoPage, self).get_context(request)
+        return data
+
+    @cached_property
+    def point(self):
+        from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+
+        return geosgeometry_str_to_struct(self.location)
+
+    @property
+    def lat(self):
+        return self.point["y"]
+
+    @property
+    def lng(self):
+        return self.point["x"]
+
+
+class ClassicGeoPageWithZoom(Page):
+    address = models.CharField(max_length=250, blank=True, null=True)
+    location = models.CharField(max_length=250, blank=True, null=True)
+    zoom = models.SmallIntegerField(blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("address"),
+                FieldPanel("zoom"),
+                GeoPanel("location", address_field="address", zoom_field="zoom", hide_latlng=True),
+            ],
+            _("Geo details"),
+        ),
+    ]
+
+    def get_context(self, request):
+        data = super().get_context(request)
         return data
 
     @cached_property

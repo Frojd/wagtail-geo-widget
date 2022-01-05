@@ -72,7 +72,6 @@ class MyPage(Page):
 With the helpers if place, you call `lat` or `lng` to access the coordinates.
 
 
-
 ### Adding an address field
 
 The address field are optional and needs to be added separately, the panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
@@ -96,5 +95,33 @@ class MyPageWithAddressField(Page):
         ], _('Geo details')),
     ]
 ```
+
+
+### Adding an zoom field
+
+The zoom field works in a similar way as the address field and needs to be added separately, the panel accepts an `zoom_field` where the map zoom state is written to this field. The zoom field can be used in conjunction with the address field.
+
+
+```python
+from django.db import models
+from django.utils.translation import ugettext as _
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtailgeowidget.edit_handlers import GeoPanel
+
+
+class MyPageWithZoomField(Page):
+    zoom = models.SmallIntegerField(blank=True, null=True)
+    location = models.CharField(max_length=250, blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            FieldPanel('zoom'),
+            GeoPanel('location', zoom_field='zoom'),
+        ], _('Geo details')),
+    ]
+```
+
+
+### More examples
 
 For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py).

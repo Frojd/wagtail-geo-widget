@@ -10,3 +10,7 @@
 .geo-field-location--hide {
     display: none;
 }
+
+.geo-field-zoom--hide {
+    display: none;
+}

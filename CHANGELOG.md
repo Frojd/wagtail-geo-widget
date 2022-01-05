@@ -3,6 +3,7 @@
 
 ## (In development) 5.3.0 (XXXX.XX.XX)
 
+- Add persistant and user editable zoom field for map widget (Martin Sandström)
 - Enable loading Google Maps API key dynamically (Martin Sandström)
 - Make it possible to hide latlng field for GeoBlock (@vladox)
 - Fix: Solve issue with address not working streamfield in Wagtail 1.13+ (@vladox)

@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.functional import cached_property
-from wagtail.core.blocks import CharBlock, FieldBlock
+from wagtail.core.blocks import CharBlock, FieldBlock, IntegerBlock
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeoField
@@ -11,6 +11,11 @@ class GeoAddressBlock(CharBlock):
         classname = "geo-address-block"
 
 
+class GeoZoomBlock(IntegerBlock):
+    class Meta:
+        classname = "geo-zoom-block"
+
+
 class GeoBlock(FieldBlock):
     class Meta:
         icon = "site"
@@ -18,6 +23,7 @@ class GeoBlock(FieldBlock):
     def __init__(
         self,
         address_field=None,
+        zoom_field=None,
         required=True,
         help_text=None,
         hide_latlng=False,
@@ -25,6 +31,7 @@ class GeoBlock(FieldBlock):
     ):
         self.field_options = {}
         self.address_field = address_field
+        self.zoom_field = zoom_field
         self.hide_latlng = hide_latlng
         super(GeoBlock, self).__init__(**kwargs)
 
@@ -35,6 +42,7 @@ class GeoBlock(FieldBlock):
                 srid=4326,
                 id_prefix="",
                 address_field=self.address_field,
+                zoom_field=self.zoom_field,
                 hide_latlng=self.hide_latlng,
                 used_in="GeoBlock",
             )

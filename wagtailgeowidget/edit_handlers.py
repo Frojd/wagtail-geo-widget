@@ -8,6 +8,7 @@ class GeoPanel(FieldPanel):
     def __init__(self, *args, **kwargs):
         self.classname = kwargs.pop("classname", "")
         self.address_field = kwargs.pop("address_field", "")
+        self.zoom_field = kwargs.pop("zoom_field", "")
         self.hide_latlng = kwargs.pop("hide_latlng", False)
         self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
 
@@ -20,6 +21,7 @@ class GeoPanel(FieldPanel):
         return {
             self.field_name: GeoField(
                 address_field=self.address_field,
+                zoom_field=self.zoom_field,
                 hide_latlng=self.hide_latlng,
                 zoom=self.zoom,
                 srid=srid,
@@ -33,6 +35,7 @@ class GeoPanel(FieldPanel):
             field_name=self.field_name,
             classname=self.classname,
             address_field=self.address_field,
+            zoom_field=self.zoom_field,
             hide_latlng=self.hide_latlng,
             zoom=self.zoom,
         )
