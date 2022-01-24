@@ -43,7 +43,7 @@ class MyPage(Page):
 
 ### The format of your location
 
-When you update your page in the admin add a location you will notice that the address will be stored as a `GEOSGeometry` string in the database (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`.
+When you update your page in the admin and add a location you will notice that the address will be stored as a `GEOSGeometry` string in the database (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`.
 
 It is a excellent format because this allows us to use the same GeoPanel for both the spatial field and a non-spatial field, but nothing we can display to our users. So lets add a helper that parses this into lat/lng.
 
