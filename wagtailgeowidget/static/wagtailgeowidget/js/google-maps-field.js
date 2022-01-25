@@ -1,7 +1,8 @@
 // This file must follow ES5
 "use strict";
 
-function GeoField(options) {
+function GoogleMapsField(options) {
+    var id = options.id;
     var self = this;
     var defaultLocation = options.defaultLocation;
 
@@ -10,13 +11,13 @@ function GeoField(options) {
         parseFloat(defaultLocation.lng)
     );
 
-    this.mapEl = options.mapEl;
+    this.mapEl = $("#"+id+"_map");
     this.zoom = options.zoom;
     this.srid = options.srid;
-    this.sourceField = $(options.sourceSelector);
+    this.sourceField = $("#"+id);
     this.addressField = $(options.addressSelector);
     this.zoomField = $(options.zoomSelector);
-    this.latLngField = $(options.latLngDisplaySelector);
+    this.latLngField = $("#"+id+"_latlng");
     this.geocoder = new google.maps.Geocoder();
     this.showEmptyLocation = options.showEmptyLocation;
 
@@ -47,7 +48,7 @@ function GeoField(options) {
     }
 }
 
-GeoField.prototype.setup = function() {
+GoogleMapsField.prototype.setup = function() {
     if(this.hasSetup) {
         return;
     }
@@ -65,15 +66,15 @@ GeoField.prototype.setup = function() {
         self.updateMapFromCoords(latLng);
     });
 
-    if (this.addressField.length) {
+    if (this.addressField.length && !this.hasAddressFieldOwnGeocoder()) {
         this.initAutocomplete(this.addressField[0]);
     }
 
     this.hasSetup = true;
 };
 
-GeoField.prototype.initMap = function(mapEl, defaultLocation) {
-    var map = new google.maps.Map(mapEl, {
+GoogleMapsField.prototype.initMap = function(mapEl, defaultLocation) {
+    var map = new google.maps.Map(mapEl[0], {
         zoom: this.zoom,
         center: defaultLocation,
     });
@@ -88,7 +89,11 @@ GeoField.prototype.initMap = function(mapEl, defaultLocation) {
     this.marker = marker;
 }
 
-GeoField.prototype.initEvents = function() {
+GoogleMapsField.prototype.hasAddressFieldOwnGeocoder = function() {
+    return !!this.addressField.data("geocoder");
+}
+
+GoogleMapsField.prototype.initEvents = function() {
     var self = this;
 
     google.maps.event.addListener(this.marker, "dragend", function(event) {
@@ -102,29 +107,57 @@ GeoField.prototype.initEvents = function() {
         self.updateZoomLevel(zoomLevel)
     });
 
-    this.latLngField.on("input", function(_e) {
-        var coords = $(this).val();
-        var latLng = self.parseStrToLatLng(coords);
-        if (latLng === null) {
-            self.displayWarning(
-                'Invalid location coordinate, use Latitude and Longitude '+
-                '(example: 59.3293234999,18.06858080003)', {
-                field: self.latLngField,
-            });
-            return;
-        }
+    if (this.hasAddressFieldOwnGeocoder()) {
+        this.addressField.on("searchGeocoded", function(_e, latLng) {
+            var gMLatLng = new google.maps.LatLng(
+                parseFloat(latLng.lat),
+                parseFloat(latLng.lng)
+            );
 
-        self.clearFieldMessage({field: self.latLngField});
-        self.updateMapFromCoords(latLng);
-        self.writeLocation(latLng);
-    });
+            self.setMapPosition(gMLatLng);
+            self.updateLatLng(gMLatLng);
+            self.writeLocation(gMLatLng);
+        });
+    } else {
+        this.latLngField.on("input", function(_e) {
+            var coords = $(this).val();
+            var latLng = self.parseStrToLatLng(coords);
+            if (latLng === null) {
+                self.displayWarning(
+                    'Invalid location coordinate, use Latitude and Longitude '+
+                    '(example: 59.3293234999,18.06858080003)', {
+                    field: self.latLngField,
+                });
+                return;
+            }
 
-    this.addressField.on("keydown", function(e) {
-        if (e.keyCode === 13) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    });
+            self.clearFieldMessage({field: self.latLngField});
+            self.updateMapFromCoords(latLng);
+            self.writeLocation(latLng);
+        });
+
+        this.addressField.on("keydown", function(e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
+        this.addressField.on("input", function(_e) {
+            clearTimeout(self._timeoutId);
+
+            var query = $(this).val();
+
+            if (query === "") {
+                self.clearFieldMessage({field: self.addressField});
+                return;
+            }
+
+            self._timeoutId = setTimeout(function() {
+                self.geocodeSearch(query);
+            }, 400);
+        });
+    }
 
     this.zoomField.on("keydown", function(e) {
         if (e.keyCode !== 13) {  // enter (13)
@@ -143,24 +176,9 @@ GeoField.prototype.initEvents = function() {
         self.map.setZoom(zoom);
         self.updateZoomLevel(zoom);
     });
-
-    this.addressField.on("input", function(_e) {
-        clearTimeout(self._timeoutId);
-
-        var query = $(this).val();
-
-        if (query === "") {
-            self.clearFieldMessage({field: self.addressField});
-            return;
-        }
-
-        self._timeoutId = setTimeout(function() {
-            self.geocodeSearch(query);
-        }, 400);
-    });
 }
 
-GeoField.prototype.initAutocomplete = function(field) {
+GoogleMapsField.prototype.initAutocomplete = function(field) {
     var self = this;
     var autocomplete = new google.maps.places.Autocomplete(field);
 
@@ -185,11 +203,11 @@ GeoField.prototype.initAutocomplete = function(field) {
     });
 };
 
-GeoField.prototype.genMessageId = function(field) {
+GoogleMapsField.prototype.genMessageId = function(field) {
     return 'wagtailgeowdidget__'+field.attr('id')+'--warning';
 }
 
-GeoField.prototype.displayWarning = function(msg, options) {
+GoogleMapsField.prototype.displayWarning = function(msg, options) {
     var warningMsg;
     var field = options.field;
     var className = this.genMessageId(field);
@@ -203,7 +221,7 @@ GeoField.prototype.displayWarning = function(msg, options) {
     $(warningMsg).insertAfter(field);
 }
 
-GeoField.prototype.displaySuccess = function(msg, options) {
+GoogleMapsField.prototype.displaySuccess = function(msg, options) {
     var self = this;
     var successMessage;
     var field = options.field;
@@ -224,7 +242,7 @@ GeoField.prototype.displaySuccess = function(msg, options) {
     }, 3000);
 }
 
-GeoField.prototype.clearFieldMessage = function(options) {
+GoogleMapsField.prototype.clearFieldMessage = function(options) {
     var field = options.field;
 
     if (!field) {
@@ -235,7 +253,7 @@ GeoField.prototype.clearFieldMessage = function(options) {
     $('.' + className).remove();
 }
 
-GeoField.prototype.clearAllFieldMessages = function() {
+GoogleMapsField.prototype.clearAllFieldMessages = function() {
     var self = this;
     var fields = [this.addressField, this.latLngField];
     fields.map(function(field) {
@@ -243,7 +261,7 @@ GeoField.prototype.clearAllFieldMessages = function() {
     });
 }
 
-GeoField.prototype.checkVisibility = function(callback) {
+GoogleMapsField.prototype.checkVisibility = function(callback) {
     var self = this;
     var intervalId = setInterval(function() {
         var visible = $(self.map.getDiv()).is(':visible')
@@ -256,7 +274,7 @@ GeoField.prototype.checkVisibility = function(callback) {
     }, 1000);
 }
 
-GeoField.prototype.geocodeSearch = function(query) {
+GoogleMapsField.prototype.geocodeSearch = function(query) {
     var self = this;
 
     this.geocoder.geocode({'address': query}, function(results, status) {
@@ -289,15 +307,15 @@ GeoField.prototype.geocodeSearch = function(query) {
     });
 }
 
-GeoField.prototype.updateLatLng = function(latLng) {
+GoogleMapsField.prototype.updateLatLng = function(latLng) {
     this.latLngField.val(latLng.lat()+","+latLng.lng());
 }
 
-GeoField.prototype.updateZoomLevel = function(zoomLevel) {
+GoogleMapsField.prototype.updateZoomLevel = function(zoomLevel) {
     this.zoomField.val(zoomLevel);
 }
 
-GeoField.prototype.parseStrToLatLng = function(value) {
+GoogleMapsField.prototype.parseStrToLatLng = function(value) {
     value = value.split(",").map(function(value) {
         return parseFloat(value);
     });
@@ -309,24 +327,28 @@ GeoField.prototype.parseStrToLatLng = function(value) {
     return latLng
 }
 
-GeoField.prototype.updateMapFromCoords = function(latLng) {
+GoogleMapsField.prototype.updateMapFromCoords = function(latLng) {
     this.setMapPosition(latLng);
 }
 
-GeoField.prototype.setMapPosition = function(latLng) {
+GoogleMapsField.prototype.setMapPosition = function(latLng) {
     this.marker.setPosition(latLng);
     this.map.setCenter(latLng);
 }
 
-GeoField.prototype.writeLocation = function(latLng) {
+GoogleMapsField.prototype.writeLocation = function(latLng) {
     var lat = latLng.lat();
     var lng = latLng.lng();
-    var value = 'SRID='+this.srid+';POINT('+lng +' '+lat+')';
+    var value = GoogleMapsField.buildLocationString(this.srid, lng, lat)
 
     this.sourceField.val(value);
 }
 
-GeoField.locationStringToStruct = function(locationString) {
+GoogleMapsField.buildLocationString = function(srid, lng, lat) {
+    return 'SRID='+srid+';POINT('+lng +' '+lat+')';
+}
+
+GoogleMapsField.locationStringToStruct = function(locationString) {
     if (!locationString) {
         return {};
     }
@@ -344,65 +366,18 @@ GeoField.locationStringToStruct = function(locationString) {
     }
 }
 
-function initializeGeoFields() {
-    $(".geo-field").each(function(_index, el) {
-        var $el = $(el);
+GoogleMapsField.prototype.setState = function(newState) {
+    this.sourceField.val(newState);
+};
 
-        // Exit if component has already been initialized
-        if ($el.data('geoInit')) return;
+GoogleMapsField.prototype.getState = function() {
+    return this.sourceField.val();
+};
 
-        var data = window[$el.data('data-id')];
-        var sourceField = $(data.sourceSelector);
+GoogleMapsField.prototype.getValue = function() {
+    return this.sourceField.val();
+};
 
-        // If sourceField contains value, parse and apply it over data
-        var sourceFieldData = GeoField.locationStringToStruct(
-            sourceField.val()
-        );
-        data = Object.assign({}, data, sourceFieldData)
-
-        // Fix for wagtail 2.13+ streamfield / wagtail-react-streamfield
-        // Resolve field by finding closest struct block, then field
-        if (
-            inStreamField(data)
-            && inReactStreamField(data)
-            && data.addressSelector
-        ) {
-            data.addressSelector = $el
-                .parents(".c-sf-container__block-container")
-                .find(".geo-address-block input");
-        }
-
-        if (
-            inStreamField(data)
-            && inReactStreamField(data)
-            && data.zoomSelector
-        ) {
-            data.zoomSelector = $el
-                .parents(".c-sf-container__block-container")
-                .find(".geo-zoom-block input");
-        }
-
-        new GeoField({
-            mapEl: el,
-            sourceSelector: sourceField,
-            addressSelector: data.addressSelector,
-            zoomSelector: data.zoomSelector,
-            latLngDisplaySelector: data.latLngDisplaySelector,
-            zoom: data.zoom,
-            srid: data.srid,
-            defaultLocation: data.defaultLocation,
-            showEmptyLocation: data.showEmptyLocation && !sourceField.val()
-        });
-
-        $el.data('geoInit', true);
-    });
-
-    function inStreamField(data) {
-        return data.usedIn === "GeoBlock";
-    }
-
-    // Deprecated, remove when Wagtail 2.11 reaches EOL
-    function inReactStreamField(data) {
-        return data.inReactStreamfield;
-    }
-}
+GoogleMapsField.prototype.focus = function() {
+    // TODO: Implement this
+};

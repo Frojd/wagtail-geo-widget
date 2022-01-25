@@ -1,0 +1,17 @@
+.leaflet-field {
+    height: 40vh;
+    min-height: 300px;
+    z-index: 0;
+}
+
+.leaflet-field-location {
+    margin-bottom: 0.8em;
+}
+
+.leaflet-field-location--hide {
+    display: none;
+}
+
+.leaflet-field-zoom--hide {
+    display: none;
+}

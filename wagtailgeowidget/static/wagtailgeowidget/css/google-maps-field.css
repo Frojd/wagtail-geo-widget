@@ -1,0 +1,16 @@
+.google-maps-field {
+    height: 40vh;
+    min-height: 300px;
+}
+
+.google-maps-field-location {
+    margin-bottom: 0.8em;
+}
+
+.google-maps-field-location--hide {
+    display: none;
+}
+
+.google-maps-field-zoom--hide {
+    display: none;
+}
