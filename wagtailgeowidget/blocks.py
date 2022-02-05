@@ -3,7 +3,6 @@ import warnings
 from django import forms
 from django.utils.functional import cached_property
 from wagtail.core.blocks import CharBlock, FieldBlock, IntegerBlock
-
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.widgets import GeocoderField, GoogleMapsField, LeafletField

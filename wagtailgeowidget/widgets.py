@@ -46,7 +46,6 @@ class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
     @cached_property
     def media(self):
         from django.utils.module_loading import import_string
-
         from wagtailgeowidget.app_settings import (
             GOOGLE_MAPS_V3_APIKEY,
             GOOGLE_MAPS_V3_APIKEY_CALLBACK,
@@ -90,7 +89,6 @@ class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
             input_classes,
         )
 
-        source_selector = "#{}{}".format(self.id_prefix, name)
         address_selector = "#{}{}".format(
             self.id_prefix,
             self.address_field,
@@ -286,35 +284,10 @@ class LeafletField(WidgetWithScript, forms.HiddenInput):
         )
 
     def render_js_init(self, id_, name, value):
-        input_classes = "leaflet-field-location"
-        if self.hide_latlng:
-            input_classes = "{} {}".format(
-                input_classes,
-                "leaflet-field-location--hide",
-            )
-
-        location = format_html(
-            '<div class="input">'
-            '<input id="_id_{}_latlng" class="{}" maxlength="250" type="text">'
-            "</div>",
-            name,
-            input_classes,
-        )
-
-        source_selector = "#{}{}".format(self.id_prefix, name)
-        address_selector = "#{}{}".format(
-            self.id_prefix,
-            self.address_field,
-        )
-        zoom_selector = "#{}{}".format(
-            self.id_prefix,
-            self.zoom_field,
-        )
-
         data = {
             "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
-            "addressSelector": address_selector,
-            "zoomSelector": zoom_selector,
+            "addressField": self.address_field,
+            "zoomField": self.zoom_field,
             "zoom": self.zoom,
             "srid": self.srid,
             "tileLayer": GEO_WIDGET_LEAFLET_TILE_LAYER,
@@ -335,10 +308,42 @@ class LeafletField(WidgetWithScript, forms.HiddenInput):
                 "lng": value.x,
             }
 
-        return "new LeafletField({0});".format(
-            json.dumps(
+        return """
+            (function() {{
+                var id = "{id}";
+
+                var namespace = "id_";
+                if (id.indexOf("-") !== -1) {{
+                    var namespace = id.split("-")
+                        .slice(0, -1)
+                        .join("-");
+                    namespace = namespace + "-";
+                }}
+
+                var options = {options};
+
+                var addressSelector = options.addressField;
+                if (addressSelector) {{
+                    addressSelector = "#" + namespace + addressSelector;
+                }}
+
+                var zoomSelector = options.zoomField;
+                if (zoomSelector) {{
+                    zoomSelector = "#" + namespace + zoomSelector;
+                }}
+
+                options = Object.assign({{}}, options, {{
+                    "id": id,
+                    "addressSelector": addressSelector,
+                    "zoomSelector": zoomSelector,
+                }});
+
+                new LeafletField(options);
+            }})();
+        """.format(
+            id=id_,
+            options=json.dumps(
                 {
-                    "id": id_,
                     **data,
                 }
             ),
@@ -356,6 +361,12 @@ class LeafletField(WidgetWithScript, forms.HiddenInput):
         widget_html = self.render_html(name, value_data, attrs)
 
         input_classes = "leaflet-field-location"
+        if self.hide_latlng:
+            input_classes = "{} {}".format(
+                input_classes,
+                "leaflet-field-location--hide",
+            )
+
         location = format_html(
             '<div class="input">'
             '<input id="{0}_latlng" class="{1}" maxlength="250" type="text">'

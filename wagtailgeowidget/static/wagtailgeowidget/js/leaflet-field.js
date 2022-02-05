@@ -10,6 +10,7 @@ function LeafletField(options) {
         lng: parseFloat(options.defaultLocation.lng),
     };
 
+    this.mal = null;
     this.mapEl = $("#"+id+"_map");
     this.zoom = options.zoom;
     this.srid = options.srid;
@@ -36,10 +37,20 @@ LeafletField.prototype.setup = function() {
         return;
     }
 
+    var self = this;
+
     this.initMap(this.mapEl, this.defaultLocation);
     this.initEvents();
     this.setMapPosition(this.defaultLocation);
     this.updateLatLng(this.defaultLocation);
+
+    this.checkVisibility(function() {
+        var coords = self.latLngField.val();
+        var latLng = self.parseStrToLatLng(coords);
+
+        self.map.invalidateSize();
+        self.updateMapFromCoords(latLng);
+    });
 
     this.hasSetup = true;
 }
@@ -213,6 +224,19 @@ LeafletField.locationStringToStruct = function(locationString) {
             lat: matches[3],
         }
     }
+}
+
+LeafletField.prototype.checkVisibility = function(callback) {
+    var self = this;
+    var intervalId = setInterval(function() {
+        var visible = self.mapEl.is(':visible')
+        if (!visible) {
+            return;
+        }
+
+        clearInterval(intervalId);
+        callback();
+    }, 1000);
 }
 
 LeafletField.prototype.setState = function(newState) {
