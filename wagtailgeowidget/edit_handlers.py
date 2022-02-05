@@ -1,6 +1,7 @@
 import warnings
 
 from wagtail.admin.edit_handlers import FieldPanel
+
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.app_settings import GEO_WIDGET_ZOOM
 from wagtailgeowidget.widgets import GeocoderField, GoogleMapsField, LeafletField

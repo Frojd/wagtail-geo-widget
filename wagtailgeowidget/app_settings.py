@@ -3,7 +3,7 @@ from django.conf import settings
 GEO_WIDGET_DEFAULT_LOCATION = getattr(
     settings, "GEO_WIDGET_DEFAULT_LOCATION", {"lat": 59.3293, "lng": 18.0686}
 )
-GEO_WIDGET_EMPTY_LOCATION = getattr(settings, "GEO_WIDGET_EMPTY_LOCATION", False)
+GEO_WIDGET_EMPTY_LOCATION = getattr(settings, "GEO_WIDGET_EMPTY_LOCATION", True)
 GEO_WIDGET_ZOOM = getattr(settings, "GEO_WIDGET_ZOOM", 7)
 
 GEO_WIDGET_LEAFLET_TILE_LAYER = getattr(

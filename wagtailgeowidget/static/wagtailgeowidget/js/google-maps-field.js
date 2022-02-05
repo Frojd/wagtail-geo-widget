@@ -11,13 +11,13 @@ function GoogleMapsField(options) {
         parseFloat(defaultLocation.lng)
     );
 
-    this.mapEl = $("#"+id+"_map");
+    this.mapEl = $("#" + id + "_map");
     this.zoom = options.zoom;
     this.srid = options.srid;
-    this.sourceField = $("#"+id);
+    this.sourceField = $("#" + id);
     this.addressField = $(options.addressSelector);
     this.zoomField = $(options.zoomSelector);
-    this.latLngField = $("#"+id+"_latlng");
+    this.latLngField = $("#" + id + "_latlng");
     this.geocoder = new google.maps.Geocoder();
     this.showEmptyLocation = options.showEmptyLocation;
 
@@ -30,26 +30,26 @@ function GoogleMapsField(options) {
     }
 
     if (options.showEmptyLocation) {
-        this.addressField.attr('placeholder', 'Enter a location');
-        this.latLngField.attr('placeholder', 'Click here to initialize map');
+        this.addressField.attr("placeholder", "Enter a location");
+        this.latLngField.attr("placeholder", "Click here to initialize map");
 
-        $(this.mapEl).css('display', 'none');
+        this.mapEl.css("display", "none");
 
-        this.latLngField.on('focus', function() {
-            $(self.mapEl).css('display', 'block');
+        this.latLngField.on("focus", function () {
+            self.mapEl.css("display", "block");
             self.setup();
         });
-        this.addressField.on('focus', function() {
-            $(self.mapEl).css('display', 'block');
+        this.addressField.on("focus", function () {
+            self.mapEl.css("display", "block");
             self.setup();
         });
     } else {
-        this.setup()
+        this.setup();
     }
 }
 
-GoogleMapsField.prototype.setup = function() {
-    if(this.hasSetup) {
+GoogleMapsField.prototype.setup = function () {
+    if (this.hasSetup) {
         return;
     }
     var self = this;
@@ -59,9 +59,9 @@ GoogleMapsField.prototype.setup = function() {
     this.setMapPosition(this.defaultLocation);
     this.updateLatLng(this.defaultLocation);
 
-    this.checkVisibility(function() {
+    this.checkVisibility(function () {
         var coords = $(self.latLngField).val();
-        google.maps.event.trigger(self.map, 'resize');
+        google.maps.event.trigger(self.map, "resize");
         var latLng = self.parseStrToLatLng(coords);
         self.updateMapFromCoords(latLng);
     });
@@ -73,7 +73,7 @@ GoogleMapsField.prototype.setup = function() {
     this.hasSetup = true;
 };
 
-GoogleMapsField.prototype.initMap = function(mapEl, defaultLocation) {
+GoogleMapsField.prototype.initMap = function (mapEl, defaultLocation) {
     var map = new google.maps.Map(mapEl[0], {
         zoom: this.zoom,
         center: defaultLocation,
@@ -87,28 +87,28 @@ GoogleMapsField.prototype.initMap = function(mapEl, defaultLocation) {
 
     this.map = map;
     this.marker = marker;
-}
+};
 
-GoogleMapsField.prototype.hasAddressFieldOwnGeocoder = function() {
+GoogleMapsField.prototype.hasAddressFieldOwnGeocoder = function () {
     return !!this.addressField.data("geocoder");
-}
+};
 
-GoogleMapsField.prototype.initEvents = function() {
+GoogleMapsField.prototype.initEvents = function () {
     var self = this;
 
-    google.maps.event.addListener(this.marker, "dragend", function(event) {
+    google.maps.event.addListener(this.marker, "dragend", function (event) {
         self.setMapPosition(event.latLng);
         self.updateLatLng(event.latLng);
         self.writeLocation(event.latLng);
     });
 
-    google.maps.event.addListener(this.map, 'zoom_changed', function() {
+    google.maps.event.addListener(this.map, "zoom_changed", function () {
         var zoomLevel = this.getZoom();
-        self.updateZoomLevel(zoomLevel)
+        self.updateZoomLevel(zoomLevel);
     });
 
     if (this.hasAddressFieldOwnGeocoder()) {
-        this.addressField.on("searchGeocoded", function(_e, latLng) {
+        this.addressField.on("searchGeocoded", function (_e, latLng) {
             var gMLatLng = new google.maps.LatLng(
                 parseFloat(latLng.lat),
                 parseFloat(latLng.lng)
@@ -119,48 +119,51 @@ GoogleMapsField.prototype.initEvents = function() {
             self.writeLocation(gMLatLng);
         });
     } else {
-        this.latLngField.on("input", function(_e) {
+        this.latLngField.on("input", function (_e) {
             var coords = $(this).val();
             var latLng = self.parseStrToLatLng(coords);
             if (latLng === null) {
                 self.displayWarning(
-                    'Invalid location coordinate, use Latitude and Longitude '+
-                    '(example: 59.3293234999,18.06858080003)', {
-                    field: self.latLngField,
-                });
+                    "Invalid location coordinate, use Latitude and Longitude " +
+                        "(example: 59.3293234999,18.06858080003)",
+                    {
+                        field: self.latLngField,
+                    }
+                );
                 return;
             }
 
-            self.clearFieldMessage({field: self.latLngField});
+            self.clearFieldMessage({ field: self.latLngField });
             self.updateMapFromCoords(latLng);
             self.writeLocation(latLng);
         });
 
-        this.addressField.on("keydown", function(e) {
+        this.addressField.on("keydown", function (e) {
             if (e.keyCode === 13) {
                 e.preventDefault();
                 e.stopPropagation();
             }
         });
 
-        this.addressField.on("input", function(_e) {
+        this.addressField.on("input", function (_e) {
             clearTimeout(self._timeoutId);
 
             var query = $(this).val();
 
             if (query === "") {
-                self.clearFieldMessage({field: self.addressField});
+                self.clearFieldMessage({ field: self.addressField });
                 return;
             }
 
-            self._timeoutId = setTimeout(function() {
+            self._timeoutId = setTimeout(function () {
                 self.geocodeSearch(query);
             }, 400);
         });
     }
 
-    this.zoomField.on("keydown", function(e) {
-        if (e.keyCode !== 13) {  // enter (13)
+    this.zoomField.on("keydown", function (e) {
+        if (e.keyCode !== 13) {
+            // enter (13)
             return;
         }
 
@@ -176,13 +179,13 @@ GoogleMapsField.prototype.initEvents = function() {
         self.map.setZoom(zoom);
         self.updateZoomLevel(zoom);
     });
-}
+};
 
-GoogleMapsField.prototype.initAutocomplete = function(field) {
+GoogleMapsField.prototype.initAutocomplete = function (field) {
     var self = this;
     var autocomplete = new google.maps.places.Autocomplete(field);
 
-    autocomplete.addListener('place_changed', function() {
+    autocomplete.addListener("place_changed", function () {
         var place = autocomplete.getPlace();
 
         if (!place.geometry) {
@@ -191,7 +194,7 @@ GoogleMapsField.prototype.initAutocomplete = function(field) {
         }
 
         self.clearAllFieldMessages();
-        self.displaySuccess('Address has been successfully geo-coded', {
+        self.displaySuccess("Address has been successfully geo-coded", {
             field: self.addressField,
         });
 
@@ -203,25 +206,25 @@ GoogleMapsField.prototype.initAutocomplete = function(field) {
     });
 };
 
-GoogleMapsField.prototype.genMessageId = function(field) {
-    return 'wagtailgeowdidget__'+field.attr('id')+'--warning';
-}
+GoogleMapsField.prototype.genMessageId = function (field) {
+    return "wagtailgeowdidget__" + field.attr("id") + "--warning";
+};
 
-GoogleMapsField.prototype.displayWarning = function(msg, options) {
+GoogleMapsField.prototype.displayWarning = function (msg, options) {
     var warningMsg;
     var field = options.field;
     var className = this.genMessageId(field);
 
-    this.clearFieldMessage({field: field});
+    this.clearFieldMessage({ field: field });
 
-    warningMsg = document.createElement('p');
-    warningMsg.className = 'help-block help-warning '+className;
+    warningMsg = document.createElement("p");
+    warningMsg.className = "help-block help-warning " + className;
     warningMsg.innerHTML = msg;
 
     $(warningMsg).insertAfter(field);
-}
+};
 
-GoogleMapsField.prototype.displaySuccess = function(msg, options) {
+GoogleMapsField.prototype.displaySuccess = function (msg, options) {
     var self = this;
     var successMessage;
     var field = options.field;
@@ -229,20 +232,20 @@ GoogleMapsField.prototype.displaySuccess = function(msg, options) {
 
     clearTimeout(this._successTimeout);
 
-    this.clearFieldMessage({field: field});
+    this.clearFieldMessage({ field: field });
 
-    successMessage = document.createElement('p');
-    successMessage.className = 'help-block help-info '+className;
+    successMessage = document.createElement("p");
+    successMessage.className = "help-block help-info " + className;
     successMessage.innerHTML = msg;
 
     $(successMessage).insertAfter(field);
 
-    this._successTimeout = setTimeout(function() {
-        self.clearFieldMessage({field: field});
+    this._successTimeout = setTimeout(function () {
+        self.clearFieldMessage({ field: field });
     }, 3000);
-}
+};
 
-GoogleMapsField.prototype.clearFieldMessage = function(options) {
+GoogleMapsField.prototype.clearFieldMessage = function (options) {
     var field = options.field;
 
     if (!field) {
@@ -250,21 +253,21 @@ GoogleMapsField.prototype.clearFieldMessage = function(options) {
     }
 
     var className = this.genMessageId(field);
-    $('.' + className).remove();
-}
+    $("." + className).remove();
+};
 
-GoogleMapsField.prototype.clearAllFieldMessages = function() {
+GoogleMapsField.prototype.clearAllFieldMessages = function () {
     var self = this;
     var fields = [this.addressField, this.latLngField];
-    fields.map(function(field) {
-        self.clearFieldMessage({field: field});
+    fields.map(function (field) {
+        self.clearFieldMessage({ field: field });
     });
-}
+};
 
-GoogleMapsField.prototype.checkVisibility = function(callback) {
+GoogleMapsField.prototype.checkVisibility = function (callback) {
     var self = this;
-    var intervalId = setInterval(function() {
-        var visible = $(self.map.getDiv()).is(':visible')
+    var intervalId = setInterval(function () {
+        var visible = $(self.map.getDiv()).is(":visible");
         if (!visible) {
             return;
         }
@@ -272,31 +275,37 @@ GoogleMapsField.prototype.checkVisibility = function(callback) {
         clearInterval(intervalId);
         callback();
     }, 1000);
-}
+};
 
-GoogleMapsField.prototype.geocodeSearch = function(query) {
+GoogleMapsField.prototype.geocodeSearch = function (query) {
     var self = this;
 
-    this.geocoder.geocode({'address': query}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.ZERO_RESULTS || !results.length) {
+    this.geocoder.geocode({ address: query }, function (results, status) {
+        if (
+            status === google.maps.GeocoderStatus.ZERO_RESULTS ||
+            !results.length
+        ) {
             self.displayWarning(
-                'Could not geocode address "'+query+'". '+
-                'The map may not be in sync with the address entered.', {
-                    field: self.addressField
+                'Could not geocode address "' +
+                    query +
+                    '". ' +
+                    "The map may not be in sync with the address entered.",
+                {
+                    field: self.addressField,
                 }
             );
             return;
         }
 
         if (status !== google.maps.GeocoderStatus.OK) {
-            self.displayWarning('Google Maps Error: '+status, {
+            self.displayWarning("Google Maps Error: " + status, {
                 field: self.addressField,
             });
             return;
         }
 
         self.clearAllFieldMessages();
-        self.displaySuccess('Address has been successfully geo-coded', {
+        self.displaySuccess("Address has been successfully geo-coded", {
             field: self.addressField,
         });
 
@@ -305,18 +314,18 @@ GoogleMapsField.prototype.geocodeSearch = function(query) {
         self.updateLatLng(latLng);
         self.writeLocation(latLng);
     });
-}
+};
 
-GoogleMapsField.prototype.updateLatLng = function(latLng) {
-    this.latLngField.val(latLng.lat()+","+latLng.lng());
-}
+GoogleMapsField.prototype.updateLatLng = function (latLng) {
+    this.latLngField.val(latLng.lat() + "," + latLng.lng());
+};
 
-GoogleMapsField.prototype.updateZoomLevel = function(zoomLevel) {
+GoogleMapsField.prototype.updateZoomLevel = function (zoomLevel) {
     this.zoomField.val(zoomLevel);
-}
+};
 
-GoogleMapsField.prototype.parseStrToLatLng = function(value) {
-    value = value.split(",").map(function(value) {
+GoogleMapsField.prototype.parseStrToLatLng = function (value) {
+    value = value.split(",").map(function (value) {
         return parseFloat(value);
     });
 
@@ -324,60 +333,60 @@ GoogleMapsField.prototype.parseStrToLatLng = function(value) {
     if (isNaN(latLng.lat()) || isNaN(latLng.lng())) {
         return null;
     }
-    return latLng
-}
+    return latLng;
+};
 
-GoogleMapsField.prototype.updateMapFromCoords = function(latLng) {
+GoogleMapsField.prototype.updateMapFromCoords = function (latLng) {
     this.setMapPosition(latLng);
-}
+};
 
-GoogleMapsField.prototype.setMapPosition = function(latLng) {
+GoogleMapsField.prototype.setMapPosition = function (latLng) {
     this.marker.setPosition(latLng);
     this.map.setCenter(latLng);
-}
+};
 
-GoogleMapsField.prototype.writeLocation = function(latLng) {
+GoogleMapsField.prototype.writeLocation = function (latLng) {
     var lat = latLng.lat();
     var lng = latLng.lng();
-    var value = GoogleMapsField.buildLocationString(this.srid, lng, lat)
+    var value = GoogleMapsField.buildLocationString(this.srid, lng, lat);
 
     this.sourceField.val(value);
-}
+};
 
-GoogleMapsField.buildLocationString = function(srid, lng, lat) {
-    return 'SRID='+srid+';POINT('+lng +' '+lat+')';
-}
+GoogleMapsField.buildLocationString = function (srid, lng, lat) {
+    return "SRID=" + srid + ";POINT(" + lng + " " + lat + ")";
+};
 
-GoogleMapsField.locationStringToStruct = function(locationString) {
+GoogleMapsField.locationStringToStruct = function (locationString) {
     if (!locationString) {
         return {};
     }
 
     var matches = locationString.match(
         /^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
-    )
+    );
 
     return {
         srid: matches[1],
         defaultLocation: {
             lng: matches[2],
             lat: matches[3],
-        }
-    }
-}
+        },
+    };
+};
 
-GoogleMapsField.prototype.setState = function(newState) {
+GoogleMapsField.prototype.setState = function (newState) {
     this.sourceField.val(newState);
 };
 
-GoogleMapsField.prototype.getState = function() {
+GoogleMapsField.prototype.getState = function () {
     return this.sourceField.val();
 };
 
-GoogleMapsField.prototype.getValue = function() {
+GoogleMapsField.prototype.getValue = function () {
     return this.sourceField.val();
 };
 
-GoogleMapsField.prototype.focus = function() {
+GoogleMapsField.prototype.focus = function () {
     // TODO: Implement this
 };

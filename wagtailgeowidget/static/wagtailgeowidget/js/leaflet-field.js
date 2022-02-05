@@ -1,9 +1,11 @@
 // This file must follow ES5
-var LEAFLET_FIELD_ERROR_MESSAGE_INVALID_LOCATION = 'Invalid location coordinate, use Latitude and Longitude '+
-    '(example: 59.3293234999,18.06858080003)'
+var LEAFLET_FIELD_ERROR_MESSAGE_INVALID_LOCATION =
+    "Invalid location coordinate, use Latitude and Longitude " +
+    "(example: 59.3293234999,18.06858080003)";
 
 function LeafletField(options) {
     var id = options.id;
+    var self = this;
 
     this.defaultLocation = {
         lat: parseFloat(options.defaultLocation.lat),
@@ -11,13 +13,13 @@ function LeafletField(options) {
     };
 
     this.mal = null;
-    this.mapEl = $("#"+id+"_map");
+    this.mapEl = $("#" + id + "_map");
     this.zoom = options.zoom;
     this.srid = options.srid;
-    this.sourceField = $("#"+id);
+    this.sourceField = $("#" + id);
     this.addressField = $(options.addressSelector);
     this.zoomField = $(options.zoomSelector);
-    this.latLngField = $("#"+id+"_latlng");
+    this.latLngField = $("#" + id + "_latlng");
     this.tileLayer = options.tileLayer;
     this.tileLayerOptions = options.tileLayerOptions;
 
@@ -29,11 +31,29 @@ function LeafletField(options) {
         this.updateZoomLevel(this.zoom);
     }
 
+    if (options.showEmptyLocation) {
+        this.addressField.attr("placeholder", "Enter a location");
+        this.latLngField.attr("placeholder", "Click here to initialize map");
+
+        this.mapEl.css("display", "none");
+
+        this.latLngField.on("focus", function () {
+            self.mapEl.css("display", "block");
+            self.setup();
+        });
+        this.addressField.on("focus", function () {
+            self.mapEl.css("display", "block");
+            self.setup();
+        });
+    } else {
+        this.setup();
+    }
+
     this.setup();
 }
 
-LeafletField.prototype.setup = function() {
-    if(this.hasSetup) {
+LeafletField.prototype.setup = function () {
+    if (this.hasSetup) {
         return;
     }
 
@@ -44,7 +64,7 @@ LeafletField.prototype.setup = function() {
     this.setMapPosition(this.defaultLocation);
     this.updateLatLng(this.defaultLocation);
 
-    this.checkVisibility(function() {
+    this.checkVisibility(function () {
         var coords = self.latLngField.val();
         var latLng = self.parseStrToLatLng(coords);
 
@@ -53,28 +73,32 @@ LeafletField.prototype.setup = function() {
     });
 
     this.hasSetup = true;
-}
+};
 
-LeafletField.prototype.initMap = function(mapEl, defaultLocation) {
+LeafletField.prototype.initMap = function (mapEl, defaultLocation) {
     var map = L.map(mapEl[0]).setView(defaultLocation, this.zoom);
 
     L.tileLayer(
         this.tileLayer,
-        Object.assign({}, {
-            maxZoom: 19,
-        }, this.tileLayerOptions)
+        Object.assign(
+            {},
+            {
+                maxZoom: 19,
+            },
+            this.tileLayerOptions
+        )
     ).addTo(map);
 
-    let marker = L.marker(defaultLocation, {draggable: true}).addTo(map);
+    let marker = L.marker(defaultLocation, { draggable: true }).addTo(map);
 
     this.map = map;
     this.marker = marker;
-}
+};
 
-LeafletField.prototype.initEvents = function() {
+LeafletField.prototype.initEvents = function () {
     var self = this;
 
-    self.marker.on('dragend', function(event) {
+    self.marker.on("dragend", function (event) {
         var latLng = event.target.getLatLng();
 
         self.setMapPosition(latLng);
@@ -87,27 +111,25 @@ LeafletField.prototype.initEvents = function() {
         self.updateZoomLevel(zoomLevel);
     });
 
-    this.latLngField.on("input", function(_e) {
+    this.latLngField.on("input", function (_e) {
         var coords = $(this).val();
         var latLng = self.parseStrToLatLng(coords);
 
         if (latLng === null) {
-            self.displayWarning(
-                LEAFLET_FIELD_ERROR_MESSAGE_INVALID_LOCATION,
-                {
-                    field: self.latLngField,
-                }
-            );
+            self.displayWarning(LEAFLET_FIELD_ERROR_MESSAGE_INVALID_LOCATION, {
+                field: self.latLngField,
+            });
             return;
         }
 
-        self.clearFieldMessage({field: self.latLngField});
+        self.clearFieldMessage({ field: self.latLngField });
         self.updateMapFromCoords(latLng);
         self.writeLocation(latLng);
     });
 
-    this.zoomField.on("keydown", function(e) {
-        if (e.keyCode !== 13) {  // enter (13)
+    this.zoomField.on("keydown", function (e) {
+        if (e.keyCode !== 13) {
+            // enter (13)
             return;
         }
 
@@ -124,28 +146,28 @@ LeafletField.prototype.initEvents = function() {
         self.updateZoomLevel(zoom);
     });
 
-    this.addressField.on("searchGeocoded", function(_e, latLng) {
+    this.addressField.on("searchGeocoded", function (_e, latLng) {
         self.setMapPosition(latLng);
         self.updateLatLng(latLng);
         self.writeLocation(latLng);
     });
-}
+};
 
-LeafletField.prototype.displayWarning = function(msg, options) {
+LeafletField.prototype.displayWarning = function (msg, options) {
     var warningMsg;
     var field = options.field;
     var className = this.genMessageId(field);
 
-    this.clearFieldMessage({field: field});
+    this.clearFieldMessage({ field: field });
 
-    warningMsg = document.createElement('p');
-    warningMsg.className = 'help-block help-warning '+className;
+    warningMsg = document.createElement("p");
+    warningMsg.className = "help-block help-warning " + className;
     warningMsg.innerHTML = msg;
 
     $(warningMsg).insertAfter(field);
-}
+};
 
-LeafletField.prototype.clearFieldMessage = function(options) {
+LeafletField.prototype.clearFieldMessage = function (options) {
     var field = options.field;
 
     if (!field) {
@@ -153,23 +175,23 @@ LeafletField.prototype.clearFieldMessage = function(options) {
     }
 
     var className = this.genMessageId(field);
-    $('.' + className).remove();
-}
+    $("." + className).remove();
+};
 
-LeafletField.prototype.genMessageId = function(field) {
-    return 'wagtailgeowdidget__'+field.attr('id')+'--warning';
-}
+LeafletField.prototype.genMessageId = function (field) {
+    return "wagtailgeowdidget__" + field.attr("id") + "--warning";
+};
 
-LeafletField.prototype.updateLatLng = function(latLng) {
-    this.latLngField.val(latLng.lat+","+latLng.lng);
-}
+LeafletField.prototype.updateLatLng = function (latLng) {
+    this.latLngField.val(latLng.lat + "," + latLng.lng);
+};
 
-LeafletField.prototype.updateZoomLevel = function(zoomLevel) {
+LeafletField.prototype.updateZoomLevel = function (zoomLevel) {
     this.zoomField.val(zoomLevel);
-}
+};
 
-LeafletField.prototype.parseStrToLatLng = function(value) {
-    value = value.split(",").map(function(value) {
+LeafletField.prototype.parseStrToLatLng = function (value) {
+    value = value.split(",").map(function (value) {
         return parseFloat(value);
     });
 
@@ -183,53 +205,53 @@ LeafletField.prototype.parseStrToLatLng = function(value) {
     if (isNaN(latLng.lat) || isNaN(latLng.lng)) {
         return null;
     }
-    return latLng
-}
+    return latLng;
+};
 
-LeafletField.prototype.updateMapFromCoords = function(latLng) {
+LeafletField.prototype.updateMapFromCoords = function (latLng) {
     this.setMapPosition(latLng);
-}
+};
 
-LeafletField.prototype.setMapPosition = function(latLng) {
+LeafletField.prototype.setMapPosition = function (latLng) {
     this.marker.setLatLng(latLng);
     this.map.panTo(latLng);
-}
+};
 
-LeafletField.prototype.writeLocation = function(latLng) {
+LeafletField.prototype.writeLocation = function (latLng) {
     var lat = latLng.lat;
     var lng = latLng.lng;
-    var value = LeafletField.buildLocationString(this.srid, lng, lat)
+    var value = LeafletField.buildLocationString(this.srid, lng, lat);
 
     this.setState(value);
-}
+};
 
-LeafletField.buildLocationString = function(srid, lng, lat) {
-    return 'SRID='+srid+';POINT('+lng +' '+lat+')';
-}
+LeafletField.buildLocationString = function (srid, lng, lat) {
+    return "SRID=" + srid + ";POINT(" + lng + " " + lat + ")";
+};
 
 // Duplicate of GeoField.locationStringToStruct
-LeafletField.locationStringToStruct = function(locationString) {
+LeafletField.locationStringToStruct = function (locationString) {
     if (!locationString) {
         return {};
     }
 
     var matches = locationString.match(
         /^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$/
-    )
+    );
 
     return {
         srid: matches[1],
         defaultLocation: {
             lng: matches[2],
             lat: matches[3],
-        }
-    }
-}
+        },
+    };
+};
 
-LeafletField.prototype.checkVisibility = function(callback) {
+LeafletField.prototype.checkVisibility = function (callback) {
     var self = this;
-    var intervalId = setInterval(function() {
-        var visible = self.mapEl.is(':visible')
+    var intervalId = setInterval(function () {
+        var visible = self.mapEl.is(":visible");
         if (!visible) {
             return;
         }
@@ -237,20 +259,20 @@ LeafletField.prototype.checkVisibility = function(callback) {
         clearInterval(intervalId);
         callback();
     }, 1000);
-}
+};
 
-LeafletField.prototype.setState = function(newState) {
+LeafletField.prototype.setState = function (newState) {
     this.sourceField.val(newState);
 };
 
-LeafletField.prototype.getState = function() {
+LeafletField.prototype.getState = function () {
     return this.sourceField.val();
 };
 
-LeafletField.prototype.getValue = function() {
+LeafletField.prototype.getValue = function () {
     return this.sourceField.val();
 };
 
-LeafletField.prototype.focus = function() {
+LeafletField.prototype.focus = function () {
     // TODO: Implement this
 };
