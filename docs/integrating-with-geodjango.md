@@ -1,6 +1,6 @@
 # Integrating with GeoDjango
 
-First make sure you have [GeoDjango](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/) correctly setup and a PointField field defined in your model, then add a GoogleMapsPanel among your content_panels.
+First make sure you have [GeoDjango](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/) correctly setup and a `PointField` field defined in your model, then add a `GoogleMapsPanel` among your `content_panels`.
 
 ```python
 from django.contrib.gis.db import models
@@ -15,10 +15,12 @@ class MyPage(Page):
     ]
 ```
 
+If you instead want to use Leaflet, just change `GoogleMapsPanel` to `LeafletPanel`
+
 
 ### With an address field
 
-The panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
+The panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup.
 
 ```python
 from django.contrib.gis.db import models
