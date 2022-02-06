@@ -6,8 +6,19 @@ from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 
-from wagtailgeowidget.blocks import GeoAddressBlock, GeoBlock, GeoZoomBlock
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget import geocoders
+from wagtailgeowidget.blocks import (
+    GeoAddressBlock,
+    GeoBlock,
+    GeoZoomBlock,
+    GoogleMapsBlock,
+    LeafletBlock,
+)
+from wagtailgeowidget.edit_handlers import (
+    GeoAddressPanel,
+    GoogleMapsPanel,
+    LeafletPanel,
+)
 
 
 class StandardPage(Page):
@@ -17,8 +28,46 @@ class StandardPage(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                FieldPanel("address"),
-                GeoPanel("location", address_field="address"),
+                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
+                GoogleMapsPanel("location", address_field="address"),
+            ],
+            _("Geo details"),
+        ),
+    ]
+
+    def get_context(self, request):
+        data = super().get_context(request)
+        return data
+
+    @cached_property
+    def point(self):
+        from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+
+        return geosgeometry_str_to_struct(self.location)
+
+    @property
+    def lat(self):
+        return self.point["y"]
+
+    @property
+    def lng(self):
+        return self.point["x"]
+
+
+class StandardPageWithLeaflet(Page):
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
+    location = models.CharField(max_length=250, blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                GeoAddressPanel("address", geocoder=geocoders.NOMINATIM),
+                LeafletPanel("location", address_field="address"),
             ],
             _("Geo details"),
         ),
@@ -51,9 +100,49 @@ class StandardPageWithZoom(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                FieldPanel("address"),
+                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
                 FieldPanel("zoom"),
-                GeoPanel("location", address_field="address", zoom_field="zoom"),
+                GoogleMapsPanel("location", address_field="address", zoom_field="zoom"),
+            ],
+            _("Geo details"),
+        ),
+    ]
+
+    def get_context(self, request):
+        data = super().get_context(request)
+        return data
+
+    @cached_property
+    def point(self):
+        from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+
+        return geosgeometry_str_to_struct(self.location)
+
+    @property
+    def lat(self):
+        return self.point["y"]
+
+    @property
+    def lng(self):
+        return self.point["x"]
+
+
+class StandardPageWithLeafletAndZoom(Page):
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
+    location = models.CharField(max_length=250, blank=True, null=True)
+    zoom = models.SmallIntegerField(blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                GeoAddressPanel("address", geocoder=geocoders.NOMINATIM),
+                FieldPanel("zoom"),
+                LeafletPanel("location", address_field="address", zoom_field="zoom"),
             ],
             _("Geo details"),
         ),
@@ -81,13 +170,34 @@ class StandardPageWithZoom(Page):
 class StreamPage(Page):
     body = StreamField(
         [
-            ("map", GeoBlock()),
+            ("map", GoogleMapsBlock()),
+            ("map_leaflet", LeafletBlock()),
             (
                 "map_struct",
                 blocks.StructBlock(
                     [
+                        ("address", GeoAddressBlock(required=True)),
+                        ("map", GoogleMapsBlock(address_field="address")),
+                    ],
+                    icon="user",
+                ),
+            ),
+            (
+                "map_struct_with_deprecated_geopanel",
+                blocks.StructBlock(
+                    [
                         ("address", blocks.CharBlock(required=True)),
                         ("map", GeoBlock(address_field="address")),
+                    ],
+                    icon="user",
+                ),
+            ),
+            (
+                "map_struct_leaflet",
+                blocks.StructBlock(
+                    [
+                        ("address", GeoAddressBlock(required=True)),
+                        ("map", LeafletBlock(address_field="address")),
                     ],
                     icon="user",
                 ),
@@ -98,7 +208,24 @@ class StreamPage(Page):
                     [
                         ("address", GeoAddressBlock(required=True)),
                         ("zoom", GeoZoomBlock(required=False)),
-                        ("map", GeoBlock(address_field="address", zoom_field="zoom")),
+                        (
+                            "map",
+                            GoogleMapsBlock(address_field="address", zoom_field="zoom"),
+                        ),
+                    ],
+                    icon="user",
+                ),
+            ),
+            (
+                "map_struct_leaflet_with_zoom",
+                blocks.StructBlock(
+                    [
+                        ("address", GeoAddressBlock(required=True)),
+                        ("zoom", GeoZoomBlock(required=False)),
+                        (
+                            "map",
+                            LeafletBlock(address_field="address", zoom_field="zoom"),
+                        ),
                     ],
                     icon="user",
                 ),

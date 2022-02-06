@@ -9,6 +9,7 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 
 ## Features
 
+- Supports Google Maps or any title provider supported by Leaflet (such as Open Street Map or Mapbox)
 - Real spatial support (with GeoDjango and PointField)
 - Storing coordinates as strings (for no-GeoDjango setups)
 - StreamField integration
@@ -20,11 +21,13 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 
 ## Documentation
 
-- [Getting started](./docs/getting-started.md)
+- [Getting started with Google Maps](./docs/getting-started-with-google-maps.md)
+- [Getting started with Leaflet](./docs/getting-started-with-leaflet.md)
 - [Settings](./docs/settings.md)
 - [Adding the widget to a Page](./docs/adding-to-a-page.md)
 - [Integrating with GeoDjango](./docs/integrating-with-geodjango.md)
 - [Adding to a StreamField](./docs/adding-to-a-streamfield.md)
+- [Supported Geocoders](./docs/supported-geocoders.md)
 - [FAQ](./docs/faq.md)
 
 

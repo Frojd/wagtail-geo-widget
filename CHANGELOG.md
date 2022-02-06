@@ -1,7 +1,26 @@
 # Changelog
 
+## 6.0.0 (2022.02.06)
 
-## (In development) 5.3.0 (2020.01.05)
+- Add support for Leaflet with LeafletPanel/LeafletBlock (Martin Sandström)
+- Add standalone block and panel for GoogleMaps (Martin Sandström)
+- Deprecate GeoPanel, GeoBlock and GeoWidget in favour of GoogleMapsPanel, GoogleMapsBlock and GoogleMapsWidget (Martin Sandström)
+- Add panel for address field (Martin Sandström)
+- Add geocoding support for Nominatim (Martin Sandström)
+- Add telepath to widgets (Martin Sandström)
+- Drop support for Wagtail < 2.14 (Martin Sandström)
+- Add Swedish translations (Martin Sandströms)
+- Fix: Disable form submit on latlang field enter (Martin Sandström)
+- Fix: Apply prettier formatting to all js (Martin Sandström)
+
+**Note: Upgrading from 5 to 6**
+
+- Replace `GeoPanel` with `GoogleMapsPanel`
+- Replace `GeoBlock` with `GoogleMapsBlock`
+- Replace `FieldPanel('address')` with `GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS)`
+
+
+## 5.3.0 (2022.01.05)
 
 - Add persistant and user editable zoom for map widget (Martin Sandström)
 - Enable loading Google Maps API key dynamically (Martin Sandström)

@@ -1,4 +1,6 @@
 # Docker config
 web.env
 
-static
+node_modules
+
+/static
