@@ -108,6 +108,13 @@ LeafletField.prototype.initEvents = function () {
         self.updateZoomLevel(zoomLevel);
     });
 
+    this.latLngField.on("keydown", function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
     this.latLngField.on("input", function (_e) {
         var coords = $(this).val();
         var latLng = self.parseStrToLatLng(coords);

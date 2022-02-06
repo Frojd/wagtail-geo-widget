@@ -120,25 +120,6 @@ GoogleMapsField.prototype.initEvents = function () {
             self.writeLocation(gMLatLng);
         });
     } else {
-        this.latLngField.on("input", function (_e) {
-            var coords = $(this).val();
-            var latLng = self.parseStrToLatLng(coords);
-            if (latLng === null) {
-                self.displayWarning(
-                    "Invalid location coordinate, use Latitude and Longitude " +
-                        "(example: 59.3293234999,18.06858080003)",
-                    {
-                        field: self.latLngField,
-                    }
-                );
-                return;
-            }
-
-            self.clearFieldMessage({ field: self.latLngField });
-            self.updateMapFromCoords(latLng);
-            self.writeLocation(latLng);
-        });
-
         this.addressField.on("keydown", function (e) {
             if (e.keyCode === 13) {
                 e.preventDefault();
@@ -161,6 +142,31 @@ GoogleMapsField.prototype.initEvents = function () {
             }, 400);
         });
     }
+
+    this.latLngField.on("keydown", function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+    this.latLngField.on("input", function (_e) {
+        var coords = $(this).val();
+        var latLng = self.parseStrToLatLng(coords);
+        if (latLng === null) {
+            self.displayWarning(
+                self.translations.error_message_invalid_location,
+                {
+                    field: self.latLngField,
+                }
+            );
+            return;
+        }
+
+        self.clearFieldMessage({ field: self.latLngField });
+        self.updateMapFromCoords(latLng);
+        self.writeLocation(latLng);
+    });
 
     this.zoomField.on("keydown", function (e) {
         if (e.keyCode !== 13) {
