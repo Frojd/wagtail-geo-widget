@@ -15,3 +15,6 @@
         settings = GeoWidgetSettings.objects.first()
         return settings.google_maps_apikey
     ```
+
+- `GEO_WIDGET_LEAFLET_TILE_LAYER`: Which title provider to use in Leaflet. By default it is OSM. (`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`).
+- `GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS`: The tile layer options for leaflet, it supports [the following arguments](https://leafletjs.com/reference.html). Default is `{"attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}`
