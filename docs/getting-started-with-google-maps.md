@@ -1,9 +1,9 @@
-# Getting started
+# Getting started with Google Maps
 
 ### Requirements
 
 - Python 3.7+
-- Wagtail 2.11+ and Django
+- Wagtail 2.15+ and Django
 - A Google account
 
 
@@ -16,7 +16,7 @@ $ pip install wagtailgeowidget
 ```
 
 
-### Quick Setup
+### Setup
 
 Add `wagtailgeowidget` to your `INSTALLED_APPS` in Django settings.
 

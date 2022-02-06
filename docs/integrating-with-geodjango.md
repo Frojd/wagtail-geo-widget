@@ -1,17 +1,17 @@
 # Integrating with GeoDjango
 
-First make sure you have [GeoDjango](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/) correctly setup and a PointField field defined in your model, then add a GeoPanel among your content_panels.
+First make sure you have [GeoDjango](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/) correctly setup and a PointField field defined in your model, then add a GoogleMapsPanel among your content_panels.
 
 ```python
 from django.contrib.gis.db import models
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget.edit_handlers import GoogleMapsPanel
 
 
 class MyPage(Page):
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
-        GeoPanel('location'),
+        GoogleMapsPanel('location'),
     ]
 ```
 
@@ -24,7 +24,8 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget import geocoders
+from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
 
 
 class MyPageWithAddressField(Page):
@@ -33,8 +34,8 @@ class MyPageWithAddressField(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('address'),
-            GeoPanel('location', address_field='address'),
+            GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
+            GoogleMapsPanel('location', address_field='address'),
         ], _('Geo details')),
     ]
 ```
@@ -48,17 +49,17 @@ The panel accepts an `zoom_field` if you want to persist the zoom state.
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget.edit_handlers import GoogleMapsPanel
 
 
-class MyPageWithAddressField(Page):
+class MyPageWithZoomField(Page):
     zoom = models.SmallIntegerField(blank=True, null=True)
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('zoom'),
-            GeoPanel('location', zoom_field='zoom'),
+            GoogleMapsPanel('location', zoom_field='zoom'),
         ], _('Geo details')),
     ]
 ```

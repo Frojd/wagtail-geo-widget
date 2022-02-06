@@ -1,5 +1,8 @@
 # Adding Wagtail-Geo-Widget to a Page
 
+This documents explains how to add a Google Maps map to pages in various ways.
+
+If you instead want to use Leaflet, just change `GoogleMapsPanel` to `LeafletPanel`
 
 ### First create a page
 
@@ -29,14 +32,14 @@ class MyPage(Page):
 ```python
 from django.db import models
 from wagtail.core.models import Page
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget.edit_handlers import GoogleMapsPanel
 
 
 class MyPage(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        GeoPanel('location'),
+        GoogleMapsPanel('location'),
     ]
 ```
 
@@ -45,7 +48,7 @@ class MyPage(Page):
 
 When you update your page in the admin and add a location you will notice that the address will be stored as a `GEOSGeometry` string in the database (Example: `SRID=4326;POINT(17.35448867187506 59.929179873751934)`.
 
-It is a excellent format because this allows us to use the same GeoPanel for both the spatial field and a non-spatial field, but nothing we can display to our users. So lets add a helper that parses this into lat/lng.
+It is a excellent format because this allows us to use the same GoogleMapsPanel for both the spatial field and a non-spatial field, but nothing we can display to our users. So lets add a helper that parses this into lat/lng.
 
 
 ```python
@@ -74,6 +77,10 @@ With the helpers if place, you call `lat` or `lng` to access the coordinates.
 
 ### Adding an address field
 
+With the address field users can search for a location that will be shown in the map. This is a process called geocoding, where we transform a description of a place to a location.
+
+The address field supports several different geocoding services, but in this example below we use the Google Maps Geocoding service. You change the geocoder service by changing the geocoder param.
+
 The address field are optional and needs to be added separately, the panel accepts an `address_field` if you want to use the map in coordination with a geo-lookup (like the screenshot on top).
 
 
@@ -81,7 +88,8 @@ The address field are optional and needs to be added separately, the panel accep
 from django.db import models
 from django.utils.translation import ugettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget import geocoders
+from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
 
 
 class MyPageWithAddressField(Page):
@@ -90,8 +98,8 @@ class MyPageWithAddressField(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('address'),
-            GeoPanel('location', address_field='address'),
+            GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
+            GoogleMapsPanel('location', address_field='address'),
         ], _('Geo details')),
     ]
 ```
@@ -106,7 +114,7 @@ The zoom field works in a similar way as the address field and needs to be added
 from django.db import models
 from django.utils.translation import ugettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GeoPanel
+from wagtailgeowidget.edit_handlers import GoogleMapsPanel
 
 
 class MyPageWithZoomField(Page):
@@ -115,8 +123,8 @@ class MyPageWithZoomField(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('zoom'),
-            GeoPanel('location', zoom_field='zoom'),
+            FieldPanel("zoom"),
+            GoogleMapsPanel("location", zoom_field="zoom"),
         ], _('Geo details')),
     ]
 ```
