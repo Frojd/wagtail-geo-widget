@@ -40,6 +40,8 @@ docs/_build
 
 # node
 node_modules
+package.json
+package-lock.json
 
 # Virtualenv
 venv*
