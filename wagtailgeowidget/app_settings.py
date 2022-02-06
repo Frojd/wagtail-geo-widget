@@ -12,7 +12,11 @@ GEO_WIDGET_LEAFLET_TILE_LAYER = getattr(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 )
 GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS = getattr(
-    settings, "GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS", {}
+    settings,
+    "GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS",
+    {
+        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    },
 )
 
 GOOGLE_MAPS_V3_APIKEY = getattr(settings, "GOOGLE_MAPS_V3_APIKEY", None)
