@@ -14,7 +14,7 @@
 - Fix: Disable form submit on latlang field enter (Martin Sandström)
 - Fix: Apply prettier formatting to all js (Martin Sandström)
 
-**Note: Upgrading from 5.* to 6.**
+**Note: Upgrading from 5 to 6**
 
 - Replace `GeoPanel` with `GoogleMapsPanel`
 - Replace `GeoBlock` with `GoogleMapsBlock`
