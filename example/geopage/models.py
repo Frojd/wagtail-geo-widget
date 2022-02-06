@@ -84,7 +84,12 @@ class GeoPage(Page):
 
 class GeoLocationWithLeaflet(models.Model):
     title = models.CharField(max_length=255)
-    address = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
     zoom = models.SmallIntegerField(blank=True, null=True)
     location = models.PointField(srid=4326, null=True, blank=True)
 
@@ -110,7 +115,12 @@ class GeoPageWithLeafletRelatedLocations(Orderable, GeoLocationWithLeaflet):
 
 
 class GeoPageWithLeaflet(Page):
-    address = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
     location = models.PointField(srid=4326, null=True, blank=True)
 
     content_panels = Page.content_panels + [
@@ -245,7 +255,12 @@ class ClassicGeoPage(Page):
 
 
 class ClassicGeoPageWithLeaflet(Page):
-    address = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
@@ -318,7 +333,12 @@ class ClassicGeoPageWithZoom(Page):
 
 
 class ClassicGeoPageWithLeafletAndZoom(Page):
-    address = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
     location = models.CharField(max_length=250, blank=True, null=True)
     zoom = models.SmallIntegerField(blank=True, null=True)
 

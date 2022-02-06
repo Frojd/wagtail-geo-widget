@@ -55,7 +55,12 @@ class StandardPage(Page):
 
 
 class StandardPageWithLeaflet(Page):
-    address = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
     location = models.CharField(max_length=250, blank=True, null=True)
 
     content_panels = Page.content_panels + [
@@ -123,7 +128,12 @@ class StandardPageWithZoom(Page):
 
 
 class StandardPageWithLeafletAndZoom(Page):
-    address = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(
+        max_length=250,
+        help_text=_("Search powered by Nominatim"),
+        blank=True,
+        null=True,
+    )
     location = models.CharField(max_length=250, blank=True, null=True)
     zoom = models.SmallIntegerField(blank=True, null=True)
 
@@ -160,7 +170,7 @@ class StandardPageWithLeafletAndZoom(Page):
 class StreamPage(Page):
     body = StreamField(
         [
-            ("map", GeoBlock()),
+            ("map", GoogleMapsBlock()),
             ("map_leaflet", LeafletBlock()),
             (
                 "map_struct",
@@ -198,7 +208,10 @@ class StreamPage(Page):
                     [
                         ("address", GeoAddressBlock(required=True)),
                         ("zoom", GeoZoomBlock(required=False)),
-                        ("map", GeoBlock(address_field="address", zoom_field="zoom")),
+                        (
+                            "map",
+                            GoogleMapsBlock(address_field="address", zoom_field="zoom"),
+                        ),
                     ],
                     icon="user",
                 ),
