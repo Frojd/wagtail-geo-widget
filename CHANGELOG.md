@@ -1,7 +1,6 @@
 # Changelog
 
-
-## (In development) 6.0.0 (XXXX.XX.XX)
+## 6.0.0 (2022.02.06)
 
 - Add support for Leaflet with LeafletPanel/LeafletBlock (Martin Sandström)
 - Add standalone block and panel for GoogleMaps (Martin Sandström)
@@ -21,7 +20,7 @@
 - Replace `FieldPanel('address')` with `GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS)`
 
 
-## 5.3.0 (2020.01.05)
+## 5.3.0 (2022.01.05)
 
 - Add persistant and user editable zoom for map widget (Martin Sandström)
 - Enable loading Google Maps API key dynamically (Martin Sandström)
