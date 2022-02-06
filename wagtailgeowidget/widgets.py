@@ -25,7 +25,6 @@ from wagtailgeowidget.app_settings import (
 )
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
-
 translations = {
     "error_message_invalid_location": _(
         "Invalid location coordinate, use Latitude and Longitude (example: 59.329,18.06858)"
