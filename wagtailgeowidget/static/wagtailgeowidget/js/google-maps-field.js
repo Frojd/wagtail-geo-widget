@@ -11,6 +11,7 @@ function GoogleMapsField(options) {
         parseFloat(defaultLocation.lng)
     );
 
+    this.translations = options.translations;
     this.mapEl = $("#" + id + "_map");
     this.zoom = options.zoom;
     this.srid = options.srid;
@@ -30,8 +31,8 @@ function GoogleMapsField(options) {
     }
 
     if (options.showEmptyLocation) {
-        this.addressField.attr("placeholder", "Enter a location");
-        this.latLngField.attr("placeholder", "Click here to initialize map");
+        this.addressField.attr("placeholder", this.translations.enter_location);
+        this.latLngField.attr("placeholder", this.translations.initialize_map);
 
         this.mapEl.css("display", "none");
 
@@ -194,7 +195,7 @@ GoogleMapsField.prototype.initAutocomplete = function (field) {
         }
 
         self.clearAllFieldMessages();
-        self.displaySuccess("Address has been successfully geo-coded", {
+        self.displaySuccess(self.translations.success_address_geocoded, {
             field: self.addressField,
         });
 
@@ -286,10 +287,7 @@ GoogleMapsField.prototype.geocodeSearch = function (query) {
             !results.length
         ) {
             self.displayWarning(
-                'Could not geocode address "' +
-                    query +
-                    '". ' +
-                    "The map may not be in sync with the address entered.",
+                self.translations.error_could_not_geocode_address.replace("%s", query),
                 {
                     field: self.addressField,
                 }
@@ -305,9 +303,11 @@ GoogleMapsField.prototype.geocodeSearch = function (query) {
         }
 
         self.clearAllFieldMessages();
-        self.displaySuccess("Address has been successfully geo-coded", {
-            field: self.addressField,
-        });
+        self.displaySuccess(self.translations.success_address_geocoded,
+            {
+                field: self.addressField,
+            }
+        );
 
         var latLng = results[0].geometry.location;
         self.setMapPosition(latLng);

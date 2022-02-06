@@ -5,7 +5,7 @@ from django.forms import widgets
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from wagtail.core.telepath import register
 from wagtail.core.widget_adapters import WidgetAdapter
 from wagtail.utils.widgets import WidgetWithScript
@@ -24,6 +24,19 @@ from wagtailgeowidget.app_settings import (
     GEO_WIDGET_ZOOM,
 )
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+
+
+translations = {
+    "error_message_invalid_location": _(
+        "Invalid location coordinate, use Latitude and Longitude (example: 59.329,18.06858)"
+    ),
+    "success_address_geocoded": _("Address has been successfully geo-coded"),
+    "error_could_not_geocode_address": _(
+        "Could not geocode address '%s'. The map may not be in sync with the address entered."
+    ),
+    "enter_location": _("Enter a location"),
+    "initialize_map": _("Click here to initialize map"),
+}
 
 
 class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
@@ -91,10 +104,8 @@ class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
             "zoom": self.zoom,
             "srid": self.srid,
             "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+            "translations": translations,
         }
-
-        # if not value and GEO_WIDGET_EMPTY_LOCATION:
-        #    data["showEmptyLocation"] = True
 
         if value and isinstance(value, str):
             result = geosgeometry_str_to_struct(value)
@@ -201,6 +212,7 @@ class GoogleMapsFieldAdapter(WidgetAdapter):
                 "srid": widget.srid,
                 "zoom": widget.zoom,
                 "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+                "translations": translations,
             },
         ]
 
@@ -262,7 +274,7 @@ class GeocoderField(WidgetWithScript, widgets.TextInput):
 
         return "new {0}({1});".format(
             field_by_geocoder[self.geocoder],
-            json.dumps({"id": id_}),
+            json.dumps({"id": id_, "translations": translations}),
         )
 
 
@@ -271,7 +283,7 @@ class GeocoderFieldAdapter(WidgetAdapter):
 
     def js_args(self, widget):
         args = super().js_args(widget)
-        return [*args, widget.geocoder]
+        return [*args, widget.geocoder, translations]
 
     class Media:
         js = ["wagtailgeowidget/js/geocoder-field-telepath.js"]
@@ -322,6 +334,7 @@ class LeafletField(WidgetWithScript, forms.HiddenInput):
             "tileLayer": GEO_WIDGET_LEAFLET_TILE_LAYER,
             "tileLayerOptions": GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS,
             "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+            "translations": translations,
         }
 
         if value and isinstance(value, str):
@@ -431,6 +444,7 @@ class LeafletFieldAdapter(WidgetAdapter):
                 "tileLayer": GEO_WIDGET_LEAFLET_TILE_LAYER,
                 "tileLayerOptions": GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS,
                 "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+                "translations": translations,
             },
         ]
 

@@ -1,8 +1,9 @@
 // This file must follow ES5
 (function () {
-    function GeocoderFieldWrap(html, _id, geocoder) {
+    function GeocoderFieldWrap(html, _id, geocoder, translations) {
         this.html = html;
         this.geocoder = geocoder;
+        this.translations = translations;
     }
 
     GeocoderFieldWrap.prototype.render = function (
@@ -21,7 +22,7 @@
 
         var Field = fieldByGeocoder[this.geocoder];
 
-        var geocoderField = new Field({ id: id });
+        var geocoderField = new Field({ id: id, translations: this.translations});
         geocoderField.setState(initialState);
         return geocoderField;
     };

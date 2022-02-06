@@ -1,8 +1,4 @@
 // This file must follow ES5
-var LEAFLET_FIELD_ERROR_MESSAGE_INVALID_LOCATION =
-    "Invalid location coordinate, use Latitude and Longitude " +
-    "(example: 59.3293234999,18.06858080003)";
-
 function LeafletField(options) {
     var id = options.id;
     var self = this;
@@ -12,6 +8,7 @@ function LeafletField(options) {
         lng: parseFloat(options.defaultLocation.lng),
     };
 
+    this.translations = options.translations;
     this.mal = null;
     this.mapEl = $("#" + id + "_map");
     this.zoom = options.zoom;
@@ -32,8 +29,8 @@ function LeafletField(options) {
     }
 
     if (options.showEmptyLocation) {
-        this.addressField.attr("placeholder", "Enter a location");
-        this.latLngField.attr("placeholder", "Click here to initialize map");
+        this.addressField.attr("placeholder", this.translations.enter_location);
+        this.latLngField.attr("placeholder", this.translations.initialize_map);
 
         this.mapEl.css("display", "none");
 
@@ -116,7 +113,7 @@ LeafletField.prototype.initEvents = function () {
         var latLng = self.parseStrToLatLng(coords);
 
         if (latLng === null) {
-            self.displayWarning(LEAFLET_FIELD_ERROR_MESSAGE_INVALID_LOCATION, {
+            self.displayWarning(self.translations.error_message_invalid_location, {
                 field: self.latLngField,
             });
             return;

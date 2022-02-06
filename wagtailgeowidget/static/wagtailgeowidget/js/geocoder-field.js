@@ -6,6 +6,7 @@ function GeocoderField(options) {
     var id = options.id;
     var $el = $("#" + id);
 
+    this.translations = options.translations;
     this.field = $el;
     this.delayTime = 1000;
 
@@ -116,10 +117,7 @@ NominatimGeocoderField.prototype.geocodeSearch = function (query) {
         .then((data) => {
             if (!data.length) {
                 self.displayWarning(
-                    'Could not geocode address "' +
-                        query +
-                        '". ' +
-                        "The map may not be in sync with the address entered.",
+                    self.translations.error_could_not_geocode_address.replace("%s", query),
                     {
                         field: self.field,
                     }
@@ -127,7 +125,7 @@ NominatimGeocoderField.prototype.geocodeSearch = function (query) {
                 return;
             }
 
-            self.displaySuccess("Address has been successfully geo-coded", {
+            self.displaySuccess(self.translations.success_address_geocoded, {
                 field: self.field,
             });
 
@@ -156,7 +154,7 @@ function GoogleMapsGeocoderField(options) {
             return;
         }
 
-        self.displaySuccess("Address has been successfully geo-coded", {
+        self.displaySuccess(self.translations.success_address_geocoded, {
             field: self.field,
         });
 
@@ -179,10 +177,7 @@ GoogleMapsGeocoderField.prototype.geocodeSearch = function (query) {
             !results.length
         ) {
             self.displayWarning(
-                'Could not geocode address "' +
-                    query +
-                    '". ' +
-                    "The map may not be in sync with the address entered.",
+                self.translations.error_could_not_geocode_address.replace("%s", query),
                 {
                     field: self.field,
                 }
