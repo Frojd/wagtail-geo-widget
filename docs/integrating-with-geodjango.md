@@ -24,7 +24,7 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 
 ```python
 from django.contrib.gis.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
@@ -49,7 +49,7 @@ The panel accepts an `zoom_field` if you want to persist the zoom state.
 
 ```python
 from django.contrib.gis.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GoogleMapsPanel
 
