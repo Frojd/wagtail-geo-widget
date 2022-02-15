@@ -86,7 +86,7 @@ The address field are optional and needs to be added separately, the panel accep
 
 ```python
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
@@ -112,7 +112,7 @@ The zoom field works in a similar way as the address field and needs to be added
 
 ```python
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtailgeowidget.edit_handlers import GoogleMapsPanel
 
