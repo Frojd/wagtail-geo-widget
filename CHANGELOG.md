@@ -1,43 +1,63 @@
 # Changelog
 
-## 6.0.0 (2022.02.06)
+## [Unreleased]
 
+### Fixed
+- Fix: Replace ugettext with gettext (@mariusboe)
+- Fix: Add documentation on leaflet settings (Martin Sandström)
+
+## [6.0.0] - 2022.02.06
+
+### Added
 - Add support for Leaflet with LeafletPanel/LeafletBlock (Martin Sandström)
 - Add standalone block and panel for GoogleMaps (Martin Sandström)
-- Deprecate GeoPanel, GeoBlock and GeoWidget in favour of GoogleMapsPanel, GoogleMapsBlock and GoogleMapsWidget (Martin Sandström)
 - Add panel for address field (Martin Sandström)
 - Add geocoding support for Nominatim (Martin Sandström)
 - Add telepath to widgets (Martin Sandström)
-- Drop support for Wagtail < 2.14 (Martin Sandström)
+
+### Changed
+- Deprecate GeoPanel, GeoBlock and GeoWidget in favour of GoogleMapsPanel, GoogleMapsBlock and GoogleMapsWidget (Martin Sandström)
 - Add Swedish translations (Martin Sandströms)
+
+### Fixed
 - Fix: Disable form submit on latlang field enter (Martin Sandström)
 - Fix: Apply prettier formatting to all js (Martin Sandström)
 
-**Note: Upgrading from 5 to 6**
+### Removed
+- Drop support for Wagtail < 2.14 (Martin Sandström)
+
+### Note: Upgrading from 5 to 6
 
 - Replace `GeoPanel` with `GoogleMapsPanel`
 - Replace `GeoBlock` with `GoogleMapsBlock`
 - Replace `FieldPanel('address')` with `GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS)`
 
 
-## 5.3.0 (2022.01.05)
+## [5.3.0] - 2022.01.05
 
+### Added
 - Add persistant and user editable zoom for map widget (Martin Sandström)
 - Enable loading Google Maps API key dynamically (Martin Sandström)
 - Make it possible to hide latlng field for GeoBlock (@vladox)
+
+### Fixed
 - Fix: Solve issue with address not working streamfield in Wagtail 1.13+ (@vladox)
 - Fix: Drop six dependency (Martin Sandström)
 
 
-## 5.2.0 (2022.01.04)
+## [5.2.0] - 2022.01.04
 
+### Removed
 - Drop support for Python 3.6
 - Drop support for EOL Wagtail
 
 
-## 5.1.0 (2020.11.21)
+## [5.1.0] - 2020.11.21
 
+### Added
 - Implement setting for leaving location field empty (Andreas Bernacca)
+
+### Fixed
 - Update docs for services that needs to be activated (Timothy Allen)
 - Fix: Move CI from Travis to Github Actions (Martin Sandström)
 
