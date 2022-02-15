@@ -5,7 +5,10 @@ from django.forms import widgets
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+if django.VERSION < (4, 0):
+    from django.utils.translation import ugettext as _
+else:
+    from django.utils.translation import gettext as _
 from wagtail.core.telepath import register
 from wagtail.core.widget_adapters import WidgetAdapter
 from wagtail.utils.widgets import WidgetWithScript
