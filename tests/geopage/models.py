@@ -266,7 +266,7 @@ class ClassicGeoPageWithLeaflet(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                GeoAddressPanel("address", geocoder=geocoders.NOMINATIM),
+                GeoAddressPanel("address", geocoder=geocoders.MAPBOX),
                 LeafletPanel("location", address_field="address", hide_latlng=True),
             ],
             _("Geo details"),

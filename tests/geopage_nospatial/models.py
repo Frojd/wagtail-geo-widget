@@ -196,7 +196,10 @@ class StreamPage(Page):
                 "map_struct_leaflet",
                 blocks.StructBlock(
                     [
-                        ("address", GeoAddressBlock(required=True)),
+                        (
+                            "address",
+                            GeoAddressBlock(required=True, geocoder=geocoders.MAPBOX),
+                        ),
                         ("map", LeafletBlock(address_field="address")),
                     ],
                     icon="user",

@@ -117,7 +117,10 @@ NominatimGeocoderField.prototype.geocodeSearch = function (query) {
         .then((data) => {
             if (!data.length) {
                 self.displayWarning(
-                    self.translations.error_could_not_geocode_address.replace("%s", query),
+                    self.translations.error_could_not_geocode_address.replace(
+                        "%s",
+                        query
+                    ),
                     {
                         field: self.field,
                     }
@@ -177,7 +180,10 @@ GoogleMapsGeocoderField.prototype.geocodeSearch = function (query) {
             !results.length
         ) {
             self.displayWarning(
-                self.translations.error_could_not_geocode_address.replace("%s", query),
+                self.translations.error_could_not_geocode_address.replace(
+                    "%s",
+                    query
+                ),
                 {
                     field: self.field,
                 }
@@ -197,4 +203,56 @@ GoogleMapsGeocoderField.prototype.geocodeSearch = function (query) {
             { lat: latLng.lat(), lng: latLng.lng() },
         ]);
     });
+};
+
+// Mapbox
+function MapboxGeocoderField(options) {
+    GeocoderField.call(this, options);
+
+    var params = options.params || {};
+
+    this.accessToken = params.accessToken;
+}
+
+MapboxGeocoderField.prototype = Object.create(GeocoderField.prototype);
+MapboxGeocoderField.prototype.constructor = GeocoderField;
+
+MapboxGeocoderField.prototype.geocodeSearch = function (query) {
+    var self = this;
+
+    var url =
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+        query +
+        ".json?" +
+        new URLSearchParams({
+            limit: 1,
+            access_token: this.accessToken,
+        });
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            if (!data.features.length) {
+                self.displayWarning(
+                    self.translations.error_could_not_geocode_address.replace(
+                        "%s",
+                        query
+                    ),
+                    {
+                        field: self.field,
+                    }
+                );
+                return;
+            }
+
+            self.displaySuccess(self.translations.success_address_geocoded, {
+                field: self.field,
+            });
+
+            var feature = data.features[0];
+            var coordinates = feature.geometry.coordinates;
+            self.field.trigger("searchGeocoded", [
+                { lat: coordinates[1], lng: coordinates[0] },
+            ]);
+        });
 };

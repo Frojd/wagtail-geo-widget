@@ -13,7 +13,7 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 - Real spatial support (with GeoDjango and PointField)
 - Storing coordinates as strings (for no-GeoDjango setups)
 - StreamField integration
-- Searching with geocoding (supports Google Geocoding and Nominatim)
+- Searching with geocoding (supports Google Geocoding, Nominatim and Mapbox)
 - Inline panel support
 - Optional address search field
 - Language support

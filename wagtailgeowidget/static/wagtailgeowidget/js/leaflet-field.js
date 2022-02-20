@@ -120,9 +120,12 @@ LeafletField.prototype.initEvents = function () {
         var latLng = self.parseStrToLatLng(coords);
 
         if (latLng === null) {
-            self.displayWarning(self.translations.error_message_invalid_location, {
-                field: self.latLngField,
-            });
+            self.displayWarning(
+                self.translations.error_message_invalid_location,
+                {
+                    field: self.latLngField,
+                }
+            );
             return;
         }
 

@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from wagtailgeowidget import geocoders
+from wagtailgeowidget import app_settings, geocoders
 from wagtailgeowidget.widgets import GeocoderField, GoogleMapsField, LeafletField
 
 
@@ -52,6 +52,9 @@ class LeafletFieldTestCase(TestCase):
 
 
 class GeocoderFieldTestCase(TestCase):
+    def setUp(self):
+        app_settings.MAPBOX_ACCESS_TOKEN = None
+
     def test_geocoder_field_contains_constuct_regular(self):
         widget = GeocoderField()
         html = widget.render(
@@ -75,3 +78,21 @@ class GeocoderFieldTestCase(TestCase):
         html = widget.render_js_init("id", "field", "")
 
         self.assertIn("new GoogleMapsGeocoderField", html)
+
+    def test_mapbox_geocoder_returns_googlemaps_field(self):
+        widget = GeocoderField(geocoder=geocoders.MAPBOX)
+        html = widget.render_js_init("id", "field", "")
+
+        self.assertIn("new MapboxGeocoderField", html)
+        self.assertIn('accessToken": null', html)
+
+    def test_mapbox_access_token_gets_outputted(self):
+        app_settings.MAPBOX_ACCESS_TOKEN = "<MAPBOX ACCESS TOKEN>"
+
+        widget = GeocoderField(geocoder=geocoders.MAPBOX)
+        html = widget.render_js_init("id", "field", "")
+
+        self.assertIn("new MapboxGeocoderField", html)
+        self.assertIn('accessToken": "<MAPBOX ACCESS TOKEN>', html)
+
+        app_settings.MAPBOX_ACCESS_TOKEN = None

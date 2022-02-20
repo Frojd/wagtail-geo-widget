@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+- Add geocoding support for Mapbox (Martin Sandström)
+- Add Wagtail 2.16 support
+
 ### Fixed
 - Fix: Replace ugettext with gettext (@mariusboe)
 - Fix: Add documentation on leaflet settings (Martin Sandström)

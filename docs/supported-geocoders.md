@@ -45,3 +45,26 @@ class ExamplePage(Page):
         LeafletPanel("location", address_field="address"),
     ]
 ```
+
+
+## Mapbox
+
+Url: [https://docs.mapbox.com/api/search/geocoding/](https://docs.mapbox.com/api/search/geocoding/)
+
+### Example:
+
+```python
+from django.contrib.gis.db import models
+from wagtail.core.models import Page
+from wagtailgeowidget import geocoders
+from wagtailgeowidget.blocks import GeoAddressPanel, LeafletPanel
+
+class ExamplePage(Page):
+    address = models.CharField(max_length=250, blank=True, null=True)
+    location = models.PointField(srid=4326, null=True, blank=True)
+
+    content_panels = Page.content_panels + [
+        GeoAddressPanel("address", geocoder=geocoders.MAPBOX),
+        LeafletPanel("location", address_field="address"),
+    ]
+```
