@@ -9,14 +9,18 @@ jobs:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         wagtail-version:
-        - 2.14.2
-        - 2.15.4
-        - 2.16.1
+          #- 2.14.2 (not supported due to issues with migrations)
+          - 2.15.4
+          - 2.16.1
     services:
       postgres:
-        image: postgres
+        image: postgis/postgis:12-2.5
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -31,8 +35,10 @@ jobs:
       - name: Install dependencies
         run: |
           set -xe
+          sudo apt-get install gdal-bin libgdal-dev
           python -m pip install --upgrade pip
           pip install .[test]
+          pip install psycopg2-binary>=2.9.3
       - name: Install wagtail ${{ matrix.wagtail-version }}
         run: pip install wagtail==${{ matrix.wagtail-version }}
       - name: Run tests
@@ -42,7 +48,7 @@ jobs:
           DATABASE_NAME: postgres
           DATABASE_USER: postgres
           DATABASE_PASSWORD: postgres
-          DATABASE_HOST: postgres
+          DATABASE_HOST: localhost
           DATABASE_PORT: 5432
           GOOGLE_MAPS_V3_APIKEY: X
 
