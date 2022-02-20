@@ -5,6 +5,8 @@
 ### Fixed
 - Fix: Replace ugettext with gettext (@mariusboe)
 - Fix: Add documentation on leaflet settings (Martin Sandström)
+- Fix: Replace test runniner with pytest
+- Fix: Drop duplicated tests from wagtailgeowidget/tests
 
 ## [6.0.0] - 2022.02.06
 
