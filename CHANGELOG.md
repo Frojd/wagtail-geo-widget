@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [6.1.0] - 2022.02.20
 
 ### Added
 - Add geocoding support for Mapbox (Martin Sandström)
@@ -11,6 +11,7 @@
 - Fix: Add documentation on leaflet settings (Martin Sandström)
 - Fix: Replace test runniner with pytest
 - Fix: Drop duplicated tests from wagtailgeowidget/tests
+
 
 ## [6.0.0] - 2022.02.06
 
