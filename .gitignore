@@ -49,6 +49,11 @@ venv*
 # Editor
 .idea
 
-example/wagtailgeowidget
-example/wagtail
-example/wagtail-2.0b1
+# Docker
+web.env
+
+# Static
+tests/static/*
+tests/media/*
+!tests/static/.gitkeep
+!tests/media/.gitkeep

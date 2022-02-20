@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -266,7 +266,7 @@ class ClassicGeoPageWithLeaflet(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                GeoAddressPanel("address", geocoder=geocoders.NOMINATIM),
+                GeoAddressPanel("address", geocoder=geocoders.MAPBOX),
                 LeafletPanel("location", address_field="address", hide_latlng=True),
             ],
             _("Geo details"),

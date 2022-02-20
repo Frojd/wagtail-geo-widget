@@ -1,16 +1,17 @@
 from .base import *
 
+INSTALLED_APPS.remove("django.contrib.gis")
+INSTALLED_APPS.remove("geopage")
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "j^z1y2*xivcg89csavhg6jhkhxkx-2&2*@()(_c(!a7)42kgui"
+SECRET_KEY = "SECRET"
 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-try:
-    from .local import *
-except ImportError:
-    pass
+DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"

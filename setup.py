@@ -17,6 +17,12 @@ with io.open("wagtailgeowidget/__init__.py", "r", encoding="utf8") as fd:
         r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
     ).group(1)
 
+test_extras = [
+    "pytest",
+    "pytest-django",
+    "factory-boy",
+]
+
 setup(
     name="wagtailgeowidget",
     version=version,
@@ -30,30 +36,35 @@ setup(
     url="https://github.com/frojd/wagtail-geo-widget",
     packages=find_packages(exclude=("tests*", "tests", "example")),
     include_package_data=True,
-    install_requires=[
-        "Django>=2.2",
-    ],
     license="MIT",
     zip_safe=False,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
-        "Intended Audience :: Developers",
-        "Natural Language :: English",
+        "Framework :: Django",
+        "Framework :: Django :: 2.2",
+        "Framework :: Django :: 3.2",
+        "Framework :: Django :: 4.0",
+        "Framework :: Wagtail",
+        "Framework :: Wagtail :: 2",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Framework :: Django",
-        "Framework :: Django :: 2.2",
-        "Framework :: Django :: 3.2",
-        "Framework :: Django :: 4.0",
         "Topic :: Utilities",
-        "Framework :: Wagtail",
-        "Framework :: Wagtail :: 2",
     ],
+    extras_require={"test": test_extras},
+    install_requires=[
+        "Wagtail>=2.14",
+    ],
+    project_urls={
+        "Source": "https://github.com/Frojd/wagtail-geo-widget/",
+        "Changelog": "https://github.com/Frojd/wagtail-geo-widget/blob/main/CHANGELOG.md",
+    },
 )

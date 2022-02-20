@@ -5,7 +5,7 @@ from django.forms import widgets
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from wagtail.core.telepath import register
 from wagtail.core.widget_adapters import WidgetAdapter
 from wagtail.utils.widgets import WidgetWithScript
@@ -269,11 +269,21 @@ class GeocoderField(WidgetWithScript, widgets.TextInput):
         field_by_geocoder = {
             "nominatim": "NominatimGeocoderField",
             "google_maps": "GoogleMapsGeocoderField",
+            "mapbox": "MapboxGeocoderField",
         }
+
+        options = {"id": id_, "translations": translations}
+        params = {}
+        if self.geocoder == geocoders.MAPBOX:
+            from wagtailgeowidget.app_settings import MAPBOX_ACCESS_TOKEN
+
+            params["accessToken"] = MAPBOX_ACCESS_TOKEN
+
+        options["params"] = params
 
         return "new {0}({1});".format(
             field_by_geocoder[self.geocoder],
-            json.dumps({"id": id_, "translations": translations}),
+            json.dumps(options),
         )
 
 
@@ -282,7 +292,15 @@ class GeocoderFieldAdapter(WidgetAdapter):
 
     def js_args(self, widget):
         args = super().js_args(widget)
-        return [*args, widget.geocoder, translations]
+
+        params = {}
+
+        if widget.geocoder == geocoders.MAPBOX:
+            from wagtailgeowidget.app_settings import MAPBOX_ACCESS_TOKEN
+
+            params["accessToken"] = MAPBOX_ACCESS_TOKEN
+
+        return [*args, widget.geocoder, translations, params]
 
     class Media:
         js = ["wagtailgeowidget/js/geocoder-field-telepath.js"]

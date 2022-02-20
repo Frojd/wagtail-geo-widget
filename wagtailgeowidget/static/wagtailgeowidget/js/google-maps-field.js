@@ -293,7 +293,10 @@ GoogleMapsField.prototype.geocodeSearch = function (query) {
             !results.length
         ) {
             self.displayWarning(
-                self.translations.error_could_not_geocode_address.replace("%s", query),
+                self.translations.error_could_not_geocode_address.replace(
+                    "%s",
+                    query
+                ),
                 {
                     field: self.addressField,
                 }
@@ -309,11 +312,9 @@ GoogleMapsField.prototype.geocodeSearch = function (query) {
         }
 
         self.clearAllFieldMessages();
-        self.displaySuccess(self.translations.success_address_geocoded,
-            {
-                field: self.addressField,
-            }
-        );
+        self.displaySuccess(self.translations.success_address_geocoded, {
+            field: self.addressField,
+        });
 
         var latLng = results[0].geometry.location;
         self.setMapPosition(latLng);

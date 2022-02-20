@@ -18,7 +18,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip \
-    && pip install -r $REQUIREMENTS --no-cache-dir \
+    && pip install -e .[test] --no-cache-dir \
+    && pip install psycopg2-binary==2.9.3 \
     && pip install ipython \
     && pip install pywatchman
 

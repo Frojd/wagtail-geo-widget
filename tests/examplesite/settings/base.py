@@ -54,11 +54,11 @@ INSTALLED_APPS = WAGTAIL_APPS + [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "wagtailgeowidget",
-    "examplesite",
-    "home",
-    "search",
-    "geopage",
-    "geopage_nospatial",
+    "tests.examplesite",
+    "tests.home",
+    "tests.search",
+    "tests.geopage",
+    "tests.geopage_nospatial",
 ]
 
 MIDDLEWARE = [
@@ -75,7 +75,7 @@ MIDDLEWARE += [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-ROOT_URLCONF = "examplesite.urls"
+ROOT_URLCONF = "tests.examplesite.urls"
 
 TEMPLATES = [
     {
@@ -95,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "examplesite.wsgi.application"
+WSGI_APPLICATION = "tests.examplesite.wsgi.application"
 
 
 # Database
@@ -120,8 +120,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
