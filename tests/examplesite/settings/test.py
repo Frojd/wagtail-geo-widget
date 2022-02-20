@@ -36,4 +36,4 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE_CLASSES = []
 ROOT_URLCONF = "tests.urls"
-SECRET_KEY = "secret key"
+SECRET_KEY = "RANDOM"
