@@ -45,7 +45,7 @@ GeocoderField.prototype.geocodeSearch = function (_query) {
 };
 
 GeocoderField.prototype.genMessageId = function (field) {
-    return "wagtailgeowdidget__" + field.attr("id") + "--warning";
+    return "wagtailgeowidget__" + field.attr("id") + "--warning";
 };
 
 GeocoderField.prototype.clearFieldMessage = function (options) {
