@@ -17,6 +17,12 @@ with io.open("wagtailgeowidget/__init__.py", "r", encoding="utf8") as fd:
         r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
     ).group(1)
 
+test_extras = [
+    "pytest",
+    "pytest-django",
+    "factory-boy",
+]
+
 setup(
     name="wagtailgeowidget",
     version=version,
@@ -30,9 +36,6 @@ setup(
     url="https://github.com/frojd/wagtail-geo-widget",
     packages=find_packages(exclude=("tests*", "tests", "example")),
     include_package_data=True,
-    install_requires=[
-        "Django>=2.2",
-    ],
     license="MIT",
     zip_safe=False,
     classifiers=[
@@ -55,6 +58,10 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Topic :: Utilities",
+    ],
+    extras_require={"test": test_extras},
+    install_requires=[
+        "Wagtail>=2.14",
     ],
     project_urls={
         "Source": "https://github.com/Frojd/wagtail-geo-widget/",

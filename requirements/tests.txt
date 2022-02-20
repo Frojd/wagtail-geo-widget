@@ -1,2 +1,0 @@
--r install.txt
-factory-boy
