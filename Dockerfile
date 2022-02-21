@@ -3,7 +3,6 @@ MAINTAINER Frojd
 LABEL version="v0.1.0"
 
 ENV PYTHONUNBUFFERED=1 \
-    REQUIREMENTS=requirements.txt \
     APP_LOG_DIR=/var/log/app
 
 ADD . /app/
