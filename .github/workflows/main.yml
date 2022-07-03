@@ -36,6 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           set -xe
+          sudo apt-get update
           sudo apt-get install gdal-bin libgdal-dev
           python -m pip install --upgrade pip
           pip install .[test]
@@ -62,7 +63,7 @@ jobs:
         with:
           options: "--check --verbose"
           src: "."
-          version: "21.5b1"
+          version: "22.3.0"
 
   lint-isort:
     runs-on: ubuntu-latest
