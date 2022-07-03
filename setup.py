@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 import io
-import os
 import re
-import sys
 from pathlib import Path
 
 from setuptools import find_packages, setup
@@ -47,6 +45,7 @@ setup(
         "Framework :: Django :: 4.0",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
+        "Framework :: Wagtail :: 3",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
@@ -61,7 +60,7 @@ setup(
     ],
     extras_require={"test": test_extras},
     install_requires=[
-        "Wagtail>=2.14",
+        "Wagtail>=2.15",
     ],
     project_urls={
         "Source": "https://github.com/Frojd/wagtail-geo-widget/",

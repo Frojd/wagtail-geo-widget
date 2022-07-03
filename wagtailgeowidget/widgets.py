@@ -6,8 +6,14 @@ from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from wagtail.core.telepath import register
-from wagtail.core.widget_adapters import WidgetAdapter
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.telepath import register
+    from wagtail.widget_adapters import WidgetAdapter
+else:
+    from wagtail.core.telepath import register
+    from wagtail.core.widget_adapters import WidgetAdapter
 from wagtail.utils.widgets import WidgetWithScript
 
 try:

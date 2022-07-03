@@ -1,7 +1,20 @@
 # Changelog
 
-## [6.1.0] - 2022.02.20
+## [6.2.0] - 2022.07.03
+### Added
+- Add Wagtail 3 compability (@marteinn)
 
+### Changed
+- Make GEO_WIDGET_EMPTY_LOCATION False by default (@marteinn)
+
+### Removed
+- Drop support for Wagtail 2.14 (@marteinn)
+
+### Fixed
+- Add support for running outside of docker with custom .env file in development (@marteinn)
+
+
+## [6.1.0] - 2022.02.20
 ### Added
 - Add geocoding support for Mapbox (Martin Sandström)
 - Add Wagtail 2.16 support

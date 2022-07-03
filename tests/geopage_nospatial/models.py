@@ -1,10 +1,17 @@
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail import blocks
+    from wagtail.fields import StreamField
+    from wagtail.models import Page
+else:
+    from wagtail.core import blocks
+    from wagtail.core.fields import StreamField
+    from wagtail.core.models import Page
 
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import (

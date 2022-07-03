@@ -57,3 +57,6 @@ tests/static/*
 tests/media/*
 !tests/static/.gitkeep
 !tests/media/.gitkeep
+
+# Local env
+.env.local

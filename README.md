@@ -21,14 +21,14 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 
 ## Documentation
 
-- [Getting started with Google Maps](./docs/getting-started-with-google-maps.md)
-- [Getting started with Leaflet](./docs/getting-started-with-leaflet.md)
-- [Settings](./docs/settings.md)
-- [Adding the widget to a Page](./docs/adding-to-a-page.md)
-- [Integrating with GeoDjango](./docs/integrating-with-geodjango.md)
-- [Adding to a StreamField](./docs/adding-to-a-streamfield.md)
-- [Supported Geocoders](./docs/supported-geocoders.md)
-- [FAQ](./docs/faq.md)
+- [Getting started with Google Maps](https://github.com/Frojd/wagtail-geo-widget/blob/main/getting-started-with-google-maps.md)
+- [Getting started with Leaflet](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/getting-started-with-leaflet.md)
+- [Settings](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/settings.md)
+- [Adding the widget to a Page](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/adding-to-a-page.md)
+- [Integrating with GeoDjango](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/integrating-with-geodjango.md)
+- [Adding to a StreamField](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/adding-to-a-streamfield.md)
+- [Supported Geocoders](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/supported-geocoders.md)
+- [FAQ](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/faq.md)
 
 
 ## Contribute

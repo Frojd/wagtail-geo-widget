@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-06 09:33+0000\n"
+"PO-Revision-Date: 2022-04-06 09:33+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: widgets.py:31
+msgid ""
+"Invalid location coordinate, use Latitude and Longitude (example: "
+"59.329,18.06858)"
+msgstr ""
+"Coordonnées invalides, merci d'utiliser la latitude et la longitude (exemple: "
+"59.329,18.06858)"
+
+#: widgets.py:33
+msgid "Address has been successfully geo-coded"
+msgstr "L'adresse a été valablement géocodée"
+
+#: widgets.py:35
+#, python-format
+msgid ""
+"Could not geocode address '%s'. The map may not be in sync with the address "
+"entered."
+msgstr ""
+"L'adresse '%s' n'a pas pu être géocodée. La carte utilisée n'a peut-être pas référencé l'adresse saisie"
+
+#: env/lib/python3.9/site-packages/bin/wagtailgeowidget/widgets.py:37
+msgid "Enter a location"
+msgstr "Saisissez un lieu"
+
+#: widgets.py:38
+msgid "Click here to initialize map"
+msgstr "Cliquez ici pour initialiser la carte"

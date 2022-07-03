@@ -132,4 +132,4 @@ class MyPageWithZoomField(Page):
 
 ### More examples
 
-For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/example/geopage/models.py).
+For more examples, look at the [example](https://github.com/Frojd/wagtail-geo-widget/blob/develop/tests/geopage/models.py).
