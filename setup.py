@@ -60,7 +60,7 @@ setup(
     ],
     extras_require={"test": test_extras},
     install_requires=[
-        "Wagtail>=2.14",
+        "Wagtail>=2.15",
     ],
     project_urls={
         "Source": "https://github.com/Frojd/wagtail-geo-widget/",

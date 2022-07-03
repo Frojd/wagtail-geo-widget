@@ -4,7 +4,9 @@
 ### Added
 - Add Wagtail 3 compability (@marteinn)
 
----
+### Removed
+- Drop support for Wagtail 2.14 (@marteinn)
+
 
 ## [6.1.0] - 2022.02.20
 
