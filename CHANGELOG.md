@@ -1,8 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+### Changed
+### Removed
+### Fixed
+
 ## [6.2.0] - 2022.07.03
 ### Added
 - Add Wagtail 3 compability (@marteinn)
+- Add French translations (@ThbtSprt)
 
 ### Changed
 - Make GEO_WIDGET_EMPTY_LOCATION False by default (@marteinn)
