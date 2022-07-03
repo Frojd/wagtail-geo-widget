@@ -6,6 +6,7 @@
 ### Changed
 ### Removed
 ### Fixed
+- Ensure setup() is only called after user focus if showEmptyLocation is true (@kleingeist)
 
 ## [6.2.0] - 2022.07.03
 ### Added
