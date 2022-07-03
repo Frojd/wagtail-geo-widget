@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+from wagtail import VERSION as WAGTAIL_VERSION
+
 from . import get_env
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +38,7 @@ WAGTAIL_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
-    "wagtail.core",
+    "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
 ]
 
 
@@ -149,7 +151,7 @@ WAGTAIL_SITE_NAME = "examplesite"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = "http://example.com"
+WAGTAILADMIN_BASE_URL = "http://example.com"
 
 
 # Wagtail-geo-widget

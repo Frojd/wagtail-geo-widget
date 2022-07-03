@@ -12,6 +12,7 @@ jobs:
           #- 2.14.2 (not supported due to issues with migrations)
           - 2.15.4
           - 2.16.1
+          - 3.0.1
     services:
       postgres:
         image: postgis/postgis:12-2.5

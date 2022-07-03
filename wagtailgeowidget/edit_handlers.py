@@ -1,10 +1,14 @@
-import warnings
-
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.edit_handlers import FieldPanel
 
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.app_settings import GEO_WIDGET_ZOOM
 from wagtailgeowidget.widgets import GeocoderField, GoogleMapsField, LeafletField
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.admin.panels import FieldPanel
+else:
+    from wagtail.admin.edit_handlers import FieldPanel
 
 
 class GoogleMapsPanel(FieldPanel):
@@ -16,6 +20,11 @@ class GoogleMapsPanel(FieldPanel):
         self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
 
         super().__init__(*args, **kwargs)
+
+    def get_form_options(self):
+        opts = super().get_form_options()
+        opts["widgets"] = self.widget_overrides()
+        return opts
 
     def widget_overrides(self):
         field = self.model._meta.get_field(self.field_name)
@@ -61,6 +70,11 @@ class GeoAddressPanel(FieldPanel):
 
         super().__init__(*args, **kwargs)
 
+    def get_form_options(self):
+        opts = super().get_form_options()
+        opts["widgets"] = self.widget_overrides()
+        return opts
+
     def widget_overrides(self):
         return {
             self.field_name: GeocoderField(
@@ -84,6 +98,11 @@ class LeafletPanel(FieldPanel):
         self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
 
         super().__init__(*args, **kwargs)
+
+    def get_form_options(self):
+        opts = super().get_form_options()
+        opts["widgets"] = self.widget_overrides()
+        return opts
 
     def widget_overrides(self):
         field = self.model._meta.get_field(self.field_name)

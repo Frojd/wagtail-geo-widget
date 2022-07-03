@@ -1,7 +1,12 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
-from wagtail.core.models import Page
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.search.models import Query
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.models import Page
+else:
+    from wagtail.core.models import Page
 
 
 def search(request):

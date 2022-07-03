@@ -1,8 +1,12 @@
-import warnings
-
 from django import forms
 from django.utils.functional import cached_property
-from wagtail.core.blocks import CharBlock, FieldBlock, IntegerBlock
+from wagtail import VERSION as WAGTAIL_VERSION
+from wagtail.core.blocks import FieldBlock, IntegerBlock
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.blocks import FieldBlock, IntegerBlock
+else:
+    from wagtail.core.blocks import FieldBlock, IntegerBlock
 
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct

@@ -1,3 +1,5 @@
+from wagtail import VERSION as WAGTAIL_VERSION
+
 from .base import *
 
 PASSWORD_HASHERS = ("django.contrib.auth.hashers.MD5PasswordHasher",)
@@ -6,7 +8,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sites",
-    "wagtail.core",
+    "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
     "wagtail.admin",
     "wagtail.sites",
     "wagtail.users",

@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- Add Wagtail 3 compability (@marteinn)
+
+---
+
 ## [6.1.0] - 2022.02.20
 
 ### Added
