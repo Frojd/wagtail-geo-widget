@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
                     "address",
                     models.CharField(
                         blank=True,
-                        help_text="Search powered by Nominatim",
+                        help_text="Search powered by MapBox",
                         max_length=250,
                         null=True,
                     ),

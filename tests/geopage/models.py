@@ -271,7 +271,7 @@ class ClassicGeoPage(Page):
 class ClassicGeoPageWithLeaflet(Page):
     address = models.CharField(
         max_length=250,
-        help_text=_("Search powered by Nominatim"),
+        help_text=_("Search powered by MapBox"),
         blank=True,
         null=True,
     )
