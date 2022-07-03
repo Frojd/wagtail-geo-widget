@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [6.2.0] - 2022.07.03
 ### Added
 - Add Wagtail 3 compability (@marteinn)
 
@@ -15,7 +15,6 @@
 
 
 ## [6.1.0] - 2022.02.20
-
 ### Added
 - Add geocoding support for Mapbox (Martin Sandström)
 - Add Wagtail 2.16 support
