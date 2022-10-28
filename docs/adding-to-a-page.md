@@ -32,7 +32,7 @@ class MyPage(Page):
 ```python
 from django.db import models
 from wagtail.models import Page
-from wagtailgeowidget.edit_handlers import GoogleMapsPanel
+from wagtailgeowidget.panels import GoogleMapsPanel
 
 
 class MyPage(Page):
@@ -87,9 +87,9 @@ The address field are optional and needs to be added separately, the panel accep
 ```python
 from django.db import models
 from django.utils.translation import gettext as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtailgeowidget import geocoders
-from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
+from wagtailgeowidget.panels import GeoAddressPanel, GoogleMapsPanel
 
 
 class MyPageWithAddressField(Page):
@@ -113,8 +113,8 @@ The zoom field works in a similar way as the address field and needs to be added
 ```python
 from django.db import models
 from django.utils.translation import gettext as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GoogleMapsPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtailgeowidget.panels import GoogleMapsPanel
 
 
 class MyPageWithZoomField(Page):

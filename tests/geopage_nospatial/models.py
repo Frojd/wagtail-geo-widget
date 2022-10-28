@@ -26,11 +26,7 @@ from wagtailgeowidget.blocks import (
     GoogleMapsBlock,
     LeafletBlock,
 )
-from wagtailgeowidget.edit_handlers import (
-    GeoAddressPanel,
-    GoogleMapsPanel,
-    LeafletPanel,
-)
+from wagtailgeowidget.panels import GeoAddressPanel, GoogleMapsPanel, LeafletPanel
 
 
 class StandardPage(Page):
@@ -180,73 +176,155 @@ class StandardPageWithLeafletAndZoom(Page):
 
 
 class StreamPage(Page):
-    body = StreamField(
-        [
-            ("map", GoogleMapsBlock()),
-            ("map_leaflet", LeafletBlock()),
-            (
-                "map_struct",
-                blocks.StructBlock(
-                    [
-                        ("address", GeoAddressBlock(required=True)),
-                        ("map", GoogleMapsBlock(address_field="address")),
-                    ],
-                    icon="user",
+    if WAGTAIL_VERSION >= (3, 0):
+        body = StreamField(
+            [
+                ("map", GoogleMapsBlock()),
+                ("map_leaflet", LeafletBlock()),
+                (
+                    "map_struct",
+                    blocks.StructBlock(
+                        [
+                            ("address", GeoAddressBlock(required=True)),
+                            ("map", GoogleMapsBlock(address_field="address")),
+                        ],
+                        icon="user",
+                    ),
                 ),
-            ),
-            (
-                "map_struct_with_deprecated_geopanel",
-                blocks.StructBlock(
-                    [
-                        ("address", blocks.CharBlock(required=True)),
-                        ("map", GeoBlock(address_field="address")),
-                    ],
-                    icon="user",
+                (
+                    "map_struct_with_deprecated_geopanel",
+                    blocks.StructBlock(
+                        [
+                            ("address", blocks.CharBlock(required=True)),
+                            ("map", GeoBlock(address_field="address")),
+                        ],
+                        icon="user",
+                    ),
                 ),
-            ),
-            (
-                "map_struct_leaflet",
-                blocks.StructBlock(
-                    [
-                        (
-                            "address",
-                            GeoAddressBlock(required=True, geocoder=geocoders.MAPBOX),
-                        ),
-                        ("map", LeafletBlock(address_field="address")),
-                    ],
-                    icon="user",
+                (
+                    "map_struct_leaflet",
+                    blocks.StructBlock(
+                        [
+                            (
+                                "address",
+                                GeoAddressBlock(
+                                    required=True, geocoder=geocoders.MAPBOX
+                                ),
+                            ),
+                            ("map", LeafletBlock(address_field="address")),
+                        ],
+                        icon="user",
+                    ),
                 ),
-            ),
-            (
-                "map_struct_with_zoom",
-                blocks.StructBlock(
-                    [
-                        ("address", GeoAddressBlock(required=True)),
-                        ("zoom", GeoZoomBlock(required=False)),
-                        (
-                            "map",
-                            GoogleMapsBlock(address_field="address", zoom_field="zoom"),
-                        ),
-                    ],
-                    icon="user",
+                (
+                    "map_struct_with_zoom",
+                    blocks.StructBlock(
+                        [
+                            ("address", GeoAddressBlock(required=True)),
+                            ("zoom", GeoZoomBlock(required=False)),
+                            (
+                                "map",
+                                GoogleMapsBlock(
+                                    address_field="address", zoom_field="zoom"
+                                ),
+                            ),
+                        ],
+                        icon="user",
+                    ),
                 ),
-            ),
-            (
-                "map_struct_leaflet_with_zoom",
-                blocks.StructBlock(
-                    [
-                        ("address", GeoAddressBlock(required=True)),
-                        ("zoom", GeoZoomBlock(required=False)),
-                        (
-                            "map",
-                            LeafletBlock(address_field="address", zoom_field="zoom"),
-                        ),
-                    ],
-                    icon="user",
+                (
+                    "map_struct_leaflet_with_zoom",
+                    blocks.StructBlock(
+                        [
+                            ("address", GeoAddressBlock(required=True)),
+                            ("zoom", GeoZoomBlock(required=False)),
+                            (
+                                "map",
+                                LeafletBlock(
+                                    address_field="address", zoom_field="zoom"
+                                ),
+                            ),
+                        ],
+                        icon="user",
+                    ),
                 ),
-            ),
-        ]
-    )
+            ],
+            use_json_field=True,
+        )
+    else:
+        body = StreamField(
+            [
+                ("map", GoogleMapsBlock()),
+                ("map_leaflet", LeafletBlock()),
+                (
+                    "map_struct",
+                    blocks.StructBlock(
+                        [
+                            ("address", GeoAddressBlock(required=True)),
+                            ("map", GoogleMapsBlock(address_field="address")),
+                        ],
+                        icon="user",
+                    ),
+                ),
+                (
+                    "map_struct_with_deprecated_geopanel",
+                    blocks.StructBlock(
+                        [
+                            ("address", blocks.CharBlock(required=True)),
+                            ("map", GeoBlock(address_field="address")),
+                        ],
+                        icon="user",
+                    ),
+                ),
+                (
+                    "map_struct_leaflet",
+                    blocks.StructBlock(
+                        [
+                            (
+                                "address",
+                                GeoAddressBlock(
+                                    required=True, geocoder=geocoders.MAPBOX
+                                ),
+                            ),
+                            ("map", LeafletBlock(address_field="address")),
+                        ],
+                        icon="user",
+                    ),
+                ),
+                (
+                    "map_struct_with_zoom",
+                    blocks.StructBlock(
+                        [
+                            ("address", GeoAddressBlock(required=True)),
+                            ("zoom", GeoZoomBlock(required=False)),
+                            (
+                                "map",
+                                GoogleMapsBlock(
+                                    address_field="address", zoom_field="zoom"
+                                ),
+                            ),
+                        ],
+                        icon="user",
+                    ),
+                ),
+                (
+                    "map_struct_leaflet_with_zoom",
+                    blocks.StructBlock(
+                        [
+                            ("address", GeoAddressBlock(required=True)),
+                            ("zoom", GeoZoomBlock(required=False)),
+                            (
+                                "map",
+                                LeafletBlock(
+                                    address_field="address", zoom_field="zoom"
+                                ),
+                            ),
+                        ],
+                        icon="user",
+                    ),
+                ),
+            ]
+        )
 
     if WAGTAIL_VERSION >= (3, 0):
         content_panels = Page.content_panels + [

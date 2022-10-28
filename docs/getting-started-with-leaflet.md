@@ -32,7 +32,7 @@ INSTALLED_APPS = (
 ```python
 from django.db import models
 from wagtail.models import Page
-from wagtailgeowidget.edit_handlers import LeafletPanel
+from wagtailgeowidget.panels import LeafletPanel
 
 
 class MyPage(Page):

@@ -12,7 +12,7 @@ from wagtailgeowidget.blocks import GoogleMapsBlock
 class GeoStreamPage(Page):
     body = StreamField([
         ('map', GoogleMapsBlock()),
-    ])
+    ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
@@ -50,7 +50,7 @@ class GeoStreamPage(Page):
             ('address', GeoAddressBlock(required=True, geocoder=geocoders.GOOGLE_MAPS)),
             ('map', GoogleMapsBlock(address_field='address')),
         ]))
-    ])
+    ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
@@ -73,8 +73,7 @@ class GeoStreamPage(Page):
             ('zoom', GeoZoomBlock(required=False)),
             ('map', GoogleMapsBlock(zoom_field='zoom')),
         ]))
-
-    ])
+    ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),

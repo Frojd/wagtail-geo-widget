@@ -1,5 +1,4 @@
 from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.admin.edit_handlers import FieldPanel
 
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.app_settings import GEO_WIDGET_ZOOM
