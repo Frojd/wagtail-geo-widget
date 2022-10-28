@@ -53,7 +53,7 @@ from wagtailgeowidget.blocks import LeafletBlock
 class GeoStreamPage(Page):
     body = StreamField([
         ('map', LeafletBlock()),
-    ])
+    ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
