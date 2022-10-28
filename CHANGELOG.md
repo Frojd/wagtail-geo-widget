@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+### Added
+- Add Wagtail 4 compability (@katdom13)
+
+### Changed
+- Updated StreamFieldPanel to just FieldPanel in tests (@katdom13)
+- Updated imports in docs (@katdom13)
+
+
 ## [6.2.0] - 2022.07.03
 ### Added
 - Add Wagtail 3 compability (@marteinn)

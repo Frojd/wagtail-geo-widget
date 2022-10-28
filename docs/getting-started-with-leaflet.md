@@ -31,7 +31,7 @@ INSTALLED_APPS = (
 
 ```python
 from django.db import models
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtailgeowidget.edit_handlers import LeafletPanel
 
 
@@ -46,8 +46,8 @@ class MyPage(Page):
 ### Adding to a stream field
 
 ```python
-from wagtail.core.models import Page
-from wagtail.core.fields import StreamField
+from wagtail.models import Page
+from wagtail.fields import StreamField
 from wagtailgeowidget.blocks import LeafletBlock
 
 class GeoStreamPage(Page):
@@ -56,7 +56,7 @@ class GeoStreamPage(Page):
     ])
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 ```
 

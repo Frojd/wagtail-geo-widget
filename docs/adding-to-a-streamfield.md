@@ -5,8 +5,8 @@ This documents explains how to add a Google Maps map in a StreamField.
 If you instead want to use Leaflet, just change `GoogleMapsBlock` to `LeafletBlock`
 
 ```python
-from wagtail.core.models import Page
-from wagtail.core.fields import StreamField
+from wagtail.models import Page
+from wagtail.fields import StreamField
 from wagtailgeowidget.blocks import GoogleMapsBlock
 
 class GeoStreamPage(Page):
@@ -15,7 +15,7 @@ class GeoStreamPage(Page):
     ])
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 ```
 
@@ -39,7 +39,7 @@ The address block supports several different geocoding services, but in this exa
 Make sure you define a field representing the address at the same level as your GoogleMapsBlock, either in the StreamField or in a StructBlock.
 
 ```python
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.panels import FieldPanel
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import GoogleMapsBlock, GeoAddressBlock
 
@@ -53,7 +53,7 @@ class GeoStreamPage(Page):
     ])
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 ```
 
@@ -63,7 +63,7 @@ class GeoStreamPage(Page):
 Define a field representing the zoom at the same level as your GoogleMapsBlock, either in the StreamField or in a StructBlock.
 
 ```python
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.panels import FieldPanel
 from wagtailgeowidget.blocks import GoogleMapsBlock, GeoZoomBlock
 
 
@@ -77,7 +77,7 @@ class GeoStreamPage(Page):
     ])
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 ```
 
