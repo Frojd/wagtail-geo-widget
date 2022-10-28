@@ -6,6 +6,8 @@
 
 ### Changed
 - Updated StreamFieldPanel to just FieldPanel in tests (@katdom13)
+- Updated StreamFields to have additional argument use_json_field
+- Renamed wagtailgeowidget.edit_handlers to wagtailgeowidget.panels
 - Updated imports in docs (@katdom13)
 
 

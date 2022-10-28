@@ -44,7 +44,7 @@ from wagtail.contrib.settings.models import (
 from wagtail.admin.panels import FieldPanel
 
 @register_setting
-class GeoWidgetSettings(BaseSetting):
+class GeoWidgetSettings(BaseSiteSetting):
     google_maps_apikey = models.CharField(
         help_text="Google maps api key", max_length=255
     )
