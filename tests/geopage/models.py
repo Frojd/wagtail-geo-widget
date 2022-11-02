@@ -6,8 +6,8 @@ from wagtail import VERSION as WAGTAIL_VERSION
 
 if WAGTAIL_VERSION >= (3, 0):
     from wagtail import blocks
-    from wagtail.admin.panels import FieldPanel
     from wagtail.admin.panels import (
+        FieldPanel,
         InlinePanel,
         MultiFieldPanel,
         ObjectList,
