@@ -93,15 +93,6 @@ class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
         )
 
     def render_js_init(self, id_, name, value):
-        address_selector = "#{}{}".format(
-            self.id_prefix,
-            self.address_field,
-        )
-        zoom_selector = "#{}{}".format(
-            self.id_prefix,
-            self.zoom_field,
-        )
-
         data = {
             "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
             "addressField": self.address_field,

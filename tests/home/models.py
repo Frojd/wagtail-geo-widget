@@ -1,4 +1,3 @@
-from django.db import models
 from wagtail import VERSION as WAGTAIL_VERSION
 
 if WAGTAIL_VERSION >= (3, 0):

@@ -4,7 +4,7 @@ First make sure you have [GeoDjango](https://docs.djangoproject.com/en/1.10/ref/
 
 ```python
 from django.contrib.gis.db import models
-from wagtailgeowidget.edit_handlers import GoogleMapsPanel
+from wagtailgeowidget.panels import GoogleMapsPanel
 
 
 class MyPage(Page):
@@ -25,9 +25,9 @@ The panel accepts an `address_field` if you want to use the map in coordination 
 ```python
 from django.contrib.gis.db import models
 from django.utils.translation import gettext as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtailgeowidget import geocoders
-from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
+from wagtailgeowidget.panels import GeoAddressPanel, GoogleMapsPanel
 
 
 class MyPageWithAddressField(Page):
@@ -50,8 +50,8 @@ The panel accepts an `zoom_field` if you want to persist the zoom state.
 ```python
 from django.contrib.gis.db import models
 from django.utils.translation import gettext as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GoogleMapsPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtailgeowidget.panels import GoogleMapsPanel
 
 
 class MyPageWithZoomField(Page):

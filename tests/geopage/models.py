@@ -6,9 +6,8 @@ from wagtail import VERSION as WAGTAIL_VERSION
 
 if WAGTAIL_VERSION >= (3, 0):
     from wagtail import blocks
-    from wagtail.admin.panels import FieldPanel
-    from wagtail.admin.panels import FieldPanel as StreamFieldPanel
     from wagtail.admin.panels import (
+        FieldPanel,
         InlinePanel,
         MultiFieldPanel,
         ObjectList,
@@ -37,11 +36,7 @@ from wagtailgeowidget.blocks import (
     GoogleMapsBlock,
     LeafletBlock,
 )
-from wagtailgeowidget.edit_handlers import (
-    GeoAddressPanel,
-    GoogleMapsPanel,
-    LeafletPanel,
-)
+from wagtailgeowidget.panels import GeoAddressPanel, GoogleMapsPanel, LeafletPanel
 
 
 class GeoLocation(models.Model):
@@ -161,6 +156,8 @@ class GeoPageWithLeaflet(Page):
 
 
 class GeoStreamPage(Page):
+    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION >= (3, 0) else {}
+
     body = StreamField(
         [
             ("map", GoogleMapsBlock()),
@@ -223,12 +220,18 @@ class GeoStreamPage(Page):
                     icon="user",
                 ),
             ),
-        ]
+        ],
+        **streamfield_params,
     )
 
-    content_panels = Page.content_panels + [
-        StreamFieldPanel("body"),
-    ]
+    if WAGTAIL_VERSION >= (3, 0):
+        content_panels = Page.content_panels + [
+            FieldPanel("body"),
+        ]
+    else:
+        content_panels = Page.content_panels + [
+            StreamFieldPanel("body"),
+        ]
 
     def get_context(self, request):
         data = super(GeoStreamPage, self).get_context(request)

@@ -37,11 +37,14 @@ def get_apikey():
 ```python
 # home/models.py
 from django.db import models
-from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.contrib.settings.models import (
+    BaseSiteSetting,
+    register_setting
+)
+from wagtail.admin.panels import FieldPanel
 
 @register_setting
-class GeoWidgetSettings(BaseSetting):
+class GeoWidgetSettings(BaseSiteSetting):
     google_maps_apikey = models.CharField(
         help_text="Google maps api key", max_length=255
     )
