@@ -82,10 +82,7 @@ class GeoAddressPanel(FieldPanel):
         }
 
     def clone(self):
-        return self.__class__(
-            geocoder=self.geocoder,
-            **self.clone_kwargs()
-        )
+        return self.__class__(geocoder=self.geocoder, **self.clone_kwargs())
 
 
 class LeafletPanel(FieldPanel):
