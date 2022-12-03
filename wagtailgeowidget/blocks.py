@@ -1,7 +1,6 @@
 from django import forms
 from django.utils.functional import cached_property
 from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.core.blocks import FieldBlock, IntegerBlock
 
 if WAGTAIL_VERSION >= (3, 0):
     from wagtail.blocks import FieldBlock, IntegerBlock

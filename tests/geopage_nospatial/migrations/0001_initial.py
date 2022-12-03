@@ -21,6 +21,8 @@ class Migration(migrations.Migration):
         ("wagtailcore", "0066_collection_management_permissions"),
     ]
 
+    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION >= (3, 0) else {}
+
     operations = [
         migrations.CreateModel(
             name="StandardPage",
@@ -260,7 +262,8 @@ class Migration(migrations.Migration):
                                     icon="user",
                                 ),
                             ),
-                        ]
+                        ],
+                        **streamfield_params,
                     ),
                 ),
             ],

@@ -10,7 +10,7 @@ Url: [https://nominatim.org/](https://nominatim.org/)
 
 ```python
 from django.contrib.gis.db import models
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import GeoAddressPanel, LeafletPanel
 
@@ -32,7 +32,7 @@ Url: [https://developers.google.com/maps/documentation/javascript/geocoding](htt
 
 ```python
 from django.contrib.gis.db import models
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import GeoAddressPanel, LeafletPanel
 
@@ -55,7 +55,7 @@ Url: [https://docs.mapbox.com/api/search/geocoding/](https://docs.mapbox.com/api
 
 ```python
 from django.contrib.gis.db import models
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import GeoAddressPanel, LeafletPanel
 

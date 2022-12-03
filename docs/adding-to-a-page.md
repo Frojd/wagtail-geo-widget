@@ -7,7 +7,7 @@ If you instead want to use Leaflet, just change `GoogleMapsPanel` to `LeafletPan
 ### First create a page
 
 ```python
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 class MyPage(Page):
     ...
@@ -20,7 +20,7 @@ Define a CharField representing your location, in this example we call it `locat
 
 ```python
 from django.db import models
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 class MyPage(Page):
     location = models.CharField(max_length=250, blank=True, null=True)
@@ -31,8 +31,8 @@ class MyPage(Page):
 
 ```python
 from django.db import models
-from wagtail.core.models import Page
-from wagtailgeowidget.edit_handlers import GoogleMapsPanel
+from wagtail.models import Page
+from wagtailgeowidget.panels import GoogleMapsPanel
 
 
 class MyPage(Page):
@@ -53,7 +53,7 @@ It is a excellent format because this allows us to use the same GoogleMapsPanel 
 
 ```python
 from django.utils.functional import cached_property
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 class MyPage(Page):
@@ -87,9 +87,9 @@ The address field are optional and needs to be added separately, the panel accep
 ```python
 from django.db import models
 from django.utils.translation import gettext as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtailgeowidget import geocoders
-from wagtailgeowidget.edit_handlers import GeoAddressPanel, GoogleMapsPanel
+from wagtailgeowidget.panels import GeoAddressPanel, GoogleMapsPanel
 
 
 class MyPageWithAddressField(Page):
@@ -113,8 +113,8 @@ The zoom field works in a similar way as the address field and needs to be added
 ```python
 from django.db import models
 from django.utils.translation import gettext as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtailgeowidget.edit_handlers import GoogleMapsPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtailgeowidget.panels import GoogleMapsPanel
 
 
 class MyPageWithZoomField(Page):
