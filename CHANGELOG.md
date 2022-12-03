@@ -5,13 +5,14 @@
 - Add Wagtail 4 compability (@katdom13)
 
 ### Changed
-- Updated StreamFieldPanel to just FieldPanel in tests (@katdom13)
-- Updated StreamFields to have additional argument use_json_field
-- Renamed wagtailgeowidget.edit_handlers to wagtailgeowidget.panels
-- Updated imports in docs (@katdom13)
+- Update StreamFieldPanel to just FieldPanel in tests (@katdom13)
+- Update StreamFields to have additional argument use_json_field in test (@katdom13)
+- Rename wagtailgeowidget.edit_handlers to wagtailgeowidget.panels (@katdom13)
+- Update imports in docs (@katdom13)
 
 ### Fixed
 - Ensure setup() is only called after user focus if showEmptyLocation is true (@kleingeist)
+
 
 ## [6.2.0] - 2022.07.03
 ### Added
