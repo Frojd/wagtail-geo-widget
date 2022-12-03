@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Add Wagtail 4 compability (@katdom13)
+- Add contribution documentation (@marteinn)
 
 ### Changed
 - Update StreamFieldPanel to just FieldPanel in tests (@katdom13)
