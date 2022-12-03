@@ -37,6 +37,7 @@ If you have ideas for improvement, please share your thoughts through an issue. 
 
 - Issue Tracker: [https://github.com/Frojd/wagtail-geo-widget/issues](https://github.com/Frojd/wagtail-geo-widget/issues)
 - Source Code: [https://github.com/Frojd/wagtail-geo-widget](https://github.com/Frojd/wagtail-geo-widget)
+- [Contribution documentation](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/contributing.md)
 
 
 ## Security

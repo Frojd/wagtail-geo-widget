@@ -1,19 +1,34 @@
 # Changelog
 
-## Unreleased
+## [Unreleased]
+### Added
+### Changed
+### Fixed
+### Removed
+
+## [7.0.0] - 2022.12.03
 ### Added
 - Add Wagtail 4 compability (@katdom13)
+- Add contribution documentation (@marteinn)
 
 ### Changed
-- Updated StreamFieldPanel to just FieldPanel in tests (@katdom13)
-- Updated StreamFields to have additional argument use_json_field
-- Renamed wagtailgeowidget.edit_handlers to wagtailgeowidget.panels
-- Updated imports in docs (@katdom13)
+- Update StreamFieldPanel to just FieldPanel in tests (@katdom13)
+- Update StreamFields to have additional argument use_json_field in test (@katdom13)
+- Rename wagtailgeowidget.edit_handlers to wagtailgeowidget.panels (@katdom13)
+- Update imports in docs (@katdom13)
+
+### Fixed
+- Ensure setup() is only called after user focus if showEmptyLocation is true (@kleingeist)
+- Add support for permissions on field panels (@unicode-it)
+
+### Breaking changes
+- `wagtailgeowidget.edit_handlers` has been renamed to `wagtailgeowidget.panels`
 
 
 ## [6.2.0] - 2022.07.03
 ### Added
 - Add Wagtail 3 compability (@marteinn)
+- Add French translations (@ThbtSprt)
 
 ### Changed
 - Make GEO_WIDGET_EMPTY_LOCATION False by default (@marteinn)

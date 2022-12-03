@@ -7,12 +7,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         wagtail-version:
           - 2.15.5
-          - 2.16.2
-          - 3.0.1
+          - 2.16.3
+          - 3.0.3
           - 4.0.4
+          - 4.1.1
+        exclude:
+          - python-version: "3.11"
+            wagtail-version: "2.15.5"
+          - python-version: "3.11"
+            wagtail-version: "2.16.3"
+          - python-version: "3.11"
+            wagtail-version: "3.0.3"
+          - python-version: "3.11"
+            wagtail-version: "4.0.4"
     services:
       postgres:
         image: postgis/postgis:12-2.5

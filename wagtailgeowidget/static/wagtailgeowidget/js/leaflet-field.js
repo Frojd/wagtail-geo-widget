@@ -45,8 +45,6 @@ function LeafletField(options) {
     } else {
         this.setup();
     }
-
-    this.setup();
 }
 
 LeafletField.prototype.setup = function () {

@@ -42,12 +42,11 @@ class GoogleMapsPanel(FieldPanel):
 
     def clone(self):
         return self.__class__(
-            field_name=self.field_name,
-            classname=self.classname,
             address_field=self.address_field,
             zoom_field=self.zoom_field,
             hide_latlng=self.hide_latlng,
             zoom=self.zoom,
+            **self.clone_kwargs(),
         )
 
 
@@ -83,8 +82,8 @@ class GeoAddressPanel(FieldPanel):
 
     def clone(self):
         return self.__class__(
-            field_name=self.field_name,
             geocoder=self.geocoder,
+            **self.clone_kwargs(),
         )
 
 
@@ -120,10 +119,9 @@ class LeafletPanel(FieldPanel):
 
     def clone(self):
         return self.__class__(
-            field_name=self.field_name,
-            classname=self.classname,
             address_field=self.address_field,
             zoom_field=self.zoom_field,
             hide_latlng=self.hide_latlng,
             zoom=self.zoom,
+            **self.clone_kwargs(),
         )
