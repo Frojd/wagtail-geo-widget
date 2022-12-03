@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [7.0.0] - 2022.12.03
+### Added
 - Add Wagtail 4 compability (@katdom13)
 - Add contribution documentation (@marteinn)
 
