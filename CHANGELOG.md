@@ -13,6 +13,9 @@
 ### Fixed
 - Ensure setup() is only called after user focus if showEmptyLocation is true (@kleingeist)
 
+### Breaking changes
+- `wagtailgeowidget.edit_handlers` has been renamed to `wagtailgeowidget.panels`
+
 
 ## [6.2.0] - 2022.07.03
 ### Added
