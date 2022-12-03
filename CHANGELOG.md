@@ -12,6 +12,7 @@
 
 ### Fixed
 - Ensure setup() is only called after user focus if showEmptyLocation is true (@kleingeist)
+- Add support for permissions on field panels (@unicode-it)
 
 ### Breaking changes
 - `wagtailgeowidget.edit_handlers` has been renamed to `wagtailgeowidget.panels`
