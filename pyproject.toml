@@ -1,0 +1,32 @@
+[tool.ruff]
+line-length = 88
+
+# Never enforce `E501` (line length violations).
+ignore = ["E501"]
+
+exclude = [
+    "venv",
+    "*/migrations/*",
+]
+
+[tool.ruff.per-file-ignores]
+"tests/examplesite/settings/base_nospatial.py" = ["F405", "F403"]
+"tests/examplesite/settings/dev.py" = ["F405", "F403"]
+"tests/examplesite/settings/production.py" = ["F405", "F403"]
+"tests/examplesite/settings/test.py" = ["F405", "F403"]
+
+[tool.black]
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
+'''

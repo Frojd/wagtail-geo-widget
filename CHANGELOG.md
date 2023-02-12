@@ -2,9 +2,12 @@
 
 ## [Unreleased]
 ### Added
+- Add ruff liting as a CI step (@marteinn)
+
 ### Changed
 ### Fixed
 - Add Wagtail 4.2 compability (@marteinn)
+
 ### Removed
 
 ## [7.0.0] - 2022.12.03
