@@ -272,9 +272,13 @@ class GeocoderField(WidgetWithScript, widgets.TextInput):
         options = {"id": id_, "translations": translations}
         params = {}
         if self.geocoder == geocoders.MAPBOX:
-            from wagtailgeowidget.app_settings import MAPBOX_ACCESS_TOKEN
+            from wagtailgeowidget.app_settings import (
+                MAPBOX_ACCESS_TOKEN,
+                MAPBOX_LANGUAGE,
+            )
 
             params["accessToken"] = MAPBOX_ACCESS_TOKEN
+            params["language"] = MAPBOX_LANGUAGE
 
         options["params"] = params
 
