@@ -20,3 +20,4 @@
 - `GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS`: The tile layer options for leaflet, it supports [the following arguments](https://leafletjs.com/reference.html). Default is `{"attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}`
 
 - `MAPBOX_ACCESS_TOKEN`: Access token fpr Mapbox Geocoding API. Defaults to None.
+- `MAPBOX_LANGUAGE`: [Language parameter](https://docs.mapbox.com/api/search/geocoding/#forward-geocoding) for Mapbox Geocoding API. Defaults to `en`. 
