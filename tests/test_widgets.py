@@ -54,6 +54,7 @@ class LeafletFieldTestCase(TestCase):
 class GeocoderFieldTestCase(TestCase):
     def setUp(self):
         app_settings.MAPBOX_ACCESS_TOKEN = None
+        app_settings.MAPBOX_LANGUAGE = "en"
 
     def test_geocoder_field_contains_constuct_regular(self):
         widget = GeocoderField()
@@ -96,3 +97,10 @@ class GeocoderFieldTestCase(TestCase):
         self.assertIn('accessToken": "<MAPBOX ACCESS TOKEN>', html)
 
         app_settings.MAPBOX_ACCESS_TOKEN = None
+    
+    def test_mapbox_language_parameter_gets_outputted(self):
+        widget = GeocoderField(geocoder=geocoders.MAPBOX)
+        html = widget.render_js_init("id", "field", "")
+
+        self.assertIn("new MapboxGeocoderField", html)
+        self.assertIn('language": "en', html)

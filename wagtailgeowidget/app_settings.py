@@ -26,3 +26,4 @@ GOOGLE_MAPS_V3_APIKEY_CALLBACK = getattr(
 GOOGLE_MAPS_V3_LANGUAGE = getattr(settings, "GOOGLE_MAPS_V3_LANGUAGE", "en")
 
 MAPBOX_ACCESS_TOKEN = getattr(settings, "MAPBOX_ACCESS_TOKEN", None)
+MAPBOX_LANGUAGE = getattr(settings, "MAPBOX_LANGUAGE", "en")
