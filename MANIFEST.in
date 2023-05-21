@@ -1,4 +1,4 @@
-include README.md LICENSE requirements/install.txt requirements/tests.txt
+include README.md LICENSE CHANGELOG.md requirements/install.txt requirements/tests.txt
 recursive-include wagtailgeowidget/static *
 recursive-include wagtailgeowidget/locale *
 prune tests* manage.py

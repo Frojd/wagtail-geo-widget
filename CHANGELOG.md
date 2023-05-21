@@ -6,10 +6,11 @@
 
 ### Changed
 ### Fixed
-- Add Wagtail 4.2 compability (@marteinn)
+- Add Wagtail 5 compability (@marteinn)
 - Show warning in development runserver (@marteinn)
 
 ### Removed
+- Drop Wagtail < 4.1 support (@marteinn)
 
 ## [7.0.0] - 2022.12.03
 ### Added
