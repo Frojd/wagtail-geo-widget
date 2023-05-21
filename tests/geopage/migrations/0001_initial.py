@@ -4,14 +4,8 @@ import django.contrib.gis.db.models.fields
 import django.db.models.deletion
 import modelcluster.fields
 from django.db import migrations, models
-from wagtail import VERSION as WAGTAIL_VERSION
-
-if WAGTAIL_VERSION >= (3, 0):
-    import wagtail.blocks as wagtail_blocks
-    import wagtail.fields as wagtail_fields
-else:
-    import wagtail.core.fields as wagtail_fields
-    import wagtail.core.blocks as wagtail_blocks
+import wagtail.blocks as wagtail_blocks
+import wagtail.fields as wagtail_fields
 
 import wagtailgeowidget.blocks
 
@@ -24,7 +18,7 @@ class Migration(migrations.Migration):
         ("wagtailcore", "0066_collection_management_permissions"),
     ]
 
-    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION >= (3, 0) else {}
+    streamfield_params = {"use_json_field": True}
 
     operations = [
         migrations.CreateModel(

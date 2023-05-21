@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-from wagtail import VERSION as WAGTAIL_VERSION
-
 from . import get_env
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,7 +36,7 @@ WAGTAIL_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
-    "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
+    "wagtail",
 ]
 
 
