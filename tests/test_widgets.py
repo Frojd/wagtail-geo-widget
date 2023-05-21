@@ -97,7 +97,7 @@ class GeocoderFieldTestCase(TestCase):
         self.assertIn('accessToken": "<MAPBOX ACCESS TOKEN>', html)
 
         app_settings.MAPBOX_ACCESS_TOKEN = None
-    
+
     def test_mapbox_language_parameter_gets_outputted(self):
         widget = GeocoderField(geocoder=geocoders.MAPBOX)
         html = widget.render_js_init("id", "field", "")
