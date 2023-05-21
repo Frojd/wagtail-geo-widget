@@ -4,6 +4,8 @@
 ### Added
 ### Changed
 ### Fixed
+- Fix broken readme link (@wimfeijen)
+
 ### Removed
 
 ## [8.0.0] - 2023.05.21

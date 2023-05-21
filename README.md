@@ -21,7 +21,7 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 
 ## Documentation
 
-- [Getting started with Google Maps](https://github.com/Frojd/wagtail-geo-widget/blob/main/getting-started-with-google-maps.md)
+- [Getting started with Google Maps](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/getting-started-with-google-maps.md)
 - [Getting started with Leaflet](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/getting-started-with-leaflet.md)
 - [Settings](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/settings.md)
 - [Adding the widget to a Page](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/adding-to-a-page.md)
