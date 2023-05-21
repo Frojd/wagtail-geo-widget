@@ -7,6 +7,7 @@
 ### Changed
 ### Fixed
 - Add Wagtail 4.2 compability (@marteinn)
+- Show warning in development runserver (@marteinn)
 
 ### Removed
 

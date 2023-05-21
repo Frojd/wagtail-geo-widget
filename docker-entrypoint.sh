@@ -27,7 +27,7 @@ case "$CMD" in
         setup_django
 
         echo Starting using manage.py runserver
-        exec python manage.py runserver 0.0.0.0:8000
+        exec python -X dev manage.py runserver 0.0.0.0:8000
         ;;
     * )
         # Run custom command. Thanks to this line we can still use
