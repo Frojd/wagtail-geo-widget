@@ -1,22 +1,10 @@
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
-from wagtail import VERSION as WAGTAIL_VERSION
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail import blocks
-    from wagtail.admin.panels import FieldPanel, MultiFieldPanel
-    from wagtail.fields import StreamField
-    from wagtail.models import Page
-else:
-    from wagtail.core import blocks
-    from wagtail.admin.edit_handlers import (
-        FieldPanel,
-        MultiFieldPanel,
-        StreamFieldPanel,
-    )
-    from wagtail.core.fields import StreamField
-    from wagtail.core.models import Page
+from wagtail import blocks
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import (
@@ -176,7 +164,7 @@ class StandardPageWithLeafletAndZoom(Page):
 
 
 class StreamPage(Page):
-    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION >= (3, 0) else {}
+    streamfield_params = {"use_json_field": True}
 
     body = StreamField(
         [
@@ -247,11 +235,6 @@ class StreamPage(Page):
         **streamfield_params,
     )
 
-    if WAGTAIL_VERSION >= (3, 0):
-        content_panels = Page.content_panels + [
-            FieldPanel("body"),
-        ]
-    else:
-        content_panels = Page.content_panels + [
-            StreamFieldPanel("body"),
-        ]
+    content_panels = Page.content_panels + [
+        FieldPanel("body"),
+    ]

@@ -212,6 +212,7 @@ function MapboxGeocoderField(options) {
     var params = options.params || {};
 
     this.accessToken = params.accessToken;
+    this.language = params.language;
 }
 
 MapboxGeocoderField.prototype = Object.create(GeocoderField.prototype);
@@ -227,6 +228,7 @@ MapboxGeocoderField.prototype.geocodeSearch = function (query) {
         new URLSearchParams({
             limit: 1,
             access_token: this.accessToken,
+            language: this.language,
         });
 
     fetch(url)

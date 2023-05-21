@@ -1,13 +1,8 @@
-from wagtail import VERSION as WAGTAIL_VERSION
+from wagtail.admin.panels import FieldPanel
 
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.app_settings import GEO_WIDGET_ZOOM
 from wagtailgeowidget.widgets import GeocoderField, GoogleMapsField, LeafletField
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.admin.panels import FieldPanel
-else:
-    from wagtail.admin.edit_handlers import FieldPanel
 
 
 class GoogleMapsPanel(FieldPanel):

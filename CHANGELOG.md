@@ -6,6 +6,14 @@
 ### Fixed
 ### Removed
 
+## [8.0.0] - 2023.05.21
+### Fixed
+- Add Wagtail 5.0 compability (@marteinn)
+- Add MAPBOX_LANGUAGE setting to handle mobox language (@Pytsh)
+
+### Removed
+- Drop support for Wagtail < 4.1 (@marteinn)
+
 ## [7.0.0] - 2022.12.03
 ### Added
 - Add Wagtail 4 compability (@katdom13)
