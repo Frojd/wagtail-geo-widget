@@ -2,9 +2,10 @@
 
 ## [Unreleased]
 ### Added
-### Changed
-### Fixed
+- Add tests for Wagtail 5.1 (@katdom13)
+
 ### Removed
+- Drop support for Python 3.7 (@katdom13)
 
 ## [8.0.0] - 2023.05.21
 ### Fixed
