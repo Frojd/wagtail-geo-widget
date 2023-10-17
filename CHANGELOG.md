@@ -6,6 +6,7 @@
 
 ### Fixed
 - Fix broken readme link (@wimfeijen)
+- Include contribution guidelones in README (@marteinn)
 
 ### Removed
 - Drop support for Python 3.7 (@katdom13)
