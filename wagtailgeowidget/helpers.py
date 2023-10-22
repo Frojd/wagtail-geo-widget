@@ -2,7 +2,7 @@ import re
 from typing import Dict
 
 geos_ptrn = re.compile(
-    "^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$"
+    r"^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$"
 )
 
 
