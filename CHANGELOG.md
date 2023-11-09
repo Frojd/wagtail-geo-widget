@@ -3,10 +3,12 @@
 ## [Unreleased]
 ### Added
 - Add tests for Wagtail 5.1 (@katdom13)
+- Add support for Python 3.12 (@jorenham)
 
 ### Fixed
 - Fix broken readme link (@wimfeijen)
 - Include contribution guidelones in README (@marteinn)
+- Fix invalid regex escape character causing a `SyntaxWarning` on Python 3.12 (@jorenham)
 
 ### Removed
 - Drop support for Python 3.7 (@katdom13)
