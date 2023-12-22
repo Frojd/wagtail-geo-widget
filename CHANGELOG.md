@@ -7,6 +7,7 @@
 ### Fixed
 - Fix broken readme link (@wimfeijen)
 - Include contribution guidelones in README (@marteinn)
+- Throw Exception if geo string is invalid in GoogleMapsBlock to_python (@marteinn)
 
 ### Removed
 - Drop support for Python 3.7 (@katdom13)
