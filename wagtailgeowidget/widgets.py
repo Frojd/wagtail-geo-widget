@@ -1,4 +1,5 @@
 import json
+from typing import Dict
 
 from django import forms
 from django.forms import widgets
@@ -225,9 +226,8 @@ class GeoField(GoogleMapsField):
         super().__init__(*args, **kwargs)
 
 
-# class GeocoderField(forms.HiddenInput):
 class GeocoderField(WidgetWithScript, widgets.TextInput):
-    geocoder = None
+    geocoder = geocoders.NOMINATIM
 
     def __init__(self, *args, **kwargs):
         self.geocoder = kwargs.pop("geocoder", geocoders.NOMINATIM)
@@ -257,7 +257,7 @@ class GeocoderField(WidgetWithScript, widgets.TextInput):
         )
 
     def render_js_init(self, id_, name, value):
-        field_by_geocoder = {
+        field_by_geocoder: Dict[str, str] = {
             "nominatim": "NominatimGeocoderField",
             "google_maps": "GoogleMapsGeocoderField",
             "mapbox": "MapboxGeocoderField",

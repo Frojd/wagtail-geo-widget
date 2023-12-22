@@ -21,7 +21,7 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 
 ## Documentation
 
-- [Getting started with Google Maps](https://github.com/Frojd/wagtail-geo-widget/blob/main/getting-started-with-google-maps.md)
+- [Getting started with Google Maps](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/getting-started-with-google-maps.md)
 - [Getting started with Leaflet](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/getting-started-with-leaflet.md)
 - [Settings](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/settings.md)
 - [Adding the widget to a Page](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/adding-to-a-page.md)
@@ -33,11 +33,13 @@ Wagtail-Geo-Widget is the complete map solution for your Wagtail site.
 
 ## Contribute
 
-If you have ideas for improvement, please share your thoughts through an issue. We also welcome PR's
+If you have ideas for improvement, please share your thoughts through an issue.
 
 - Issue Tracker: [https://github.com/Frojd/wagtail-geo-widget/issues](https://github.com/Frojd/wagtail-geo-widget/issues)
 - Source Code: [https://github.com/Frojd/wagtail-geo-widget](https://github.com/Frojd/wagtail-geo-widget)
 - [Contribution documentation](https://github.com/Frojd/wagtail-geo-widget/blob/main/docs/contributing.md)
+
+We also welcome Pull Requests (PR). Please note that this project uses git-flow so please use the `develop` branch when creating PR's.
 
 
 ## Security

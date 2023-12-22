@@ -6,6 +6,22 @@
 ### Fixed
 ### Removed
 
+## [8.1.0] - 2023.12.22
+### Added
+- Add tests for Wagtail 5.1 (@katdom13)
+- Add support for Python 5.2 (@marteinn)
+- Add support for Python 3.12 (@marteinn)
+
+### Fixed
+- Fix broken readme link (@wimfeijen)
+- Include contribution guidelones in README (@marteinn)
+- Throw Exception if geo string is invalid in GoogleMapsBlock to_python (@marteinn)
+
+### Removed
+- Drop support for Python 3.7 (@katdom13)
+- Drop support for Wagtail 5.0 (@marteinn)
+- Drop support for Wagtail 4.2 (@marteinn)
+
 ## [8.0.0] - 2023.05.21
 ### Fixed
 - Add Wagtail 5.0 compability (@marteinn)

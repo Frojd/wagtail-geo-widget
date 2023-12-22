@@ -109,6 +109,9 @@ class GoogleMapsBlock(FieldBlock):
             return value
 
         value = geosgeometry_str_to_struct(value)
+        if not value:
+            raise Exception("Error: Cannot parse '{}' into struct".format(value))
+
         value = {
             "lat": value["y"],
             "lng": value["x"],

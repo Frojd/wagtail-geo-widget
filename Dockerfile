@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.10-slim
 MAINTAINER Frojd
 LABEL version="v0.1.0"
 
@@ -9,7 +9,7 @@ ADD . /app/
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y netcat \
+    && apt-get install -y netcat-traditional \
 		binutils libproj-dev gdal-bin \
 		gettext \
 		libpq-dev build-essential \

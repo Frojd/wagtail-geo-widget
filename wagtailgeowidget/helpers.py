@@ -1,12 +1,12 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 geos_ptrn = re.compile(
     "^SRID=([0-9]{1,});POINT\s?\((-?[0-9\.]{1,})\s(-?[0-9\.]{1,})\)$"
 )
 
 
-def geosgeometry_str_to_struct(value: str) -> Dict:
+def geosgeometry_str_to_struct(value: str) -> Optional[Dict]:
     """
     Parses a geosgeometry string into struct.
 
