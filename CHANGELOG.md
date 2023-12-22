@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [8.1.0] - 2023.12.22
+### Added
 - Add tests for Wagtail 5.1 (@katdom13)
 - Add support for Python 5.2 (@marteinn)
 - Add support for Python 3.12 (@marteinn)
