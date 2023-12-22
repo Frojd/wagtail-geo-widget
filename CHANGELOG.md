@@ -3,6 +3,8 @@
 ## [Unreleased]
 ### Added
 - Add tests for Wagtail 5.1 (@katdom13)
+- Add support for Python 5.2 (@marteinn)
+- Add support for Python 3.12 (@marteinn)
 
 ### Fixed
 - Fix broken readme link (@wimfeijen)
@@ -11,6 +13,8 @@
 
 ### Removed
 - Drop support for Python 3.7 (@katdom13)
+- Drop support for Wagtail 5.0 (@marteinn)
+- Drop support for Wagtail 4.2 (@marteinn)
 
 ## [8.0.0] - 2023.05.21
 ### Fixed
