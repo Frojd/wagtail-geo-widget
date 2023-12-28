@@ -5,6 +5,7 @@
 ### Changed
 ### Fixed
 - Fix invalid regex escape character causing a `SyntaxWarning` on Python 3.12 (@jorenham)
+- Upgrade example docker image python version to 3.12 (@marteinn)
 
 ### Removed
 
