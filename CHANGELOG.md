@@ -4,6 +4,8 @@
 ### Added
 ### Changed
 ### Fixed
+- Fix invalid regex escape character causing a `SyntaxWarning` on Python 3.12 (@jorenham)
+
 ### Removed
 
 ## [8.1.0] - 2023.12.22
