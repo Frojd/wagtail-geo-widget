@@ -6,6 +6,11 @@
 ### Fixed
 ### Removed
 
+## [8.1.1] - 2023.12.29
+### Fixed
+- Fix invalid regex escape character causing a `SyntaxWarning` on Python 3.12 (@jorenham)
+- Upgrade example docker image python version to 3.12 (@marteinn)
+
 ## [8.1.0] - 2023.12.22
 ### Added
 - Add tests for Wagtail 5.1 (@katdom13)
