@@ -12,7 +12,6 @@ import wagtailgeowidget.blocks
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [

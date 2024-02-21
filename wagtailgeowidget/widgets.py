@@ -43,7 +43,6 @@ translations = {
 if WAGTAIL_VERSION >= (6, 0):
     from django.utils.safestring import mark_safe
 
-
     class GoogleMapsField(forms.HiddenInput):
         address_field = None
         zoom_field = None
@@ -82,7 +81,7 @@ if WAGTAIL_VERSION >= (6, 0):
                         "lat": result["y"],
                         "lng": result["x"],
                     }
-            
+
             if self.value_data and isinstance(self.value_data, Point):
                 data["defaultLocation"] = {
                     "lat": self.value_data.y,
@@ -158,7 +157,6 @@ if WAGTAIL_VERSION >= (6, 0):
                 + '<div id="{0}_map" class="google-maps-field"></div>'.format(id_)
             )
 
-
     class GeocoderField(widgets.TextInput):
         geocoder = geocoders.NOMINATIM
 
@@ -191,7 +189,7 @@ if WAGTAIL_VERSION >= (6, 0):
         def media(self):
             js = [
                 "wagtailgeowidget/js/geocoder-field.js",
-                "wagtailgeowidget/js/geocoder-field-controller.js"
+                "wagtailgeowidget/js/geocoder-field-controller.js",
             ]
 
             from wagtailgeowidget.app_settings import (
@@ -211,7 +209,7 @@ if WAGTAIL_VERSION >= (6, 0):
             return forms.Media(
                 js=js,
             )
-    
+
         def render(self, name, value, attrs=None, renderer=None):
             try:
                 attrs["id"]
@@ -224,7 +222,6 @@ if WAGTAIL_VERSION >= (6, 0):
             widget_html = super().render(name, value_data, attrs)
 
             return mark_safe(widget_html)
-
 
     class LeafletField(forms.HiddenInput):
         address_field = None
@@ -266,7 +263,7 @@ if WAGTAIL_VERSION >= (6, 0):
                         "lat": result["y"],
                         "lng": result["x"],
                     }
-            
+
             if self.value_data and isinstance(self.value_data, Point):
                 data["defaultLocation"] = {
                     "lat": self.value_data.y,
@@ -325,7 +322,9 @@ if WAGTAIL_VERSION >= (6, 0):
                 + location
                 + '<div id="{0}_map" class="leaflet-field"></div>'.format(id_)
             )
+
 else:
+
     class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
         address_field = None
         zoom_field = None
@@ -474,7 +473,6 @@ else:
                 + "<script>{0}</script>".format(js)
             )
 
-
     class GeocoderField(WidgetWithScript, widgets.TextInput):
         geocoder = geocoders.NOMINATIM
 
@@ -529,7 +527,6 @@ else:
                 field_by_geocoder[self.geocoder],
                 json.dumps(options),
             )
-
 
     class LeafletField(WidgetWithScript, forms.HiddenInput):
         address_field = None
