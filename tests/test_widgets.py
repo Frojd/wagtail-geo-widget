@@ -1,5 +1,9 @@
 from django.test import TestCase
 
+import pytest
+
+from wagtail import VERSION as WAGTAIL_VERSION
+
 from wagtailgeowidget import app_settings, geocoders
 from wagtailgeowidget.widgets import GeocoderField, GoogleMapsField, LeafletField
 
@@ -15,9 +19,15 @@ class GoogleMapsFieldTestCase(TestCase):
             },
         )
 
-        self.assertIn("new GoogleMapsField", html)
+        if WAGTAIL_VERSION >= (6, 0):
+            self.assertIn('<input type="hidden" name="field" id="X" data-controller="google-maps-field"', html)
+        else:
+            self.assertIn("new GoogleMapsField", html)
 
     def test_google_maps_field_js_init_contains_construct(self):
+        if WAGTAIL_VERSION >= (6, 0):
+            pytest.skip("Test only runs on Wagtail versions lower than 6.0")
+
         widget = GoogleMapsField()
         html = widget.render_js_init("id", "field", "")
 
