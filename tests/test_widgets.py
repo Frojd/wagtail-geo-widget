@@ -76,9 +76,15 @@ class GeocoderFieldTestCase(TestCase):
             },
         )
 
-        self.assertIn("new NominatimGeocoderField", html)
+        if WAGTAIL_VERSION >= (6, 0):
+            self.assertIn('<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="nominatim"', html)
+        else:
+            self.assertIn("new NominatimGeocoderField", html)
 
     def test_geocoder_field_js_init_contains_construct(self):
+        if WAGTAIL_VERSION >= (6, 0):
+            pytest.skip("Test only runs on Wagtail versions lower than 6.0")
+
         widget = GeocoderField()
         html = widget.render_js_init("id", "field", "")
 
@@ -86,31 +92,81 @@ class GeocoderFieldTestCase(TestCase):
 
     def test_googlemaps_geocoder_returns_googlemaps_field(self):
         widget = GeocoderField(geocoder=geocoders.GOOGLE_MAPS)
-        html = widget.render_js_init("id", "field", "")
 
-        self.assertIn("new GoogleMapsGeocoderField", html)
+        if WAGTAIL_VERSION >= (6, 0):
+            html = widget.render(
+                "field",
+                "",
+                {
+                    "id": "X",
+                },
+            )
+            self.assertIn('<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="google_maps"', html)
+        else:
+            html = widget.render_js_init("id", "field", "")
+            self.assertIn("new GoogleMapsGeocoderField", html)
 
     def test_mapbox_geocoder_returns_googlemaps_field(self):
         widget = GeocoderField(geocoder=geocoders.MAPBOX)
-        html = widget.render_js_init("id", "field", "")
 
-        self.assertIn("new MapboxGeocoderField", html)
-        self.assertIn('accessToken": null', html)
+        if WAGTAIL_VERSION >= (6, 0):
+            from html import escape
+
+            html = widget.render(
+                "field",
+                "",
+                {
+                    "id": "X",
+                },
+            )
+            self.assertIn('<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="mapbox"', html)
+            self.assertIn(escape('accessToken": null'), html)
+        else:
+            html = widget.render_js_init("id", "field", "")
+            self.assertIn("new MapboxGeocoderField", html)
+            self.assertIn('accessToken": null', html)
 
     def test_mapbox_access_token_gets_outputted(self):
         app_settings.MAPBOX_ACCESS_TOKEN = "<MAPBOX ACCESS TOKEN>"
 
         widget = GeocoderField(geocoder=geocoders.MAPBOX)
-        html = widget.render_js_init("id", "field", "")
 
-        self.assertIn("new MapboxGeocoderField", html)
-        self.assertIn('accessToken": "<MAPBOX ACCESS TOKEN>', html)
+        if WAGTAIL_VERSION >= (6, 0):
+            from html import escape
+
+            html = widget.render(
+                "field",
+                "",
+                {
+                    "id": "X",
+                },
+            )
+            self.assertIn('<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="mapbox"', html)
+            self.assertIn(escape('accessToken": "<MAPBOX ACCESS TOKEN>'), html)
+        else:
+            html = widget.render_js_init("id", "field", "")
+            self.assertIn("new MapboxGeocoderField", html)
+            self.assertIn('accessToken": "<MAPBOX ACCESS TOKEN>', html)
 
         app_settings.MAPBOX_ACCESS_TOKEN = None
 
     def test_mapbox_language_parameter_gets_outputted(self):
         widget = GeocoderField(geocoder=geocoders.MAPBOX)
-        html = widget.render_js_init("id", "field", "")
 
-        self.assertIn("new MapboxGeocoderField", html)
-        self.assertIn('language": "en', html)
+        if WAGTAIL_VERSION >= (6, 0):
+            from html import escape
+
+            html = widget.render(
+                "field",
+                "",
+                {
+                    "id": "X",
+                },
+            )
+            self.assertIn('<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="mapbox"', html)
+            self.assertIn(escape('language": "en'), html)
+        else:
+            html = widget.render_js_init("id", "field", "")
+
+            self.assertIn("new MapboxGeocoderField", html)
+            self.assertIn('language": "en', html)
