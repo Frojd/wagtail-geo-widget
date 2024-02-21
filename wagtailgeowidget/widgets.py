@@ -224,6 +224,107 @@ if WAGTAIL_VERSION >= (6, 0):
             widget_html = super().render(name, value_data, attrs)
 
             return mark_safe(widget_html)
+
+
+    class LeafletField(forms.HiddenInput):
+        address_field = None
+        zoom_field = None
+        id_prefix = "id_"
+        srid = None
+        hide_latlng = False
+
+        def __init__(self, *args, **kwargs):
+            self.address_field = kwargs.pop("address_field", self.address_field)
+            self.zoom_field = kwargs.pop("zoom_field", self.zoom_field)
+            self.srid = kwargs.pop("srid", self.srid)
+            self.hide_latlng = kwargs.pop("hide_latlng", self.hide_latlng)
+            self.id_prefix = kwargs.pop("id_prefix", self.id_prefix)
+            self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
+
+            # Keeps a reference to the value data from the render method
+            self.value_data = None
+
+            super().__init__(*args, **kwargs)
+
+        def build_attrs(self, *args, **kwargs):
+            data = {
+                "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
+                "addressField": self.address_field,
+                "zoomField": self.zoom_field,
+                "zoom": self.zoom,
+                "srid": self.srid,
+                "tileLayer": GEO_WIDGET_LEAFLET_TILE_LAYER,
+                "tileLayerOptions": GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS,
+                "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+                "translations": translations,
+            }
+
+            if self.value_data and isinstance(self.value_data, str):
+                result = geosgeometry_str_to_struct(self.value_data)
+                if result:
+                    data["defaultLocation"] = {
+                        "lat": result["y"],
+                        "lng": result["x"],
+                    }
+            
+            if self.value_data and isinstance(self.value_data, Point):
+                data["defaultLocation"] = {
+                    "lat": self.value_data.y,
+                    "lng": self.value_data.x,
+                }
+
+            attrs = super().build_attrs(*args, **kwargs)
+            attrs["data-controller"] = "leaflet-field"
+            attrs["data-leaflet-field-options-value"] = json.dumps(data)
+            return attrs
+
+        @cached_property
+        def media(self):
+            return forms.Media(
+                css={
+                    "all": (
+                        "wagtailgeowidget/css/leaflet-field.css",
+                        "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
+                    )
+                },
+                js=(
+                    "wagtailgeowidget/js/leaflet-field.js",
+                    "wagtailgeowidget/js/leaflet-field-controller.js",
+                    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+                ),
+            )
+
+        def render(self, name, value, attrs=None, renderer=None):
+            try:
+                id_ = attrs["id"]
+            except (KeyError, TypeError):
+                raise TypeError(
+                    "WidgetWithScript cannot be rendered without an 'id' attribute"
+                )
+
+            self.value_data = value
+            widget_html = super().render(name, self.value_data, attrs)
+
+            input_classes = "leaflet-field-location"
+            if self.hide_latlng:
+                input_classes = "{} {}".format(
+                    input_classes,
+                    "leaflet-field-location--hide",
+                )
+
+            location = format_html(
+                '<div class="input">'
+                '<input id="{0}_latlng" class="{1}" maxlength="250" type="text">'
+                "</div>",
+                id_,
+                input_classes,
+            )
+
+            return mark_safe(
+                widget_html
+                + location
+                + '<div id="{0}_map" class="leaflet-field"></div>'.format(id_)
+            )
 else:
     class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
         address_field = None
@@ -430,6 +531,141 @@ else:
             )
 
 
+    class LeafletField(WidgetWithScript, forms.HiddenInput):
+        address_field = None
+        zoom_field = None
+        id_prefix = "id_"
+        srid = None
+        hide_latlng = False
+
+        def __init__(self, *args, **kwargs):
+            self.address_field = kwargs.pop("address_field", self.address_field)
+            self.zoom_field = kwargs.pop("zoom_field", self.zoom_field)
+            self.srid = kwargs.pop("srid", self.srid)
+            self.hide_latlng = kwargs.pop("hide_latlng", self.hide_latlng)
+            self.id_prefix = kwargs.pop("id_prefix", self.id_prefix)
+            self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
+
+            super().__init__(*args, **kwargs)
+
+        @cached_property
+        def media(self):
+            return forms.Media(
+                css={
+                    "all": (
+                        "wagtailgeowidget/css/leaflet-field.css",
+                        "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
+                    )
+                },
+                js=(
+                    "wagtailgeowidget/js/leaflet-field.js",
+                    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+                ),
+            )
+
+        def render_js_init(self, id_, name, value):
+            data = {
+                "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
+                "addressField": self.address_field,
+                "zoomField": self.zoom_field,
+                "zoom": self.zoom,
+                "srid": self.srid,
+                "tileLayer": GEO_WIDGET_LEAFLET_TILE_LAYER,
+                "tileLayerOptions": GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS,
+                "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+                "translations": translations,
+            }
+
+            if value and isinstance(value, str):
+                result = geosgeometry_str_to_struct(value)
+                if result:
+                    data["defaultLocation"] = {
+                        "lat": result["y"],
+                        "lng": result["x"],
+                    }
+
+            if value and Point and isinstance(value, Point):
+                data["defaultLocation"] = {
+                    "lat": value.y,
+                    "lng": value.x,
+                }
+
+            return """
+                (function() {{
+                    var id = "{id}";
+
+                    var namespace = "id_";
+                    if (id.indexOf("-") !== -1) {{
+                        var namespace = id.split("-")
+                            .slice(0, -1)
+                            .join("-");
+                        namespace = namespace + "-";
+                    }}
+
+                    var options = {options};
+
+                    var addressSelector = options.addressField;
+                    if (addressSelector) {{
+                        addressSelector = "#" + namespace + addressSelector;
+                    }}
+
+                    var zoomSelector = options.zoomField;
+                    if (zoomSelector) {{
+                        zoomSelector = "#" + namespace + zoomSelector;
+                    }}
+
+                    options = Object.assign({{}}, options, {{
+                        "id": id,
+                        "addressSelector": addressSelector,
+                        "zoomSelector": zoomSelector,
+                    }});
+
+                    new LeafletField(options);
+                }})();
+            """.format(
+                id=id_,
+                options=json.dumps(
+                    {
+                        **data,
+                    }
+                ),
+            )
+
+        def render(self, name, value, attrs=None, renderer=None):
+            try:
+                id_ = attrs["id"]
+            except (KeyError, TypeError):
+                raise TypeError(
+                    "WidgetWithScript cannot be rendered without an 'id' attribute"
+                )
+
+            value_data = self.get_value_data(value)
+            widget_html = self.render_html(name, value_data, attrs)
+
+            input_classes = "leaflet-field-location"
+            if self.hide_latlng:
+                input_classes = "{} {}".format(
+                    input_classes,
+                    "leaflet-field-location--hide",
+                )
+
+            location = format_html(
+                '<div class="input">'
+                '<input id="{0}_latlng" class="{1}" maxlength="250" type="text">'
+                "</div>",
+                id_,
+                input_classes,
+            )
+
+            js = self.render_js_init(id_, name, value_data)
+            return mark_safe(
+                widget_html
+                + location
+                + '<div id="{0}_map" class="leaflet-field"></div>'.format(id_)
+                + "<script>{0}</script>".format(js)
+            )
+
+
 class GoogleMapsFieldAdapter(WidgetAdapter):
     js_constructor = "wagtailgewidget.widgets.GoogleMapsFieldAdapter"
 
@@ -488,141 +724,6 @@ class GeocoderFieldAdapter(WidgetAdapter):
 
 
 register(GeocoderFieldAdapter(), GeocoderField)
-
-
-class LeafletField(WidgetWithScript, forms.HiddenInput):
-    address_field = None
-    zoom_field = None
-    id_prefix = "id_"
-    srid = None
-    hide_latlng = False
-
-    def __init__(self, *args, **kwargs):
-        self.address_field = kwargs.pop("address_field", self.address_field)
-        self.zoom_field = kwargs.pop("zoom_field", self.zoom_field)
-        self.srid = kwargs.pop("srid", self.srid)
-        self.hide_latlng = kwargs.pop("hide_latlng", self.hide_latlng)
-        self.id_prefix = kwargs.pop("id_prefix", self.id_prefix)
-        self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
-
-        super().__init__(*args, **kwargs)
-
-    @cached_property
-    def media(self):
-        return forms.Media(
-            css={
-                "all": (
-                    "wagtailgeowidget/css/leaflet-field.css",
-                    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
-                )
-            },
-            js=(
-                "wagtailgeowidget/js/leaflet-field.js",
-                "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
-            ),
-        )
-
-    def render_js_init(self, id_, name, value):
-        data = {
-            "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
-            "addressField": self.address_field,
-            "zoomField": self.zoom_field,
-            "zoom": self.zoom,
-            "srid": self.srid,
-            "tileLayer": GEO_WIDGET_LEAFLET_TILE_LAYER,
-            "tileLayerOptions": GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS,
-            "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
-            "translations": translations,
-        }
-
-        if value and isinstance(value, str):
-            result = geosgeometry_str_to_struct(value)
-            if result:
-                data["defaultLocation"] = {
-                    "lat": result["y"],
-                    "lng": result["x"],
-                }
-
-        if value and Point and isinstance(value, Point):
-            data["defaultLocation"] = {
-                "lat": value.y,
-                "lng": value.x,
-            }
-
-        return """
-            (function() {{
-                var id = "{id}";
-
-                var namespace = "id_";
-                if (id.indexOf("-") !== -1) {{
-                    var namespace = id.split("-")
-                        .slice(0, -1)
-                        .join("-");
-                    namespace = namespace + "-";
-                }}
-
-                var options = {options};
-
-                var addressSelector = options.addressField;
-                if (addressSelector) {{
-                    addressSelector = "#" + namespace + addressSelector;
-                }}
-
-                var zoomSelector = options.zoomField;
-                if (zoomSelector) {{
-                    zoomSelector = "#" + namespace + zoomSelector;
-                }}
-
-                options = Object.assign({{}}, options, {{
-                    "id": id,
-                    "addressSelector": addressSelector,
-                    "zoomSelector": zoomSelector,
-                }});
-
-                new LeafletField(options);
-            }})();
-        """.format(
-            id=id_,
-            options=json.dumps(
-                {
-                    **data,
-                }
-            ),
-        )
-
-    def render(self, name, value, attrs=None, renderer=None):
-        try:
-            id_ = attrs["id"]
-        except (KeyError, TypeError):
-            raise TypeError(
-                "WidgetWithScript cannot be rendered without an 'id' attribute"
-            )
-
-        value_data = self.get_value_data(value)
-        widget_html = self.render_html(name, value_data, attrs)
-
-        input_classes = "leaflet-field-location"
-        if self.hide_latlng:
-            input_classes = "{} {}".format(
-                input_classes,
-                "leaflet-field-location--hide",
-            )
-
-        location = format_html(
-            '<div class="input">'
-            '<input id="{0}_latlng" class="{1}" maxlength="250" type="text">'
-            "</div>",
-            id_,
-            input_classes,
-        )
-
-        js = self.render_js_init(id_, name, value_data)
-        return mark_safe(
-            widget_html
-            + location
-            + '<div id="{0}_map" class="leaflet-field"></div>'.format(id_)
-            + "<script>{0}</script>".format(js)
-        )
 
 
 class LeafletFieldAdapter(WidgetAdapter):
