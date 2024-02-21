@@ -41,6 +41,9 @@ translations = {
 
 
 if WAGTAIL_VERSION >= (6, 0):
+    from django.utils.safestring import mark_safe
+
+
     class GoogleMapsField(forms.HiddenInput):
         address_field = None
         zoom_field = None
@@ -154,6 +157,73 @@ if WAGTAIL_VERSION >= (6, 0):
                 + location
                 + '<div id="{0}_map" class="google-maps-field"></div>'.format(id_)
             )
+
+
+    class GeocoderField(widgets.TextInput):
+        geocoder = geocoders.NOMINATIM
+
+        def __init__(self, *args, **kwargs):
+            self.geocoder = kwargs.pop("geocoder", geocoders.NOMINATIM)
+
+            super().__init__(*args, **kwargs)
+
+        def build_attrs(self, *args, **kwargs):
+            options = {"translations": translations}
+            params = {}
+            if self.geocoder == geocoders.MAPBOX:
+                from wagtailgeowidget.app_settings import (
+                    MAPBOX_ACCESS_TOKEN,
+                    MAPBOX_LANGUAGE,
+                )
+
+                params["accessToken"] = MAPBOX_ACCESS_TOKEN
+                params["language"] = MAPBOX_LANGUAGE
+
+            options["params"] = params
+
+            attrs = super().build_attrs(*args, **kwargs)
+            attrs["data-controller"] = "geocoder-field"
+            attrs["data-geocoder-field-geocoder-value"] = self.geocoder
+            attrs["data-geocoder-field-options-value"] = json.dumps(options)
+            return attrs
+
+        @property
+        def media(self):
+            js = [
+                "wagtailgeowidget/js/geocoder-field.js",
+                "wagtailgeowidget/js/geocoder-field-controller.js"
+            ]
+
+            from wagtailgeowidget.app_settings import (
+                GOOGLE_MAPS_V3_APIKEY,
+                GOOGLE_MAPS_V3_LANGUAGE,
+            )
+
+            if self.geocoder == geocoders.GOOGLE_MAPS:
+                js = [
+                    *js,
+                    "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
+                        GOOGLE_MAPS_V3_APIKEY,
+                        GOOGLE_MAPS_V3_LANGUAGE,
+                    ),
+                ]
+
+            return forms.Media(
+                js=js,
+            )
+    
+        def render(self, name, value, attrs=None, renderer=None):
+            try:
+                attrs["id"]
+            except (KeyError, TypeError):
+                raise TypeError(
+                    "WidgetWithScript cannot be rendered without an 'id' attribute"
+                )
+
+            value_data = value
+            widget_html = super().render(name, value_data, attrs)
+
+            return mark_safe(widget_html)
 else:
     class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
         address_field = None
@@ -304,6 +374,62 @@ else:
             )
 
 
+    class GeocoderField(WidgetWithScript, widgets.TextInput):
+        geocoder = geocoders.NOMINATIM
+
+        def __init__(self, *args, **kwargs):
+            self.geocoder = kwargs.pop("geocoder", geocoders.NOMINATIM)
+
+            super().__init__(*args, **kwargs)
+
+        @property
+        def media(self):
+            js = ["wagtailgeowidget/js/geocoder-field.js"]
+
+            from wagtailgeowidget.app_settings import (
+                GOOGLE_MAPS_V3_APIKEY,
+                GOOGLE_MAPS_V3_LANGUAGE,
+            )
+
+            if self.geocoder == geocoders.GOOGLE_MAPS:
+                js = [
+                    *js,
+                    "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
+                        GOOGLE_MAPS_V3_APIKEY,
+                        GOOGLE_MAPS_V3_LANGUAGE,
+                    ),
+                ]
+
+            return forms.Media(
+                js=js,
+            )
+
+        def render_js_init(self, id_, name, value):
+            field_by_geocoder: Dict[str, str] = {
+                "nominatim": "NominatimGeocoderField",
+                "google_maps": "GoogleMapsGeocoderField",
+                "mapbox": "MapboxGeocoderField",
+            }
+
+            options = {"id": id_, "translations": translations}
+            params = {}
+            if self.geocoder == geocoders.MAPBOX:
+                from wagtailgeowidget.app_settings import (
+                    MAPBOX_ACCESS_TOKEN,
+                    MAPBOX_LANGUAGE,
+                )
+
+                params["accessToken"] = MAPBOX_ACCESS_TOKEN
+                params["language"] = MAPBOX_LANGUAGE
+
+            options["params"] = params
+
+            return "new {0}({1});".format(
+                field_by_geocoder[self.geocoder],
+                json.dumps(options),
+            )
+
+
 class GoogleMapsFieldAdapter(WidgetAdapter):
     js_constructor = "wagtailgewidget.widgets.GoogleMapsFieldAdapter"
 
@@ -340,62 +466,6 @@ class GeoField(GoogleMapsField):
         )
 
         super().__init__(*args, **kwargs)
-
-
-class GeocoderField(WidgetWithScript, widgets.TextInput):
-    geocoder = geocoders.NOMINATIM
-
-    def __init__(self, *args, **kwargs):
-        self.geocoder = kwargs.pop("geocoder", geocoders.NOMINATIM)
-
-        super().__init__(*args, **kwargs)
-
-    @property
-    def media(self):
-        js = ["wagtailgeowidget/js/geocoder-field.js"]
-
-        from wagtailgeowidget.app_settings import (
-            GOOGLE_MAPS_V3_APIKEY,
-            GOOGLE_MAPS_V3_LANGUAGE,
-        )
-
-        if self.geocoder == geocoders.GOOGLE_MAPS:
-            js = [
-                *js,
-                "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
-                    GOOGLE_MAPS_V3_APIKEY,
-                    GOOGLE_MAPS_V3_LANGUAGE,
-                ),
-            ]
-
-        return forms.Media(
-            js=js,
-        )
-
-    def render_js_init(self, id_, name, value):
-        field_by_geocoder: Dict[str, str] = {
-            "nominatim": "NominatimGeocoderField",
-            "google_maps": "GoogleMapsGeocoderField",
-            "mapbox": "MapboxGeocoderField",
-        }
-
-        options = {"id": id_, "translations": translations}
-        params = {}
-        if self.geocoder == geocoders.MAPBOX:
-            from wagtailgeowidget.app_settings import (
-                MAPBOX_ACCESS_TOKEN,
-                MAPBOX_LANGUAGE,
-            )
-
-            params["accessToken"] = MAPBOX_ACCESS_TOKEN
-            params["language"] = MAPBOX_LANGUAGE
-
-        options["params"] = params
-
-        return "new {0}({1});".format(
-            field_by_geocoder[self.geocoder],
-            json.dumps(options),
-        )
 
 
 class GeocoderFieldAdapter(WidgetAdapter):
