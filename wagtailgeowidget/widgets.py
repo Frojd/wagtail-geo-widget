@@ -130,7 +130,7 @@ if WAGTAIL_VERSION >= (6, 0):
                 id_ = attrs["id"]
             except (KeyError, TypeError):
                 raise TypeError(
-                    "WidgetWithScript cannot be rendered without an 'id' attribute"
+                    "GoogleMapsField cannot be rendered without an 'id' attribute"
                 )
 
             self.value_data = value
@@ -215,7 +215,7 @@ if WAGTAIL_VERSION >= (6, 0):
                 attrs["id"]
             except (KeyError, TypeError):
                 raise TypeError(
-                    "WidgetWithScript cannot be rendered without an 'id' attribute"
+                    "GeocoderField cannot be rendered without an 'id' attribute"
                 )
 
             value_data = value
@@ -296,7 +296,7 @@ if WAGTAIL_VERSION >= (6, 0):
                 id_ = attrs["id"]
             except (KeyError, TypeError):
                 raise TypeError(
-                    "WidgetWithScript cannot be rendered without an 'id' attribute"
+                    "LeafletField cannot be rendered without an 'id' attribute"
                 )
 
             self.value_data = value
