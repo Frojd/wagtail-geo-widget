@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import StreamField
@@ -164,7 +165,7 @@ class StandardPageWithLeafletAndZoom(Page):
 
 
 class StreamPage(Page):
-    streamfield_params = {"use_json_field": True}
+    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
 
     body = StreamField(
         [

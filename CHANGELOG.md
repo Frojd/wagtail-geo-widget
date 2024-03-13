@@ -2,9 +2,13 @@
 
 ## [Unreleased]
 ### Added
+- Add support for Wagtail 6.0 (@katdom13)
+
 ### Changed
-### Fixed
+- Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
+
 ### Removed
+- Drop support for Django 4.1 (@katdom13)
 
 ## [8.1.1] - 2023.12.29
 ### Fixed

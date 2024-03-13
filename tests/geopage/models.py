@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -141,7 +142,7 @@ class GeoPageWithLeaflet(Page):
 
 
 class GeoStreamPage(Page):
-    streamfield_params = {"use_json_field": True}
+    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
 
     body = StreamField(
         [
