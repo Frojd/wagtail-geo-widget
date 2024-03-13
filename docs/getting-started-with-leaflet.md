@@ -3,7 +3,7 @@
 ### Requirements
 
 - Python 3.8+
-- Wagtail 4.1+ and Django 3.2+
+- Wagtail 5.2+ and Django 3.2+
 - Access to a tile provider for Leaflet, this library includes built in support for Open Street Map
 
 
