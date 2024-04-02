@@ -264,7 +264,7 @@ if WAGTAIL_VERSION >= (6, 0):
                         "lng": result["x"],
                     }
 
-            if self.value_data and isinstance(self.value_data, Point):
+            elif self.value_data and isinstance(self.value_data, Point):
                 data["defaultLocation"] = {
                     "lat": self.value_data.y,
                     "lng": self.value_data.x,
