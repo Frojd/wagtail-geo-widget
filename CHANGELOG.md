@@ -6,7 +6,8 @@
 - Fix rendering of MapsField when Point is a NoneType (@nickmoreton)
 
 ### Added
-- Add support for Wagtail 6.0 (@katdom13)
+- Drop support for Wagtail < 5.2 (@katdom13)
+- Add support for Wagtail 6.0/6.1 (@katdom13)
 
 ### Changed
 - Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
