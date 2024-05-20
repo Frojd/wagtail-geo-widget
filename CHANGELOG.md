@@ -1,6 +1,10 @@
 # Changelog
 
 ## [Unreleased]
+
+### Fixed
+- Fix rendering of MapsField when Point is a NoneType (@nickmoreton)
+
 ### Added
 - Add support for Wagtail 6.0 (@katdom13)
 
