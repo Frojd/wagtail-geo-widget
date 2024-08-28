@@ -12,6 +12,7 @@ jobs:
           - 5.2
           - 6.0
           - 6.1
+          - 6.2
     services:
       postgres:
         image: postgis/postgis:12-2.5
