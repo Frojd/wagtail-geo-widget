@@ -272,7 +272,7 @@ class ClassicGeoPageWithLeaflet(Page):
     ]
 
     def get_context(self, request):
-        data = super(ClassicGeoPage, self).get_context(request)
+        data = super().get_context(request)
         return data
 
     @cached_property
