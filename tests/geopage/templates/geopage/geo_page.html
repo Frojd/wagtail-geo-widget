@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+
+    <ul>
+        <li>
+            Point: {{ page.location.tuple }}
+        </li>
+        <li>
+            Lat: {{ page.location.y }}
+        </li>
+        <li>
+            Lng: {{ page.location.x }}
+        </li>
+    </ul>
+{% endblock %}

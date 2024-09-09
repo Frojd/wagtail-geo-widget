@@ -8,6 +8,7 @@
 ### Added
 - Drop support for Wagtail < 5.2 (@katdom13)
 - Add support for Wagtail 6.0/6.1 (@katdom13)
+- Add support for Wagtail 6.2 (@engineervix)
 
 ### Changed
 - Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
