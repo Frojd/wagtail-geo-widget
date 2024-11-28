@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+- Update CI testing matrix to test against python 3.9 to 3.13
+- Update CI testing matrix to test against wagtail 5.2 to 6.3
+- Update CI testing matrix to test against Django 4.2 to 5.1
+- Update classifiers to include Django 5.1 and Python 3.13
+- Drop testing around python 3.8
+
 ### Fixed
 - Fix rendering of MapsField when Point is a NoneType (@nickmoreton)
 
