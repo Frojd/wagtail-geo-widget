@@ -1,10 +1,26 @@
 # Changelog
 
 ## [Unreleased]
-### Added
-### Changed
+
+- Update CI testing matrix to test against python 3.9 to 3.13
+- Update CI testing matrix to test against wagtail 5.2 to 6.3
+- Update CI testing matrix to test against Django 4.2 to 5.1
+- Update classifiers to include Django 5.1 and Python 3.13
+- Drop testing around python 3.8
+
 ### Fixed
+- Fix rendering of MapsField when Point is a NoneType (@nickmoreton)
+
+### Added
+- Drop support for Wagtail < 5.2 (@katdom13)
+- Add support for Wagtail 6.0/6.1 (@katdom13)
+- Add support for Wagtail 6.2 (@engineervix)
+
+### Changed
+- Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
+
 ### Removed
+- Drop support for Django 4.1 (@katdom13)
 
 ## [8.1.1] - 2023.12.29
 ### Fixed

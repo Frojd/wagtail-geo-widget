@@ -1,5 +1,5 @@
 FROM python:3.12-slim
-MAINTAINER Frojd
+LABEL maintainer="Frojd"
 LABEL version="v0.1.0"
 
 ENV PYTHONUNBUFFERED=1 \

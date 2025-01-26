@@ -1,5 +1,5 @@
 # Local/Dev
-version: '3'
+version: "3"
 services:
   web:
     image: frojd/geo-widget-web
@@ -20,7 +20,7 @@ services:
       - DATABASE_PORT=5432
     env_file: web.env
   db:
-    image: postgis/postgis:12-2.5
+    image: postgis/postgis:13-3.4
     restart: always
     environment:
       - POSTGRES_USER=postgres
