@@ -1,7 +1,12 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+### Fixed
+### Changed
+### Removed
 
+## [8.2.0] - 2025.02.01
 ### Added
 - Add support for Wagtail 6.0/6.1 (@katdom13)
 - Add support for Wagtail 6.2 (@engineervix)
