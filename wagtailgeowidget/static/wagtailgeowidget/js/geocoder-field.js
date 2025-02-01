@@ -228,10 +228,10 @@ MapboxGeocoderField.prototype.geocodeSearch = function (query) {
     var self = this;
 
     var url =
-        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-        query +
-        ".json?" +
+        "https://api.mapbox.com/search/geocode/v6/forward?" +
         new URLSearchParams({
+            q: query,
+            proximity: "ip",
             limit: 1,
             access_token: this.accessToken,
             language: this.language,

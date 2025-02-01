@@ -14,6 +14,7 @@
 - Update CI testing matrix to test against Django 4.2 to 5.1 (@nickmoreton)
 - Update classifiers to include Django 5.1 and Python 3.13 (@nickmoreton)
 - Update leaflet to 1.9.4 (@marteinn)
+- Upgrade mapbox geocoding API to v6 (@marteinn)
 
 ### Changed
 - Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
