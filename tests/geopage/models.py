@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -50,6 +51,8 @@ class GeoPageRelatedLocations(Orderable, GeoLocation):
 
 
 class GeoPage(Page):
+    page_description = "Google maps with google maps geocoder"
+
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.PointField(srid=4326, null=True, blank=True)
 
@@ -109,6 +112,8 @@ class GeoPageWithLeafletRelatedLocations(Orderable, GeoLocationWithLeaflet):
 
 
 class GeoPageWithLeaflet(Page):
+    page_description = "Leaflet with nominatim geocoder"
+
     address = models.CharField(
         max_length=250,
         help_text=_("Search powered by Nominatim"),
@@ -141,7 +146,9 @@ class GeoPageWithLeaflet(Page):
 
 
 class GeoStreamPage(Page):
-    streamfield_params = {"use_json_field": True}
+    page_description = "All map blocks"
+
+    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
 
     body = StreamField(
         [
@@ -219,6 +226,10 @@ class GeoStreamPage(Page):
 
 
 class ClassicGeoPage(Page):
+    page_description = "Google maps with google maps geocoder"
+
+    page_description = "Google maps with google geocoder"
+
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.CharField(max_length=250, blank=True, null=True)
 
@@ -252,6 +263,8 @@ class ClassicGeoPage(Page):
 
 
 class ClassicGeoPageWithLeaflet(Page):
+    page_description = "Leaflet with mapbox geocoder"
+
     address = models.CharField(
         max_length=250,
         help_text=_("Search powered by MapBox"),
@@ -271,7 +284,7 @@ class ClassicGeoPageWithLeaflet(Page):
     ]
 
     def get_context(self, request):
-        data = super(ClassicGeoPage, self).get_context(request)
+        data = super().get_context(request)
         return data
 
     @cached_property
@@ -290,6 +303,8 @@ class ClassicGeoPageWithLeaflet(Page):
 
 
 class ClassicGeoPageWithZoom(Page):
+    page_description = "Google maps with google maps geocoder"
+
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.CharField(max_length=250, blank=True, null=True)
     zoom = models.SmallIntegerField(blank=True, null=True)
@@ -330,6 +345,8 @@ class ClassicGeoPageWithZoom(Page):
 
 
 class ClassicGeoPageWithLeafletAndZoom(Page):
+    page_description = "Leaflet with nominatim geocoder"
+
     address = models.CharField(
         max_length=250,
         help_text=_("Search powered by Nominatim"),

@@ -136,6 +136,12 @@ NominatimGeocoderField.prototype.geocodeSearch = function (query) {
             self.field.trigger("searchGeocoded", [
                 { lat: location.lat, lng: location.lon },
             ]);
+        })
+        .catch((error) => {
+            self.displayWarning("Nominatim Error: " + error, {
+                field: self.field,
+            });
+            throw error;
         });
 };
 
@@ -222,10 +228,10 @@ MapboxGeocoderField.prototype.geocodeSearch = function (query) {
     var self = this;
 
     var url =
-        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-        query +
-        ".json?" +
+        "https://api.mapbox.com/search/geocode/v6/forward?" +
         new URLSearchParams({
+            q: query,
+            proximity: "ip",
             limit: 1,
             access_token: this.accessToken,
             language: this.language,
@@ -234,6 +240,14 @@ MapboxGeocoderField.prototype.geocodeSearch = function (query) {
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
+            // https://docs.mapbox.com/api/search/geocoding/#geocoding-api-errors
+            if (data.message) {
+                self.displayWarning("Map box Error: " + data.message, {
+                    field: self.field,
+                });
+                return;
+            }
+
             if (!data.features.length) {
                 self.displayWarning(
                     self.translations.error_could_not_geocode_address.replace(
@@ -256,5 +270,11 @@ MapboxGeocoderField.prototype.geocodeSearch = function (query) {
             self.field.trigger("searchGeocoded", [
                 { lat: coordinates[1], lng: coordinates[0] },
             ]);
+        })
+        .catch((error) => {
+            self.displayWarning("Map box Error: " + error, {
+                field: self.field,
+            });
+            throw error;
         });
 };

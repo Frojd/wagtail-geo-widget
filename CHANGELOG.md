@@ -2,9 +2,33 @@
 
 ## [Unreleased]
 ### Added
-### Changed
 ### Fixed
+### Changed
 ### Removed
+
+## [8.2.0] - 2025.02.01
+### Added
+- Add support for Wagtail 6.0/6.1 (@katdom13)
+- Add support for Wagtail 6.2 (@engineervix)
+- Add error handling to geocoding fields (@marteinn)
+
+### Fixed
+- Fix rendering of MapsField when Point is a NoneType (@nickmoreton)
+- Update CI testing matrix to test against python 3.9 to 3.13 (@nickmoreton)
+- Update CI testing matrix to test against wagtail 5.2 to 6.3 (@nickmoreton)
+- Update CI testing matrix to test against Django 4.2 to 5.1 (@nickmoreton)
+- Update classifiers to include Django 5.1 and Python 3.13 (@nickmoreton)
+- Update leaflet to 1.9.4 (@marteinn)
+- Upgrade mapbox geocoding API to v6 (@marteinn)
+- App test page descriptions to improve testing (@marteinn)
+
+### Changed
+- Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
+
+### Removed
+- Drop support for Django 4.1 (@katdom13)
+- Drop support for Wagtail < 5.2 (@katdom13)
+- Drop testing around python 3.8 (@nickmoreton)
 
 ## [8.1.1] - 2023.12.29
 ### Fixed
