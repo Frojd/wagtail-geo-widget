@@ -5,6 +5,7 @@
 ### Added
 - Add support for Wagtail 6.0/6.1 (@katdom13)
 - Add support for Wagtail 6.2 (@engineervix)
+- Add error handling to geocoding fields (@marteinn)
 
 ### Fixed
 - Fix rendering of MapsField when Point is a NoneType (@nickmoreton)
