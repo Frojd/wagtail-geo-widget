@@ -281,13 +281,13 @@ if WAGTAIL_VERSION >= (6, 0):
                 css={
                     "all": (
                         "wagtailgeowidget/css/leaflet-field.css",
-                        "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
+                        "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
                     )
                 },
                 js=(
                     "wagtailgeowidget/js/leaflet-field.js",
                     "wagtailgeowidget/js/leaflet-field-controller.js",
-                    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+                    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
                 ),
             )
 
@@ -551,12 +551,12 @@ else:
                 css={
                     "all": (
                         "wagtailgeowidget/css/leaflet-field.css",
-                        "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
+                        "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
                     )
                 },
                 js=(
                     "wagtailgeowidget/js/leaflet-field.js",
-                    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+                    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
                 ),
             )
 
