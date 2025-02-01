@@ -19,6 +19,8 @@ from wagtailgeowidget.panels import GeoAddressPanel, GoogleMapsPanel, LeafletPan
 
 
 class StandardPage(Page):
+    page_description = "Google maps with google maps geocoder"
+
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.CharField(max_length=250, blank=True, null=True)
 
@@ -52,6 +54,8 @@ class StandardPage(Page):
 
 
 class StandardPageWithLeaflet(Page):
+    page_description = "Leaflet with nominatim geocoder"
+
     address = models.CharField(
         max_length=250,
         help_text=_("Search powered by Nominatim"),
@@ -90,6 +94,8 @@ class StandardPageWithLeaflet(Page):
 
 
 class StandardPageWithZoom(Page):
+    page_description = "Google maps with google maps geocoder"
+
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.CharField(max_length=250, blank=True, null=True)
     zoom = models.SmallIntegerField(blank=True, null=True)
@@ -125,6 +131,8 @@ class StandardPageWithZoom(Page):
 
 
 class StandardPageWithLeafletAndZoom(Page):
+    page_description = "Leaflet with nominatim geocoder"
+
     address = models.CharField(
         max_length=250,
         help_text=_("Search powered by Nominatim"),
@@ -165,6 +173,8 @@ class StandardPageWithLeafletAndZoom(Page):
 
 
 class StreamPage(Page):
+    page_description = "All map blocks"
+
     streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
 
     body = StreamField(

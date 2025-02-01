@@ -15,6 +15,7 @@
 - Update classifiers to include Django 5.1 and Python 3.13 (@nickmoreton)
 - Update leaflet to 1.9.4 (@marteinn)
 - Upgrade mapbox geocoding API to v6 (@marteinn)
+- App test page descriptions to improve testing (@marteinn)
 
 ### Changed
 - Implement stimulus approach to GoogleMapsField, GeocoderField, and LeafletField (@katdom13)
