@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.13-slim
 LABEL maintainer="Frojd"
 LABEL version="v0.1.0"
 
@@ -18,7 +18,7 @@ RUN apt-get update \
 
 RUN pip install --upgrade pip \
     && pip install -e .[test] --no-cache-dir \
-    && pip install psycopg2-binary==2.9.3 \
+    && pip install psycopg2-binary==2.9.10 \
     && pip install ipython \
     && pip install pywatchman \
     && pip install python-dotenv

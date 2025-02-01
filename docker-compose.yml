@@ -1,5 +1,4 @@
 # Local/Dev
-version: "3"
 services:
   web:
     image: frojd/geo-widget-web
