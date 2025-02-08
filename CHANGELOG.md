@@ -3,8 +3,11 @@
 ## [Unreleased]
 ### Added
 ### Fixed
+- Add support for Wagtail 6.4
+
 ### Changed
 ### Removed
+- Drop support for Wagtail 6.2
 
 ## [8.2.0] - 2025.02.01
 ### Added
