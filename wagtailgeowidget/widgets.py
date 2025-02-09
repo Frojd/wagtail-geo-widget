@@ -9,7 +9,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.telepath import register
-from wagtail.utils.widgets import WidgetWithScript
 from wagtail.widget_adapters import WidgetAdapter
 
 try:
@@ -324,6 +323,7 @@ if WAGTAIL_VERSION >= (6, 0):
             )
 
 else:
+    from wagtail.utils.widgets import WidgetWithScript
 
     class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
         address_field = None

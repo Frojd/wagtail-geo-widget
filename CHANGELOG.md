@@ -2,9 +2,17 @@
 
 ## [Unreleased]
 ### Added
-### Fixed
 ### Changed
+### Fixed
 ### Removed
+
+## [8.2.1] - 2025.02.09
+### Fixed
+- Add support for Wagtail 6.4 (@marteinn)
+- Hide WidgetWithScript deprecation warning on Wagtail < 6 (@jorenham)
+
+### Removed
+- Drop support for Wagtail 6.2 (@marteinn)
 
 ## [8.2.0] - 2025.02.01
 ### Added
