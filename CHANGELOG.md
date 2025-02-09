@@ -4,6 +4,7 @@
 ### Added
 ### Fixed
 - Add support for Wagtail 6.4
+- Hide WidgetWithScript deprecation warning on Wagtail < 6 (@jorenham)
 
 ### Changed
 ### Removed

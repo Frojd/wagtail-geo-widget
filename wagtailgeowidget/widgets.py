@@ -323,9 +323,8 @@ if WAGTAIL_VERSION >= (6, 0):
             )
 
 else:
-
     from wagtail.utils.widgets import WidgetWithScript
-    
+
     class GoogleMapsField(WidgetWithScript, forms.HiddenInput):
         address_field = None
         zoom_field = None
