@@ -1,4 +1,5 @@
 import json
+import uuid
 from typing import Dict
 
 from django import forms
@@ -55,6 +56,7 @@ class GoogleMapsField(forms.HiddenInput):
         self.hide_latlng = kwargs.pop("hide_latlng", self.hide_latlng)
         self.id_prefix = kwargs.pop("id_prefix", self.id_prefix)
         self.zoom = kwargs.pop("zoom", GEO_WIDGET_ZOOM)
+        self.map_id = str(uuid.uuid4())
 
         # Keeps a reference to the value data from the render method
         self.value_data = None
@@ -70,6 +72,7 @@ class GoogleMapsField(forms.HiddenInput):
             "srid": self.srid,
             "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
             "translations": translations,
+            "mapId": self.map_id,
         }
 
         if self.value_data and isinstance(self.value_data, str):
@@ -116,7 +119,7 @@ class GoogleMapsField(forms.HiddenInput):
             js=(
                 "wagtailgeowidget/js/google-maps-field.js",
                 "wagtailgeowidget/js/google-maps-field-controller.js",
-                "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
+                "https://maps.google.com/maps/api/js?key={}&libraries=places,marker&language={}".format(
                     google_maps_apikey,
                     GOOGLE_MAPS_V3_LANGUAGE,
                 ),
@@ -199,7 +202,7 @@ class GeocoderField(widgets.TextInput):
         if self.geocoder == geocoders.GOOGLE_MAPS:
             js = [
                 *js,
-                "https://maps.google.com/maps/api/js?key={}&libraries=places&language={}".format(
+                "https://maps.google.com/maps/api/js?key={}&libraries=places,marker&language={}".format(
                     GOOGLE_MAPS_V3_APIKEY,
                     GOOGLE_MAPS_V3_LANGUAGE,
                 ),
@@ -338,6 +341,7 @@ class GoogleMapsFieldAdapter(WidgetAdapter):
                 "zoom": widget.zoom,
                 "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
                 "translations": translations,
+                "mapId": widget.map_id,
             },
         ]
 

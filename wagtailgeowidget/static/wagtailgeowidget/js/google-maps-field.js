@@ -21,6 +21,7 @@ function GoogleMapsField(options) {
     this.latLngField = $("#" + id + "_latlng");
     this.geocoder = new google.maps.Geocoder();
     this.showEmptyLocation = options.showEmptyLocation;
+    this.mapId = options.mapId;
 
     if (this.zoomField && this.zoomField.val()) {
         this.zoom = parseInt(this.zoomField.val());
@@ -78,13 +79,14 @@ GoogleMapsField.prototype.initMap = function (mapEl, defaultLocation) {
     var map = new google.maps.Map(mapEl[0], {
         zoom: this.zoom,
         center: defaultLocation,
+        mapId: this.mapId,
     });
 
-    var marker = new google.maps.Marker({
+    var marker = new google.maps.marker.AdvancedMarkerElement({
         position: defaultLocation,
         map: map,
-        draggable: true,
-    });
+        gmpDraggable: true,
+    })
 
     this.map = map;
     this.marker = marker;
@@ -348,7 +350,7 @@ GoogleMapsField.prototype.updateMapFromCoords = function (latLng) {
 };
 
 GoogleMapsField.prototype.setMapPosition = function (latLng) {
-    this.marker.setPosition(latLng);
+    this.marker.position = latLng;
     this.map.setCenter(latLng);
 };
 

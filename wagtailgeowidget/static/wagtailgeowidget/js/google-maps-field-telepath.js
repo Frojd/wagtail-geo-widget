@@ -41,6 +41,7 @@
             id: id,
             addressSelector: addressSelector,
             zoomSelector: zoomSelector,
+            mapId: this.options.mapId,
         });
         args = Object.assign({}, args, sourceFieldData);
         var field = new GoogleMapsField(args);
