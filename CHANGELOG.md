@@ -4,6 +4,8 @@
 ### Added
 ### Changed
 ### Fixed
+- Replace postgres 13 to Wagtail compatible 15 i local development (@marteinn)
+
 ### Removed
 
 ## [8.2.1] - 2025.02.09
