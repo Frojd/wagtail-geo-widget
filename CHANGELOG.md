@@ -7,6 +7,7 @@
 - Replace postgres 13 to Wagtail compatible 15 i local development (@marteinn)
 
 ### Removed
+- Drop support for EOL Wagtail 5.2 (@marteinn)
 
 ## [8.2.1] - 2025.02.09
 ### Fixed
