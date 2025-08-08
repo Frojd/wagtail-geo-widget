@@ -4,7 +4,7 @@
 ### Added
 ### Changed
 ### Fixed
-- Replace postgres 13 to Wagtail compatible 15 i local development (@marteinn)
+- Replace postgres 13 to Wagtail compatible 15 in local development (@marteinn)
 - Replace deprecated google.maps.Marker with google.maps.marker.AdvancedMarkerElement (@marteinn)
 
 ### Removed
