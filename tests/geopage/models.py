@@ -34,7 +34,7 @@ class GeoLocation(models.Model):
         FieldPanel("title"),
         MultiFieldPanel(
             [
-                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
+                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS_PLACES_NEW),
                 FieldPanel("zoom"),
                 GoogleMapsPanel("location", address_field="address", zoom_field="zoom"),
             ],
@@ -74,6 +74,44 @@ class GeoPage(Page):
             ObjectList(content_panels, heading="Content"),
             ObjectList(location_panels, heading="Location"),
             ObjectList(Page.settings_panels, heading="Settings", classname="settings"),
+        ]
+    )
+
+
+class GeoPageWithPlacesNewGeocoderRelatedLocations(Orderable, GeoLocation):
+    page = ParentalKey(
+        "geopage.GeoPageWithPlacesNewGeocoder",
+        related_name="related_locations",
+        on_delete=models.CASCADE,
+    )
+
+
+class GeoPageWithPlacesNewGeocoder(Page):
+    page_description = "Google maps with google maps geocoder"
+
+    address = models.CharField(max_length=250, blank=True, null=True)
+    location = models.PointField(srid=4326, null=True, blank=True)
+
+    content_panels = Page.content_panels + [
+        InlinePanel("related_locations", label="Related locations"),
+    ]
+
+    location_panels = [
+        MultiFieldPanel(
+            [
+                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS_PLACES_NEW),
+                GoogleMapsPanel("location", address_field="address"),
+            ],
+            heading="Location",
+        )
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(location_panels, heading="Location"),
+            ObjectList(Page.promote_panels, heading="Promote"),
+            ObjectList(Page.settings_panels, heading="Settings"),
         ]
     )
 
@@ -164,6 +202,36 @@ class GeoStreamPage(Page):
                 ),
             ),
             (
+                "map_struct_with_deprecated_geocoder_places",
+                blocks.StructBlock(
+                    [
+                        (
+                            "address",
+                            GeoAddressBlock(
+                                required=True, geocoder=geocoders.GOOGLE_MAPS_PLACES
+                            ),
+                        ),
+                        ("map", GoogleMapsBlock(address_field="address")),
+                    ],
+                    icon="user",
+                ),
+            ),
+            (
+                "map_struct_with_geocoder_places_new",
+                blocks.StructBlock(
+                    [
+                        (
+                            "address",
+                            GeoAddressBlock(
+                                required=True, geocoder=geocoders.GOOGLE_MAPS_PLACES_NEW
+                            ),
+                        ),
+                        ("map", GoogleMapsBlock(address_field="address")),
+                    ],
+                    icon="user",
+                ),
+            ),
+            (
                 "map_struct_with_deprecated_geopanel",
                 blocks.StructBlock(
                     [
@@ -225,9 +293,7 @@ class GeoStreamPage(Page):
 
 
 class ClassicGeoPage(Page):
-    page_description = "Google maps with google maps geocoder"
-
-    page_description = "Google maps with google geocoder"
+    page_description = "Google maps with google maps places geocoder"
 
     address = models.CharField(max_length=250, blank=True, null=True)
     location = models.CharField(max_length=250, blank=True, null=True)
@@ -235,7 +301,7 @@ class ClassicGeoPage(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
+                GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS_PLACES),
                 GoogleMapsPanel("location", address_field="address", hide_latlng=True),
             ],
             _("Geo details"),

@@ -103,6 +103,36 @@ class GeocoderFieldTestCase(TestCase):
             html,
         )
 
+    def test_googlemaps_places_geocoder_returns_googlemaps_field(self):
+        widget = GeocoderField(geocoder=geocoders.GOOGLE_MAPS_PLACES)
+
+        html = widget.render(
+            "field",
+            "",
+            {
+                "id": "X",
+            },
+        )
+        self.assertIn(
+            '<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="google_maps_places"',
+            html,
+        )
+
+    def test_googlemaps_places_new_geocoder_returns_googlemaps_field(self):
+        widget = GeocoderField(geocoder=geocoders.GOOGLE_MAPS_PLACES_NEW)
+
+        html = widget.render(
+            "field",
+            "",
+            {
+                "id": "X",
+            },
+        )
+        self.assertIn(
+            '<input type="text" name="field" id="X" data-controller="geocoder-field" data-geocoder-field-geocoder-value="google_maps_places_new"',
+            html,
+        )
+
     def test_mapbox_geocoder_returns_googlemaps_field(self):
         widget = GeocoderField(geocoder=geocoders.MAPBOX)
 

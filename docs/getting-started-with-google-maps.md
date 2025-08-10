@@ -35,7 +35,8 @@ INSTALLED_APPS = (
 - Enable the following services:
     - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/)
     - [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/)
-    - [Places API](https://developers.google.com/places/web-service/)
+    - [Places API](https://developers.google.com/places/web-service/) (Only required if using the older `GOOGLE_MAPS_PLACES` geocoder)
+    - [Places API (New)](https://developers.google.com/maps/documentation/places/web-service/get-api-key)
     - [Maps Static API](https://developers.google.com/maps/documentation/maps-static/)
 
 - When you have the key, add it to your Django settings as `GOOGLE_MAPS_V3_APIKEY`

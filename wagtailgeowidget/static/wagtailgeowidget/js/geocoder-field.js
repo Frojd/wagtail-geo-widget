@@ -151,27 +151,6 @@ function GoogleMapsGeocoderField(options) {
 
     this.delayTime = 400;
     this.geocoder = new google.maps.Geocoder();
-
-    var self = this;
-    var autocomplete = new google.maps.places.Autocomplete(this.field[0]);
-
-    autocomplete.addListener("place_changed", function () {
-        var place = autocomplete.getPlace();
-
-        if (!place.geometry) {
-            self.geocodeSearch(place.name);
-            return;
-        }
-
-        self.displaySuccess(self.translations.success_address_geocoded, {
-            field: self.field,
-        });
-
-        var latLng = place.geometry.location;
-        self.field.trigger("searchGeocoded", [
-            { lat: latLng.lat(), lng: latLng.lng() },
-        ]);
-    });
 }
 
 GoogleMapsGeocoderField.prototype = Object.create(GeocoderField.prototype);
@@ -210,6 +189,168 @@ GoogleMapsGeocoderField.prototype.geocodeSearch = function (query) {
         ]);
     });
 };
+
+
+// Google Maps Places New
+function GoogleMapsGeocoderPlacesNewField(options) {
+    GeocoderField.call(this, options);
+
+    this.delayTime = 400;
+    this.geocoder = new google.maps.Geocoder();
+
+    var self = this;
+
+    var existingAutcomplete = this.field[0].parentNode.querySelector(
+        '#'+options.id+'-autocomplete'
+    );
+    if (existingAutcomplete) {
+        return
+    }
+
+    var placeAutocomplete = new google.maps.places.PlaceAutocompleteElement();
+    placeAutocomplete.id = options.id+'-autocomplete';
+    this.field[0].after(placeAutocomplete);
+
+    placeAutocomplete.style.display = 'none';
+
+    this.field[0].addEventListener('focus', function () {
+        self.field[0].style.display = 'none';
+
+        placeAutocomplete.style.display = 'block';
+        placeAutocomplete.focus();
+    });
+
+    placeAutocomplete.addEventListener("gmp-select", function (e) {
+        var place = e.placePrediction.toPlace();
+        place.fetchFields({
+            fields: ['displayName', 'formattedAddress', 'location']
+        }).then(function () {
+            if (!place.location) {
+                self.geocodeSearch(place.name);
+                return;
+            }
+
+            self.displaySuccess(self.translations.success_address_geocoded, {
+                field: self.field,
+            });
+
+            var placeInfo = place.toJSON();
+            self.field[0].value = placeInfo.formattedAddress;
+
+            var latLng = place.location
+            self.field.trigger("searchGeocoded", [
+                { lat: latLng.lat(), lng: latLng.lng() },
+            ]);
+        })
+    })
+}
+
+GoogleMapsGeocoderPlacesNewField.prototype = Object.create(GeocoderField.prototype);
+GoogleMapsGeocoderPlacesNewField.prototype.constructor = GeocoderField;
+
+GoogleMapsGeocoderPlacesNewField.prototype.geocodeSearch = function (query) {
+    var self = this;
+
+    this.geocoder.geocode({ address: query }, function (results, status) {
+        if (
+            status === google.maps.GeocoderStatus.ZERO_RESULTS ||
+            !results.length
+        ) {
+            self.displayWarning(
+                self.translations.error_could_not_geocode_address.replace(
+                    "%s",
+                    query
+                ),
+                {
+                    field: self.field,
+                }
+            );
+            return;
+        }
+
+        if (status !== google.maps.GeocoderStatus.OK) {
+            self.displayWarning("Google Maps Error: " + status, {
+                field: self.field,
+            });
+            return;
+        }
+
+        var latLng = results[0].geometry.location;
+        self.field.trigger("searchGeocoded", [
+            { lat: latLng.lat(), lng: latLng.lng() },
+        ]);
+    });
+};
+
+// Google Maps With Places
+function GoogleMapsGeocoderPlacesField(options) {
+    GeocoderField.call(this, options);
+
+    this.delayTime = 400;
+    this.geocoder = new google.maps.Geocoder();
+
+    var self = this;
+    var autocomplete = new google.maps.places.Autocomplete(this.field[0]);
+
+    autocomplete.addListener("place_changed", function () {
+        var place = autocomplete.getPlace();
+
+        if (!place.geometry) {
+            self.geocodeSearch(place.name);
+            return;
+        }
+
+        self.displaySuccess(self.translations.success_address_geocoded, {
+            field: self.field,
+        });
+
+        var latLng = place.geometry.location;
+        self.field.trigger("searchGeocoded", [
+            { lat: latLng.lat(), lng: latLng.lng() },
+        ]);
+    });
+}
+
+GoogleMapsGeocoderPlacesField.prototype = Object.create(GeocoderField.prototype);
+GoogleMapsGeocoderPlacesField.prototype.constructor = GeocoderField;
+
+GoogleMapsGeocoderPlacesField.prototype.geocodeSearch = function (query) {
+    var self = this;
+
+    this.geocoder.geocode({ address: query }, function (results, status) {
+        if (
+            status === google.maps.GeocoderStatus.ZERO_RESULTS ||
+            !results.length
+        ) {
+            self.displayWarning(
+                self.translations.error_could_not_geocode_address.replace(
+                    "%s",
+                    query
+                ),
+                {
+                    field: self.field,
+                }
+            );
+            return;
+        }
+
+        if (status !== google.maps.GeocoderStatus.OK) {
+            self.displayWarning("Google Maps Error: " + status, {
+                field: self.field,
+            });
+            return;
+        }
+
+        var latLng = results[0].geometry.location;
+        self.field.trigger("searchGeocoded", [
+            { lat: latLng.lat(), lng: latLng.lng() },
+        ]);
+    });
+};
+
+
+
+
 
 // Mapbox
 function MapboxGeocoderField(options) {

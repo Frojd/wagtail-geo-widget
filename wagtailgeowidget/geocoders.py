@@ -1,3 +1,5 @@
 NOMINATIM = "nominatim"
 GOOGLE_MAPS = "google_maps"
+GOOGLE_MAPS_PLACES = "google_maps_places"
+GOOGLE_MAPS_PLACES_NEW = "google_maps_places_new"
 MAPBOX = "mapbox"

@@ -2,13 +2,20 @@
 
 ## [Unreleased]
 ### Added
-### Changed
+- Add GOOGLE_MAPS_PLACES geocoder which uses the deprecated google.maps.places.Autocomplete widget (@marteinn)
+- Add GOOGLE_MAPS_PLACES_NEW geocoder which uses the google.maps.places.PlaceAutocompleteElement widget (@marteinn)
+
 ### Fixed
 - Replace postgres 13 to Wagtail compatible 15 in local development (@marteinn)
 - Replace deprecated google.maps.Marker with google.maps.marker.AdvancedMarkerElement (@marteinn)
 
 ### Removed
 - Drop support for EOL Wagtail 5.2 (@marteinn)
+- Remove Autocomplete initialization from GOOGLE_MAPS geocoder (@marteinn)
+
+### Breaking changes
+- Supplying a non GeoAddress field to GoogleMapsField will no loger initialize a Places widget. instead pass a GeoAddress with geocoder `GOOGLE_MAPS_PLACES_NEW` or `GOOGLE_MAPS_PLACES`
+- Geocoder `GOOGLE_MAPS` no longer includes Places autocomplete by default, instead use `GOOGLE_MAPS_PLACES_NEW` or `GOOGLE_MAPS_PLACES` geocoders
 
 ## [8.2.1] - 2025.02.09
 ### Fixed

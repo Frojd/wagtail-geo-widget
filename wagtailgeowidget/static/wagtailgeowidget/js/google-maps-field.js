@@ -68,10 +68,6 @@ GoogleMapsField.prototype.setup = function () {
         self.updateMapFromCoords(latLng);
     });
 
-    if (this.addressField.length && !this.hasAddressFieldOwnGeocoder()) {
-        this.initAutocomplete(this.addressField[0]);
-    }
-
     this.hasSetup = true;
 };
 
@@ -93,7 +89,7 @@ GoogleMapsField.prototype.initMap = function (mapEl, defaultLocation) {
 };
 
 GoogleMapsField.prototype.hasAddressFieldOwnGeocoder = function () {
-    return !!this.addressField.data("geocoder");
+    return !!this.addressField.data("geocoder-field-geocoder-value");
 };
 
 GoogleMapsField.prototype.initEvents = function () {
@@ -187,31 +183,6 @@ GoogleMapsField.prototype.initEvents = function () {
 
         self.map.setZoom(zoom);
         self.updateZoomLevel(zoom);
-    });
-};
-
-GoogleMapsField.prototype.initAutocomplete = function (field) {
-    var self = this;
-    var autocomplete = new google.maps.places.Autocomplete(field);
-
-    autocomplete.addListener("place_changed", function () {
-        var place = autocomplete.getPlace();
-
-        if (!place.geometry) {
-            self.geocodeSearch(place.name);
-            return;
-        }
-
-        self.clearAllFieldMessages();
-        self.displaySuccess(self.translations.success_address_geocoded, {
-            field: self.addressField,
-        });
-
-        var latLng = place.geometry.location;
-
-        self.setMapPosition(latLng);
-        self.updateLatLng(latLng);
-        self.writeLocation(latLng);
     });
 };
 
