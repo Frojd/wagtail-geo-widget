@@ -1,6 +1,5 @@
 import json
 import uuid
-from typing import Dict
 
 from django import forms
 from django.forms import widgets
@@ -8,8 +7,14 @@ from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from wagtail.telepath import register
-from wagtail.widget_adapters import WidgetAdapter
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (7, 1):
+    from wagtail.admin.telepath import register
+    from wagtail.admin.telepath.widgets import WidgetAdapter
+else:
+    from wagtail.telepath import register
+    from wagtail.widget_adapters import WidgetAdapter
 
 try:
     from django.contrib.gis.geos.point import Point
