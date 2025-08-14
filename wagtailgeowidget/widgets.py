@@ -44,9 +44,6 @@ translations = {
 }
 
 
-from django.utils.safestring import mark_safe
-
-
 class GoogleMapsField(forms.HiddenInput):
     address_field = None
     zoom_field = None
