@@ -11,6 +11,7 @@
 - Replace deprecated google.maps.Marker with google.maps.marker.AdvancedMarkerElement (@marteinn)
 - Fix telepath path deprecation warning from Wagtail 7.1 (@marteinn)
 - Drop support for Wagtail 6.2 from test matrix (@marteinn)
+- Drop support for Wagtail 6.4 (@marteinn)
 
 ### Removed
 - Drop support for EOL Wagtail 5.2 (@marteinn)
