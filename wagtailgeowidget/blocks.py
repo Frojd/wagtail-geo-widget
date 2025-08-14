@@ -121,18 +121,6 @@ class GoogleMapsBlock(FieldBlock):
         return super().to_python(value)
 
 
-class GeoBlock(GoogleMapsBlock):
-    def __init__(self, *args, **kwargs):
-        import warnings
-
-        warnings.warn(
-            "GeoBlock will be deprecated in version 7, use GoogleMapsBlock instead",
-            PendingDeprecationWarning,
-        )
-
-        super().__init__(*args, **kwargs)
-
-
 class LeafletBlock(FieldBlock):
     class Meta:
         icon = "site"

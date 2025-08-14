@@ -354,18 +354,6 @@ class GoogleMapsFieldAdapter(WidgetAdapter):
 register(GoogleMapsFieldAdapter(), GoogleMapsField)
 
 
-class GeoField(GoogleMapsField):
-    def __init__(self, *args, **kwargs):
-        import warnings
-
-        warnings.warn(
-            "GeoField will be deprecated in version 7, use GoogleMapsField instead",
-            PendingDeprecationWarning,
-        )
-
-        super().__init__(*args, **kwargs)
-
-
 class GeocoderFieldAdapter(WidgetAdapter):
     js_constructor = "wagtailgewidget.widgets.GeocoderFieldWrap"
 

@@ -45,18 +45,6 @@ class GoogleMapsPanel(FieldPanel):
         )
 
 
-class GeoPanel(GoogleMapsPanel):
-    def __init__(self, *args, **kwargs):
-        import warnings
-
-        warnings.warn(
-            "GeoPanel will be deprecated in version 7, use GoogleMapsPanel instead",
-            PendingDeprecationWarning,
-        )
-
-        super().__init__(*args, **kwargs)
-
-
 class GeoAddressPanel(FieldPanel):
     def __init__(self, *args, **kwargs):
         self.geocoder = kwargs.pop("geocoder", geocoders.NOMINATIM)

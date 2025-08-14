@@ -9,7 +9,6 @@ from wagtail.models import Page
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import (
     GeoAddressBlock,
-    GeoBlock,
     GeoZoomBlock,
     GoogleMapsBlock,
     LeafletBlock,
@@ -186,16 +185,6 @@ class StreamPage(Page):
                     [
                         ("address", GeoAddressBlock(required=True)),
                         ("map", GoogleMapsBlock(address_field="address")),
-                    ],
-                    icon="user",
-                ),
-            ),
-            (
-                "map_struct_with_deprecated_geopanel",
-                blocks.StructBlock(
-                    [
-                        ("address", blocks.CharBlock(required=True)),
-                        ("map", GeoBlock(address_field="address")),
                     ],
                     icon="user",
                 ),

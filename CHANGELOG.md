@@ -16,10 +16,15 @@
 ### Removed
 - Drop support for EOL Wagtail 5.2 (@marteinn)
 - Remove Autocomplete initialization from GOOGLE_MAPS geocoder (@marteinn)
+- Remove deprecated GeoField, GeoPanel and GeoBlock (@marteinn)
 
 ### Breaking changes
 - Supplying a non GeoAddress field to GoogleMapsField will no loger initialize a Places widget. instead pass a GeoAddress with geocoder `GOOGLE_MAPS_PLACES_NEW` or `GOOGLE_MAPS_PLACES`
 - Geocoder `GOOGLE_MAPS` no longer includes Places autocomplete by default, instead use `GOOGLE_MAPS_PLACES_NEW` or `GOOGLE_MAPS_PLACES` geocoders
+- Dropped deprecated GeoField, GeoPanel and GeoBlock. Instead use:
+    - GeoField - Use GoogleMapsField
+    - GeoPanel - Use GoogleMapsPanel
+    - GeoBlock - Use GoogleMapsBlock
 
 ## [8.2.1] - 2025.02.09
 ### Fixed
