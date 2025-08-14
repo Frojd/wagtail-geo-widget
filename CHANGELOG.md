@@ -10,6 +10,7 @@
 - Replace postgres 13 to Wagtail compatible 15 in local development (@marteinn)
 - Replace deprecated google.maps.Marker with google.maps.marker.AdvancedMarkerElement (@marteinn)
 - Fix telepath path deprecation warning from Wagtail 7.1 (@marteinn)
+- Drop support for Wagtail 6.2 from test matrix (@marteinn)
 
 ### Removed
 - Drop support for EOL Wagtail 5.2 (@marteinn)

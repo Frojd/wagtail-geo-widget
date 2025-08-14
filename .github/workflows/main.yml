@@ -19,8 +19,6 @@ jobs:
             django-version: "5.0"
           - python-version: "3.9"
             django-version: "5.1"
-          - wagtail-version: "6.2"
-            django-version: "5.1"
     services:
       postgres:
         image: postgis/postgis:15-3.4
