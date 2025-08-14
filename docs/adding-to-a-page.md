@@ -98,7 +98,7 @@ class MyPageWithAddressField(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS),
+            GeoAddressPanel("address", geocoder=geocoders.GOOGLE_MAPS_PLACES_NEW),
             GoogleMapsPanel('location', address_field='address'),
         ], _('Geo details')),
     ]
