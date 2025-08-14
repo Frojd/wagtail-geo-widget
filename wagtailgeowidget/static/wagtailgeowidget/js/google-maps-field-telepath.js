@@ -1,7 +1,14 @@
 // This file must follow ES5
 (function () {
-    function GoogleMapsFieldAdapter(html, _id, options) {
+    function GoogleMapsFieldAdapter(html, options) {
         this.html = html;
+
+        // In Wagtail < 7.1 argument 2 was id
+        // TODO: Remove when Wagtail 6 is EOL
+        if (arguments[1] === "__ID__") {
+            options = arguments[2]
+        }
+
         this.options = options || {};
     }
 
@@ -41,6 +48,7 @@
             id: id,
             addressSelector: addressSelector,
             zoomSelector: zoomSelector,
+            mapId: this.options.mapId,
         });
         args = Object.assign({}, args, sourceFieldData);
         var field = new GoogleMapsField(args);

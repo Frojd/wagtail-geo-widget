@@ -2,9 +2,29 @@
 
 ## [Unreleased]
 ### Added
-### Changed
+- Add support for Wagtail 7.1 (@marteinn)
+- Add GOOGLE_MAPS_PLACES geocoder which uses the deprecated google.maps.places.Autocomplete widget (@marteinn)
+- Add GOOGLE_MAPS_PLACES_NEW geocoder which uses the google.maps.places.PlaceAutocompleteElement widget (@marteinn)
+
 ### Fixed
+- Replace postgres 13 to Wagtail compatible 15 in local development (@marteinn)
+- Replace deprecated google.maps.Marker with google.maps.marker.AdvancedMarkerElement (@marteinn)
+- Fix telepath path deprecation warning from Wagtail 7.1 (@marteinn)
+- Drop support for Wagtail 6.2 from test matrix (@marteinn)
+- Drop support for Wagtail 6.4 (@marteinn)
+
 ### Removed
+- Drop support for EOL Wagtail 5.2 (@marteinn)
+- Remove Autocomplete initialization from GOOGLE_MAPS geocoder (@marteinn)
+- Remove deprecated GeoField, GeoPanel and GeoBlock (@marteinn)
+
+### Breaking changes
+- Supplying a non GeoAddress field to GoogleMapsField will no loger initialize a Places widget. instead pass a GeoAddress with geocoder `GOOGLE_MAPS_PLACES_NEW` or `GOOGLE_MAPS_PLACES`
+- Geocoder `GOOGLE_MAPS` no longer includes Places autocomplete by default, instead use `GOOGLE_MAPS_PLACES_NEW` or `GOOGLE_MAPS_PLACES` geocoders
+- Dropped deprecated GeoField, GeoPanel and GeoBlock. Instead use:
+    - GeoField - Use GoogleMapsField
+    - GeoPanel - Use GoogleMapsPanel
+    - GeoBlock - Use GoogleMapsBlock
 
 ## [8.2.1] - 2025.02.09
 ### Fixed

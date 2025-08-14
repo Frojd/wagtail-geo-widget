@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
-from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import StreamField
@@ -10,7 +9,6 @@ from wagtail.models import Page
 from wagtailgeowidget import geocoders
 from wagtailgeowidget.blocks import (
     GeoAddressBlock,
-    GeoBlock,
     GeoZoomBlock,
     GoogleMapsBlock,
     LeafletBlock,
@@ -175,7 +173,7 @@ class StandardPageWithLeafletAndZoom(Page):
 class StreamPage(Page):
     page_description = "All map blocks"
 
-    streamfield_params = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
+    streamfield_params = {}
 
     body = StreamField(
         [
@@ -187,16 +185,6 @@ class StreamPage(Page):
                     [
                         ("address", GeoAddressBlock(required=True)),
                         ("map", GoogleMapsBlock(address_field="address")),
-                    ],
-                    icon="user",
-                ),
-            ),
-            (
-                "map_struct_with_deprecated_geopanel",
-                blocks.StructBlock(
-                    [
-                        ("address", blocks.CharBlock(required=True)),
-                        ("map", GeoBlock(address_field="address")),
                     ],
                     icon="user",
                 ),

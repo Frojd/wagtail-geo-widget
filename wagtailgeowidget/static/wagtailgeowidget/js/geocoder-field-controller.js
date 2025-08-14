@@ -11,6 +11,8 @@ class GeocoderFieldController extends window.StimulusModule.Controller {
         const fieldByGeocoder = {
             "nominatim": NominatimGeocoderField,
             "google_maps": GoogleMapsGeocoderField,
+            "google_maps_places": GoogleMapsGeocoderPlacesField,
+            "google_maps_places_new": GoogleMapsGeocoderPlacesNewField,
             "mapbox": MapboxGeocoderField,
         };
 

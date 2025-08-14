@@ -21,6 +21,7 @@ function GoogleMapsField(options) {
     this.latLngField = $("#" + id + "_latlng");
     this.geocoder = new google.maps.Geocoder();
     this.showEmptyLocation = options.showEmptyLocation;
+    this.mapId = options.mapId;
 
     if (this.zoomField && this.zoomField.val()) {
         this.zoom = parseInt(this.zoomField.val());
@@ -67,10 +68,6 @@ GoogleMapsField.prototype.setup = function () {
         self.updateMapFromCoords(latLng);
     });
 
-    if (this.addressField.length && !this.hasAddressFieldOwnGeocoder()) {
-        this.initAutocomplete(this.addressField[0]);
-    }
-
     this.hasSetup = true;
 };
 
@@ -78,20 +75,21 @@ GoogleMapsField.prototype.initMap = function (mapEl, defaultLocation) {
     var map = new google.maps.Map(mapEl[0], {
         zoom: this.zoom,
         center: defaultLocation,
+        mapId: this.mapId,
     });
 
-    var marker = new google.maps.Marker({
+    var marker = new google.maps.marker.AdvancedMarkerElement({
         position: defaultLocation,
         map: map,
-        draggable: true,
-    });
+        gmpDraggable: true,
+    })
 
     this.map = map;
     this.marker = marker;
 };
 
 GoogleMapsField.prototype.hasAddressFieldOwnGeocoder = function () {
-    return !!this.addressField.data("geocoder");
+    return !!this.addressField.data("geocoder-field-geocoder-value");
 };
 
 GoogleMapsField.prototype.initEvents = function () {
@@ -185,31 +183,6 @@ GoogleMapsField.prototype.initEvents = function () {
 
         self.map.setZoom(zoom);
         self.updateZoomLevel(zoom);
-    });
-};
-
-GoogleMapsField.prototype.initAutocomplete = function (field) {
-    var self = this;
-    var autocomplete = new google.maps.places.Autocomplete(field);
-
-    autocomplete.addListener("place_changed", function () {
-        var place = autocomplete.getPlace();
-
-        if (!place.geometry) {
-            self.geocodeSearch(place.name);
-            return;
-        }
-
-        self.clearAllFieldMessages();
-        self.displaySuccess(self.translations.success_address_geocoded, {
-            field: self.addressField,
-        });
-
-        var latLng = place.geometry.location;
-
-        self.setMapPosition(latLng);
-        self.updateLatLng(latLng);
-        self.writeLocation(latLng);
     });
 };
 
@@ -348,7 +321,7 @@ GoogleMapsField.prototype.updateMapFromCoords = function (latLng) {
 };
 
 GoogleMapsField.prototype.setMapPosition = function (latLng) {
-    this.marker.setPosition(latLng);
+    this.marker.position = latLng;
     this.map.setCenter(latLng);
 };
 

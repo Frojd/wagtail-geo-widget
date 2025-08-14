@@ -41,11 +41,11 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Django",
         "Framework :: Django :: 4.2",
-        "Framework :: Django :: 5.0",
         "Framework :: Django :: 5.1",
+        "Framework :: Django :: 5.2",
         "Framework :: Wagtail",
-        "Framework :: Wagtail :: 5",
         "Framework :: Wagtail :: 6",
+        "Framework :: Wagtail :: 7",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
@@ -61,7 +61,7 @@ setup(
     ],
     extras_require={"test": test_extras},
     install_requires=[
-        "Wagtail>=5.2",
+        "Wagtail>=6.3",
     ],
     project_urls={
         "Source": "https://github.com/Frojd/wagtail-geo-widget/",
