@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [9.0.0] - 2025.08.14
+### Added
 - Add support for Wagtail 7.1 (@marteinn)
 - Add GOOGLE_MAPS_PLACES geocoder which uses the deprecated google.maps.places.Autocomplete widget (@marteinn)
 - Add GOOGLE_MAPS_PLACES_NEW geocoder which uses the google.maps.places.PlaceAutocompleteElement widget (@marteinn)
