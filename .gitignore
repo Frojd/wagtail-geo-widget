@@ -60,3 +60,6 @@ tests/media/*
 
 # Local env
 .env.local
+
+# Claude
+CLAUDE.local.md
