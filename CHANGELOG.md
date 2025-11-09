@@ -2,13 +2,18 @@
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [9.1.0] - 2025.11.09
+### Added
 - Add support for Wagtail 7.2 (@marteinn)
 - Add support for Python 3.14 (@marteinn)
 
-### Changed
 ### Fixed
-- Fix double initialization bug in Wagtail 7.1+ causing streamfield map blocks not to read existing values ending up only showing default
-- Ignore CLAUDE.local.md config
+- Fix double initialization bug in Wagtail 7.1+ causing streamfield map blocks not to read existing values ending up only showing default (@marteinn)
+- Ignore CLAUDE.local.md config (@marteinn)
 
 ### Removed
 - Drop support for EOL Python 3.9 (@marteinn)
