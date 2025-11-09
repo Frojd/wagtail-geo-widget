@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
         wagtail-version: ["6.3", "7.0", "7.1", "7.2"]
         django-version: ["4.2", "5.1", "5.2"]
         exclude:
@@ -15,10 +15,6 @@ jobs:
             django-version: "4.2"
           - python-version: "3.13"
             django-version: "5.0"
-          - python-version: "3.9"
-            django-version: "5.1"
-          - python-version: "3.9"
-            django-version: "5.2"
     services:
       postgres:
         image: postgis/postgis:15-3.4

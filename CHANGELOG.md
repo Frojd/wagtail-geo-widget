@@ -7,6 +7,7 @@
 ### Changed
 ### Fixed
 ### Removed
+- Drop support for EOL Python 3.9 (@marteinn)
 
 ## [9.0.0] - 2025.08.14
 ### Added
