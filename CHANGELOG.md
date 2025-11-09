@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Add support for Wagtail 7.2 (@marteinn)
+- Add support for Python 3.14 (@marteinn)
 
 ### Changed
 ### Fixed
