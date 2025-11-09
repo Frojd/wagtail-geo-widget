@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Added
+- Add support for Wagtail 7.2 (@marteinn)
+
 ### Changed
 ### Fixed
 ### Removed
