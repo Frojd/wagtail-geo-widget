@@ -66,6 +66,15 @@ class GoogleMapsField(forms.HiddenInput):
         super().__init__(*args, **kwargs)
 
     def build_attrs(self, *args, **kwargs):
+        attrs = super().build_attrs(*args, **kwargs)
+
+        # Don't add Stimulus controller attributes if this widget is being used
+        # in a StreamField/StructBlock context (id_prefix=""). In that context,
+        # Telepath handles initialization. For FieldPanel (id_prefix="id_"),
+        # Stimulus is still needed even though Telepath is used for serialization.
+        if self.id_prefix == "":
+            return attrs
+
         data = {
             "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
             "addressField": self.address_field,
@@ -91,7 +100,6 @@ class GoogleMapsField(forms.HiddenInput):
                 "lng": self.value_data.x,
             }
 
-        attrs = super().build_attrs(*args, **kwargs)
         attrs["data-controller"] = "google-maps-field"
         attrs["data-google-maps-field-options-value"] = json.dumps(data)
         return attrs
@@ -249,6 +257,15 @@ class LeafletField(forms.HiddenInput):
         super().__init__(*args, **kwargs)
 
     def build_attrs(self, *args, **kwargs):
+        attrs = super().build_attrs(*args, **kwargs)
+
+        # Don't add Stimulus controller attributes if this widget is being used
+        # in a StreamField/StructBlock context (id_prefix=""). In that context,
+        # Telepath handles initialization. For FieldPanel (id_prefix="id_"),
+        # Stimulus is still needed even though Telepath is used for serialization.
+        if self.id_prefix == "":
+            return attrs
+
         data = {
             "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
             "addressField": self.address_field,
@@ -275,7 +292,6 @@ class LeafletField(forms.HiddenInput):
                 "lng": self.value_data.x,
             }
 
-        attrs = super().build_attrs(*args, **kwargs)
         attrs["data-controller"] = "leaflet-field"
         attrs["data-leaflet-field-options-value"] = json.dumps(data)
         return attrs
@@ -333,19 +349,18 @@ class GoogleMapsFieldAdapter(WidgetAdapter):
     def js_args(self, widget):
         args = super().js_args(widget)
 
-        return [
-            *args,
-            {
-                "addressField": widget.address_field,
-                "zoomField": widget.zoom_field,
-                "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
-                "srid": widget.srid,
-                "zoom": widget.zoom,
-                "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
-                "translations": translations,
-                "mapId": widget.map_id,
-            },
-        ]
+        options = {
+            "addressField": widget.address_field,
+            "zoomField": widget.zoom_field,
+            "defaultLocation": GEO_WIDGET_DEFAULT_LOCATION,
+            "srid": widget.srid,
+            "zoom": widget.zoom,
+            "showEmptyLocation": GEO_WIDGET_EMPTY_LOCATION,
+            "translations": translations,
+            "mapId": widget.map_id,
+        }
+
+        return [*args, options]
 
     class Media:
         js = ["wagtailgeowidget/js/google-maps-field-telepath.js"]

@@ -7,6 +7,8 @@
 
 ### Changed
 ### Fixed
+- Fix double initialization bug in Wagtail 7.1+ causing streamfield map blocks not to read existing values ending up only showing default
+
 ### Removed
 - Drop support for EOL Python 3.9 (@marteinn)
 
