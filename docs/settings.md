@@ -17,7 +17,7 @@
     ```
 
 - `GEO_WIDGET_LEAFLET_TILE_LAYER`: Which title provider to use in Leaflet. By default it is OSM. (`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`).
-- `GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS`: The tile layer options for leaflet, it supports [the following arguments](https://leafletjs.com/reference.html). Default is `{"attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}`
+- `GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS`: The tile layer options for leaflet, it supports [the following arguments](https://leafletjs.com/reference.html). Default is `{"referrerPolicy": "strict-origin-when-cross-origin", "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}`
 
 - `MAPBOX_ACCESS_TOKEN`: Access token fpr Mapbox Geocoding API. Defaults to None.
 - `MAPBOX_LANGUAGE`: [Language parameter](https://docs.mapbox.com/api/search/geocoding/#forward-geocoding) for Mapbox Geocoding API. Defaults to `en`. 

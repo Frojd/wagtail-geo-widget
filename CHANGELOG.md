@@ -4,6 +4,8 @@
 ### Added
 ### Changed
 ### Fixed
+- Set a default `referrerPolicy` in `GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS` to prevent OpenStreetMap tile servers rejecting requests (@tomkins)
+
 ### Removed
 
 ## [9.1.0] - 2025.11.09

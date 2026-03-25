@@ -15,7 +15,8 @@ GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS = getattr(
     settings,
     "GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS",
     {
-        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
 )
 
