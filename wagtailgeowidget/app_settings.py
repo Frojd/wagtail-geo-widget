@@ -9,7 +9,7 @@ GEO_WIDGET_ZOOM = getattr(settings, "GEO_WIDGET_ZOOM", 7)
 GEO_WIDGET_LEAFLET_TILE_LAYER = getattr(
     settings,
     "GEO_WIDGET_LEAFLET_TILE_LAYER",
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 )
 GEO_WIDGET_LEAFLET_TILE_LAYER_OPTIONS = getattr(
     settings,

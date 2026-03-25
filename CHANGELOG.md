@@ -4,6 +4,8 @@
 ### Added
 ### Changed
 ### Fixed
+- Update `GEO_WIDGET_LEAFLET_TILE_LAYER` to use tile.openstreetmap.org for OpenStreetMap tiles (@tomkins)
+
 ### Removed
 
 ## [9.1.0] - 2025.11.09
