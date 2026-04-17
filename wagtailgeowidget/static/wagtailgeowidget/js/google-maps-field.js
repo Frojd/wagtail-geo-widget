@@ -202,6 +202,10 @@ GoogleMapsField.prototype.displayWarning = function (msg, options) {
     warningMsg.innerHTML = msg;
 
     $(warningMsg).insertAfter(field);
+
+    setTimeout(function () {
+        warningMsg.remove();
+    }, 3000);
 };
 
 GoogleMapsField.prototype.displaySuccess = function (msg, options) {
