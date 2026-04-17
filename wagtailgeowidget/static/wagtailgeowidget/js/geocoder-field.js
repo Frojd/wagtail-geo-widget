@@ -92,6 +92,10 @@ GeocoderField.prototype.displayWarning = function (msg, options) {
     warningMsg.innerHTML = msg;
 
     $(warningMsg).insertAfter(field);
+
+    setTimeout(function () {
+        warningMsg.remove();
+    }, 3000);
 };
 
 // Nominatim
