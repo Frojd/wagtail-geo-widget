@@ -2,9 +2,12 @@
 
 ## [Unreleased]
 ### Added
-### Changed
-### Fixed
+- Add support for Wagtail 7.3 and 7.4 LTS
+- Add support for Django 6.0
+
 ### Removed
+- Drop support for EOL Wagtail 6.3 LTS (end-of-life May 1, 2026)
+- Drop support for EOL Wagtail 7.1 (end-of-life Feb 2026)
 
 ## [9.1.0] - 2025.11.09
 ### Added
