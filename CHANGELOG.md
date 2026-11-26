@@ -4,6 +4,7 @@
 ### Added
 - Add support for Wagtail 7.4, 8.0 and 8.1 (@marteinn)
 - Add support for Django 6.0 and 6.1 (@marteinn)
+- Add Trivy security scan to CI (@marteinn)
 
 ### Changed
 ### Fixed
