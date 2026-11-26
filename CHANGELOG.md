@@ -7,6 +7,8 @@
 - Add Trivy security scan to CI (@marteinn)
 
 ### Changed
+- Split CI into ci.yml and deploy.yml following Frojd standards, add zizmor workflow audit and concurrency control (@marteinn)
+
 ### Fixed
 - Address Trivy findings in dev Docker setup by running as non root user, using COPY instead of ADD and ignoring missing healthcheck (@marteinn)
 - Install the Django version from the CI test matrix, it was previously ignored (@marteinn)
