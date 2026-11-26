@@ -17,5 +17,5 @@
 - Run the test suite
 
 ## Commiting
-- Make sure your code are formatted using black
+- Make sure your code is formatted and linted using ruff (`ruff format .` and `ruff check .`)
 - Update `CHANGELOG.md` with your changes

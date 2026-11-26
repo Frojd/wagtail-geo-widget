@@ -8,6 +8,7 @@
 
 ### Changed
 - Split CI into ci.yml and deploy.yml following Frojd standards, add zizmor workflow audit and concurrency control (@marteinn)
+- Replace black and isort with ruff for formatting and linting (@marteinn)
 
 ### Fixed
 - Address Trivy findings in dev Docker setup by running as non root user, using COPY instead of ADD and ignoring missing healthcheck (@marteinn)
