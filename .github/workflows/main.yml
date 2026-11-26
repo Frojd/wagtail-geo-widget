@@ -8,13 +8,21 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        wagtail-version: ["6.3", "7.0", "7.1", "7.2"]
-        django-version: ["4.2", "5.1", "5.2"]
+        wagtail-version: ["7.4", "8.0", "8.1"]
+        django-version: ["5.2", "6.0", "6.1"]
         exclude:
-          - python-version: "3.13"
-            django-version: "4.2"
-          - python-version: "3.13"
-            django-version: "5.0"
+          - python-version: "3.10"
+            django-version: "6.0"
+          - python-version: "3.10"
+            django-version: "6.1"
+          - python-version: "3.11"
+            django-version: "6.0"
+          - python-version: "3.11"
+            django-version: "6.1"
+          - python-version: "3.10"
+            wagtail-version: "8.1"
+          - wagtail-version: "7.4"
+            django-version: "6.1"
     services:
       postgres:
         image: postgis/postgis:15-3.4
@@ -43,8 +51,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[test]
           pip install psycopg2-binary>=2.9.3
-      - name: Install wagtail ${{ matrix.wagtail-version }}
-        run: pip install wagtail==${{ matrix.wagtail-version }}
+      - name: Install wagtail ${{ matrix.wagtail-version }} and django ${{ matrix.django-version }}
+        run: pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
       - name: Run tests
         run: |
           pytest

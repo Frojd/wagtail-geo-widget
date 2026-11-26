@@ -2,11 +2,17 @@
 
 ## [Unreleased]
 ### Added
+- Add support for Wagtail 7.4, 8.0 and 8.1 (@marteinn)
+- Add support for Django 6.0 and 6.1 (@marteinn)
+
 ### Changed
 ### Fixed
 - Address Trivy findings in dev Docker setup by running as non root user, using COPY instead of ADD and ignoring missing healthcheck (@marteinn)
+- Install the Django version from the CI test matrix, it was previously ignored (@marteinn)
 
 ### Removed
+- Drop support for EOL Wagtail 6.3, 7.0, 7.1, 7.2 and 7.3 (@marteinn)
+- Drop support for EOL Django 4.2 and 5.1 (@marteinn)
 
 ## [9.1.0] - 2025.11.09
 ### Added
