@@ -1,0 +1,7 @@
+# https://trivy.dev/latest/docs/configuration/filtering/#trivyignoreyaml
+
+misconfigurations:
+  # Dockerfile is only used for local development, the entrypoint also runs one-off commands where a healthcheck would fail
+  - id: DS-0026
+    paths:
+      - Dockerfile

@@ -4,6 +4,8 @@
 ### Added
 ### Changed
 ### Fixed
+- Address Trivy findings in dev Docker setup by running as non root user, using COPY instead of ADD and ignoring missing healthcheck (@marteinn)
+
 ### Removed
 
 ## [9.1.0] - 2025.11.09
