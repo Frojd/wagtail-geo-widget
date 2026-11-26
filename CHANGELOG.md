@@ -9,6 +9,7 @@
 ### Fixed
 - Address Trivy findings in dev Docker setup by running as non root user, using COPY instead of ADD and ignoring missing healthcheck (@marteinn)
 - Install the Django version from the CI test matrix, it was previously ignored (@marteinn)
+- Pin GitHub Actions to commit SHAs and replace psf/black action to comply with organization action policy (@marteinn)
 
 ### Removed
 - Drop support for EOL Wagtail 6.3, 7.0, 7.1, 7.2 and 7.3 (@marteinn)
